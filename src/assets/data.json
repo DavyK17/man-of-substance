@@ -1,0 +1,374 @@
+{
+    "credits": {
+        "released": "2022-08-12",
+        "execProducers": ["Davy Kamanzi"]
+    },
+    "tracks": [{
+            "id": "1",
+            "title": "Straight Bars",
+            "runtime": "64",
+            "style": ["Skit"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi"],
+                "additionalVocals": ["Ariane Uwizera", "Sidney Kamanzi", "Eric Waithaka", "Gerald Kisia"],
+                "mixMaster": ["Thee MC G'zay"],
+                "recorded": [{
+                    "studio": "The Kamanzi household",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "2",
+            "title": "Not a Rapper, Pt. 2",
+            "runtime": "291",
+            "style": ["Boom bap"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Daryl Kimani", "Stephen Otieno Mak", "Emmanuel Kisiangani"],
+                "featuring": ["Vktor Mirage", "Thee MC G'zay", "Emmanuel Kisiangani"],
+                "producers": ["Thee MC G'zay"],
+                "arrangement": ["Thee MC G'zay", "DVK"],
+                "mixMaster": ["Thee MC G'zay"],
+                "interpolates": [
+                    "\"Not a Rapper\", song written by Davy Kamanzi and Andrew Haines, and performed by DVK for his extended play <em>Not a Rapper</em>"
+                ],
+                "recorded": [{
+                        "studio": "Black Hole Records",
+                        "city": "Nairobi, Kenya"
+                    },
+                    {
+                        "studio": "ApolloCoustic Productions",
+                        "city": "Nakuru, Kenya"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "3",
+            "title": "Twenny 21",
+            "runtime": "241",
+            "style": ["Afro rap", "Afropop", "Afroswing"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Dagi Philip Noel"],
+                "producers": ["Dagi De BEATZ"],
+                "arrangement": ["Dagi De BEATZ", "DVK", "Black Hole Records"],
+                "additionalProducers": ["DVK"],
+                "additionalVocals": ["Joan Wanjiru"],
+                "mixMaster": ["Black Hole Records"],
+                "samples": [
+                    "\"Only\", song written by Davy Kamanzi, Kevin Midonzi, and Alex Niragira, and performed by DVK for his studio album <em>Man of Substance</em>"
+                ],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "4",
+            "title": "Only",
+            "runtime": "180",
+            "style": ["Afro rap", "Afropop"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Kevin Midonzi", "Alex Niragira"],
+                "producers": ["KDaGreat"],
+                "arrangement": ["KDaGreat", "Black Hole Records"],
+                "additionalVocals": ["Zippie Nyumu"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "5",
+            "title": "Masculine (Interlude)",
+            "runtime": "150",
+            "style": ["Afro rap", "Afro punk"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Kevin Midonzi", "Alex Niragira", "Andrew Haines"],
+                "producers": ["DVK", "Black Hole Records", "KDaGreat"],
+                "arrangement": ["DVK", "Black Hole Records"],
+                "mixMaster": ["Black Hole Records"],
+                "samples": [
+                    "\"Only\", song written by Davy Kamanzi, Kevin Midonzi, and Alex Niragira, and performed by DVK for his studio album <em>Man of Substance</em>",
+                    "\"TOXIC MASCULINITY INTRODUCTION\", video published by Master Trail for their YouTube channel on 15 November 2019"
+                ],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "6",
+            "title": "Simama Kando",
+            "runtime": "196",
+            "style": ["Drill", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Luca Urbaniak"],
+                "producers": ["waytoolost"],
+                "arrangement": ["waytoolost", "Black Hole Records", "DVK"],
+                "mixMaster": ["Thee MC G'zay"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "7",
+            "title": "Super Police",
+            "runtime": "212",
+            "style": ["Drill", "Conscious rap"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Luca Urbaniak"],
+                "producers": ["waytoolost"],
+                "arrangement": ["waytoolost", "Black Hole Records"],
+                "mixMaster": ["Thee MC G'zay"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "8",
+            "title": "Grime or Drill? (Skit)",
+            "runtime": "189",
+            "style": ["Drill", "Comedy", "Skit"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Amandeep Jagde", "Luca Urbaniak"],
+                "featuring": ["Amandeep Jagde"],
+                "producers": ["waytoolost"],
+                "arrangement": ["DVK", "Black Hole Records"],
+                "mixMaster": ["Black Hole Records"],
+                "samples": [
+                    "\"Simama Kando\", song written by Davy Kamanzi and Luca Urbaniak, and performed by DVK for his studio album <em>Man of Substance</em>",
+                    "\"Super Police\", song written by Davy Kamanzi and Luca Urbaniak, and performed by DVK for his studio album <em>Man of Substance</em>"
+                ],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "9",
+            "title": "Combi",
+            "runtime": "215",
+            "style": ["Boom bap", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Malik Atterbury", "Fidel Owuor", "Kenneth Mbova Jr."],
+                "featuring": ["Nigel 187", "K-Spot"],
+                "producers": ["Passtense"],
+                "arrangement": ["Passtense", "DVK", "Black Hole Records"],
+                "additionalVocals": ["BH"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                        "studio": "Black Hole Records",
+                        "city": "Nairobi, Kenya"
+                    },
+                    {
+                        "studio": "K-Spot's bedroom",
+                        "city": "Stockholm, Sweden"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "10",
+            "title": "Askari Ako Jaba",
+            "runtime": "",
+            "style": ["Kapuka rap", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Andrew Haines", "Brian Haines", "Solomon Ndung'u"],
+                "featuring": ["JESHI"],
+                "producers": ["Black Hole Records"],
+                "arrangement": ["Black Hole Records", "DVK"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "11",
+            "title": "Wake Up",
+            "runtime": "207",
+            "style": ["Trap", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Sammy Chepkwony", "Andrew Haines", "Jeremy Maina"],
+                "featuring": ["Lilmaina"],
+                "producers": ["Cap", "Black Hole Records"],
+                "arrangement": ["Cap", "DVK", "Black Hole Records"],
+                "mixMaster": ["Thee MC G'zay"],
+                "samples": [
+                    "\"Nimesota\", song written by Davy Kamanzi, Andrew Haines, and Brian Haines, and performed by DVK and JESHI for DVK's extended play <em>Not a Rapper</em>"
+                ],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "12",
+            "title": "Tafuta Sponyo",
+            "runtime": "216",
+            "style": ["Afro rap", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Suksan Salarak", "Andrew Haines"],
+                "producers": ["Thaibeats"],
+                "arrangement": ["Thaibeats"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "13",
+            "title": "Withdrawal Symptoms",
+            "runtime": "209",
+            "style": ["Trap", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "James Mutunga", "Joan Nyabaro"],
+                "featuring": ["Groovy Jo"],
+                "producers": ["Jami"],
+                "arrangement": ["Jami", "DVK", "Black Hole Records"],
+                "mixMaster": ["Thee MC G'zay"],
+                "samples": [
+                    "\"The Ugandan accent\", video published by Ty Ngachira for his Instagram account (@anto_ty) on 22 April 2021"
+                ],
+                "recorded": [{
+                        "studio": "Black Hole Records",
+                        "city": "Nairobi, Kenya"
+                    },
+                    {
+                        "studio": "Pops Muzik",
+                        "city": "Nairobi, Kenya"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "14",
+            "title": "STD",
+            "runtime": "174",
+            "style": ["Rhumba drill", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Daryl Kimani", "Benson Theuri", "Andrew Haines"],
+                "producers": ["Thee MC G'zay"],
+                "arrangement": ["Thee MC G'zay", "DVK"],
+                "guitar": ["Ben Theuri"],
+                "additionalVocals": ["Lilmaina", "AndyBolo"],
+                "mixMaster": ["Thee MC G'zay"],
+                "interpolates": [
+                    "\"Withdrawal Symptoms\", song written by Davy Kamanzi, James Mutunga, and Joan Nyabaro, and performed by DVK and Groovy Jo for DVK's studio album <em>Man of Substance</em>"
+                ],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "15",
+            "title": "Nairobi Tofauti (Remix)",
+            "runtime": "200",
+            "style": ["Drill", "Conscious rap"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Jhonny Leandro Sandoval Cardona", "Stephen Otieno Mak"],
+                "featuring": ["Vktor Mirage"],
+                "producers": ["Saint Cardona"],
+                "arrangement": ["Saint Cardona", "Black Hole Records"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                    "studio": "Black Hole Records",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "16",
+            "title": "Slay King Remake (Vitu Sipendi)",
+            "runtime": "165",
+            "style": ["Drill", "Comedy"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Onuche Samuel Ogboji"],
+                "producers": ["S'Bling"],
+                "arrangement": ["S'Bling"],
+                "mixMaster": ["Black Hole Records"],
+                "recorded": [{
+                    "studio": "DVK's bedroom",
+                    "city": "Nairobi, Kenya"
+                }]
+            }
+        },
+        {
+            "id": "17",
+            "title": "Only (Remix)",
+            "runtime": "",
+            "style": ["Afro rap"],
+            "synopsis": "",
+            "lyrics": "",
+            "credits": {
+                "writers": ["Davy Kamanzi", "Kevin Midonzi", "Alex Niragira", "Daryl Kimani", "Don Doulo"],
+                "featuring": ["Thee MC G'zay", "Don Poppa"],
+                "producers": ["KDaGreat"],
+                "arrangement": ["KDaGreat", "Thee MC G'zay"],
+                "additionalVocals": ["Zippie Nyumu"],
+                "mixMaster": ["Thee MC G'zay"],
+                "recorded": [{
+                        "studio": "Black Hole Records",
+                        "city": "Nairobi, Kenya"
+                    },
+                    {
+                        "studio": "ApolloCoustic Productions",
+                        "city": "Nakuru, Kenya"
+                    },
+                    {
+                        "studio": "Lati Ace",
+                        "city": "Nairobi, Kenya"
+                    }
+                ]
+            }
+        }
+    ]
+}
