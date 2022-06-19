@@ -1,6 +1,21 @@
 import { NavLink } from "react-router-dom";
 
 const Nav = () => {
+    const menuToggle = () => {
+        const menu = document.getElementsByClassName("menu")[0];
+        const isOpen = menu.classList.contains("open");
+
+        return isOpen ? menu.classList.remove("open") : menu.classList.add("open");
+    }
+
+    window.onload = () => {
+        const menuOpen = document.getElementById("mobile-menu-open");
+        menuOpen.addEventListener("click", menuToggle);
+        
+        const menuClose = document.getElementById("mobile-menu-close");
+        menuClose.addEventListener("click", menuToggle);
+    }
+    
     return (
         <nav>
             <div id="mobile-menu-open">
