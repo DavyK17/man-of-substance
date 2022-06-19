@@ -3,7 +3,7 @@ import data from "../../assets/data.json";
 
 const Tracks = () => {
     const displayTitle = id => {
-        const track = data.tracks.filter(track => track.id == id);
+        const track = data.tracks.filter(track => parseInt(track.id) === id);
         return track[0].title;
     }
 
