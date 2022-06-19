@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import TopLink from "./TopLink";
 
 const Synopsis = props => {
     const footer = seq => {
@@ -46,9 +47,7 @@ const Synopsis = props => {
                 <div className="previous">
                     {footer("prev")}
                 </div>
-                <div className="top-link">
-                    <a href="#top">Back to Top</a>
-                </div>
+                <TopLink type="synopsis" current={props.current} />
                 <div className="next">
                     {footer("next")}
                 </div>
