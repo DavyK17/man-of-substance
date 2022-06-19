@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav/Nav";
+import Layout from "./components/Body/Layout";
 import Home from "./components/Home/Home";
 import Contributors from "./components/Contributors/Contributors";
 import Tracks from "./components/Tracks/Tracks";
 import Track from "./components/Track/Track";
-import Layout from "./components/Body/Layout";
 
 const App = () => {
     return (
