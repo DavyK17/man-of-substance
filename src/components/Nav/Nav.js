@@ -15,6 +15,8 @@ const Nav = () => {
         const menuClose = document.getElementById("mobile-menu-close");
         menuClose.addEventListener("click", menuToggle);
     }
+
+    let activeClassName = "active";
     
     return (
         <nav>
@@ -37,17 +39,17 @@ const Nav = () => {
                 </div>
                 <ul>
                     <li>
-                        <NavLink activeClassName="active" to="/">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/">
                             Home
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName="active" to="/contributors">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/contributors">
                             Contributors
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName="active" to="/tracks">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/tracks">
                             Tracklist
                         </NavLink>
                     </li>
