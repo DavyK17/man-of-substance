@@ -434,6 +434,14 @@ nav a:active {
     opacity: 0.5;
 }
 
+.track-footer .track-spinnerbox {
+    margin-bottom: 0.25rem;
+}
+
+.track-footer .track-spinnerbox input {
+    font-family: "Lexend Deca", sans-serif;
+}
+
 .track-links {
     text-align: center;
     margin: auto;
@@ -508,8 +516,14 @@ nav a:active {
     opacity: 0.75;
 }
 
-.track-lyrics .ad-lib {
+.track-lyrics .ad-lib,
+.track-lyrics .effect {
     opacity: 0.5;
+}
+
+.track-lyrics .effect {
+    font-size: 0.8rem;
+    font-style: italic;
 }
 
 .track-credits .credit {
