@@ -152,6 +152,34 @@ nav a:active {
 }
 
 
+/* Error page */
+
+.not-found {
+    text-align: center;
+}
+
+.not-found h1,
+.not-found p {
+    margin: unset;
+}
+
+.not-found .head {
+    margin-bottom: 1rem;
+}
+
+.not-found h1 {
+    font-family: "Lexend Deca", sans-serif;
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.not-found .link {
+    font-size: 0.875rem;
+    opacity: 0.5;
+}
+
+
 /* Home page */
 
 .home {
