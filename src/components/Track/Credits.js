@@ -45,6 +45,41 @@ const Credits = props => {
 
     const credit = type => {
         if (props.current.credits.hasOwnProperty(type)) {
+            if (type === "featuring") {
+                return (
+                    <div className="credit">
+                        <h2>{titles[type]}</h2>
+                        {
+                            props.current.credits[type].map((name, i) => {
+                                if (Array.isArray(props.current.credits[type][i + 1])) {
+                                    return (
+                                        <p key={i} className="group-name">{name}</p>
+                                    )
+                                }
+
+                                if (Array.isArray(props.current.credits[type][i])) {
+                                    return (
+                                        <>
+                                            {
+                                                props.current.credits[type][i].map((name, i) => {
+                                                    return (
+                                                        <p key={i} className="group-member">{name}</p>
+                                                    )
+                                                })
+                                            }
+                                        </>
+                                    )
+                                }
+
+                                return (
+                                    <p key={i}>{name}</p>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
+
             if (type === "additionalProducers" || type === "producers") {
                 const singular = () => {
                     switch(type) {
