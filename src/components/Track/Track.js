@@ -50,11 +50,12 @@ const Track = props => {
     }
 
     const style = () => {
-        const arr = current.style.map(el => el.toLowerCase());
-        const str = arr[0].charAt(0).toUpperCase() + arr[0].slice(1);
+        // const arr = current.style.map(el => el.toLowerCase());
+        // const str = arr[0].charAt(0).toUpperCase() + arr[0].slice(1);
 
-        arr[0] = str;
-        return arr.join(", ");
+        // arr[0] = str;
+        // return arr.join(", ");
+        return current.style.join(" / ")
     }
 
     const renderBody = type => {
