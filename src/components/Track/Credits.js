@@ -61,9 +61,9 @@ const Credits = props => {
                                     return (
                                         <>
                                             {
-                                                props.current.credits[type][i].map((name, i) => {
+                                                props.current.credits[type][i].map((sub, j) => {
                                                     return (
-                                                        <p key={i} className="group-member">{name}</p>
+                                                        <p key={`${props.current.credits[type][i - 1]}-${j + 1}`} className="group-member">{sub}</p>
                                                     )
                                                 })
                                             }
