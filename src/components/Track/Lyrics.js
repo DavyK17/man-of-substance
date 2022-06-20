@@ -3,7 +3,7 @@ import TopLink from "./TopLink";
 
 const Lyrics = props => {
     const footer = seq => {
-        if (seq === "prev" && props.previous) {
+        if (seq === -1 && props.previous) {
             return (
                 <>
                     <h2>Previous</h2>
@@ -16,7 +16,7 @@ const Lyrics = props => {
             )
         }
 
-        if (seq === "next" && props.next) {
+        if (seq === 1 && props.next) {
             return (
                 <>
                     <h2>Next</h2>
@@ -45,11 +45,11 @@ const Lyrics = props => {
             <div className="track-lyrics" dangerouslySetInnerHTML={{ __html: props.current.lyrics }}></div>
             <footer className="track-footer">
                 <div className="previous">
-                    {footer("prev")}
+                    {footer(-1)}
                 </div>
                 <TopLink type="lyrics" current={props.current} />
                 <div className="next">
-                    {footer("next")}
+                    {footer(1)}
                 </div>
             </footer>
         </>
