@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Body/Layout";
 import Home from "./components/Home/Home";
 import Contributors from "./components/Contributors/Contributors";
@@ -7,6 +8,11 @@ import Track from "./components/Track/Track";
 import NotFound from "./components/Body/NotFound";
 
 const App = () => {
+    let location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
+    
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
