@@ -79,8 +79,8 @@ const Track = props => {
                 <h1 className="title">{current.title}</h1>
                 <p className="writers">Written by {writers()}</p>
                 <div className="info">
+                    <p className="style">{style()}</p>
                     <p><strong>Runtime:</strong><span id="break"></span>{runtime(current.runtime)}</p>
-                    <p><strong>Style:</strong><span id="break"></span>{style()}</p>
                 </div>
             </header>
             {renderBody(type)}
