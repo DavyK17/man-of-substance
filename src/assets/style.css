@@ -12,6 +12,14 @@ html {
     --silver: #c0c0c0;
 }
 
+::-moz-selection {
+    background: var(--silver);
+}
+
+::selection {
+    background: var(--silver);
+}
+
 
 /* Google Fonts */
 
