@@ -47,7 +47,7 @@ const Synopsis = props => {
                 <div className="previous">
                     {footer(-1)}
                 </div>
-                <TopLink type="synopsis" current={props.current} />
+                <TopLink type="synopsis" />
                 <div className="next">
                     {footer(1)}
                 </div>

@@ -47,7 +47,7 @@ const Lyrics = props => {
                 <div className="previous">
                     {footer(-1)}
                 </div>
-                <TopLink type="lyrics" current={props.current} />
+                <TopLink type="lyrics" />
                 <div className="next">
                     {footer(1)}
                 </div>

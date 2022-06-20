@@ -151,7 +151,7 @@ const Credits = props => {
                 <div className="previous">
                     {footer(-1)}
                 </div>
-                <TopLink type="credits" current={props.current} />
+                <TopLink type="credits" />
                 <div className="next">
                     {footer(1)}
                 </div>
