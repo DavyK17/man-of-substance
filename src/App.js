@@ -4,6 +4,7 @@ import Home from "./components/Home/Home";
 import Contributors from "./components/Contributors/Contributors";
 import Tracks from "./components/Tracks/Tracks";
 import Track from "./components/Track/Track";
+import NotFound from "./components/Body/NotFound";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/tracks/:id/synopsis" element={<Track type="synopsis" />} />
                 <Route path="/tracks/:id" element={<Track type="synopsis" />} />
                 <Route path="/tracks" element={<Tracks />} />
+                <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
     );
