@@ -7,20 +7,11 @@ const Nav = () => {
 
         return isOpen ? menu.classList.remove("open") : menu.classList.add("open");
     }
-
-    window.onload = () => {
-        const menuOpen = document.getElementById("mobile-menu-open");
-        menuOpen.addEventListener("click", menuToggle);
-        
-        const menuClose = document.getElementById("mobile-menu-close");
-        menuClose.addEventListener("click", menuToggle);
-    }
-
     let activeClassName = "active";
     
     return (
         <nav>
-            <div id="mobile-menu-open">
+            <div id="mobile-menu-open" onClick={menuToggle}>
                 <svg>
                     <path
                         d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z"
@@ -29,7 +20,7 @@ const Nav = () => {
                 </svg>
             </div>
             <div className="menu">
-                <div id="mobile-menu-close">
+                <div id="mobile-menu-close" onClick={menuToggle}>
                     <svg>
                         <path
                            d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
