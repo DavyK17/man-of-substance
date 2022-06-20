@@ -410,6 +410,9 @@ nav a:active {
 }
 
 .track-head .info .style {
+    font-family: "Lexend Deca", sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
     color: var(--red);
 }
 
