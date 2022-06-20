@@ -551,7 +551,8 @@ nav a:active {
     margin-top: 2rem;
 }
 
-.track-lyrics .section {
+.track-lyrics .section,
+.track-lyrics .section h2.skit {
     margin: 1rem 0;
 }
 
