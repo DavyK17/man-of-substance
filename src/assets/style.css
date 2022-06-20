@@ -345,9 +345,9 @@ nav a:active {
 }
 
 .track-head .writers {
+    font-size: 0.75rem;
     margin: unset;
     margin-top: 0.5rem;
-    font-size: 0.75rem;
     opacity: 0.75;
 }
 
@@ -371,6 +371,16 @@ nav a:active {
 .track-head .info h2 {
     font-family: "Lexend Deca", sans-serif;
     text-transform: uppercase;
+}
+
+.track-head .info .style,
+.track-lyrics .ad-lib,
+.track-lyrics .effect {
+    opacity: 0.5;
+}
+
+.track-head .info .style {
+    color: var(--red);
 }
 
 .track-head .info #break::before {
@@ -518,11 +528,6 @@ nav a:active {
 .track-lyrics .section h2 {
     color: var(--red);
     opacity: 0.75;
-}
-
-.track-lyrics .ad-lib,
-.track-lyrics .effect {
-    opacity: 0.5;
 }
 
 .track-lyrics .effect {
