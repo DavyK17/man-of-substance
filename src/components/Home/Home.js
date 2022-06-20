@@ -6,7 +6,7 @@ const Home = () => {
         <main className="home">
             <header className="home-synopsis">
                 <h1 className="date">12 august 2022</h1>
-                <p>Hi there. My name is Davy, and this is my debut studio album <em>Man of Substance</em>, released under my pseudonym DVK. It's a rap project I'm extremely proud to have embarked on and released, and the second extended project on my catalogue
+                <p>Hi there. My name is Davy, and this is my debut studio album <em>Man of Substance</em>, released under my pseudonym DVK. It's a hip hop project I'm extremely proud to have embarked on and released, and the second extended project on my catalogue
                     after my debut EP <em><a href="https://bit.ly/NotARapperEP" target="blank" rel="noreferrer">Not a Rapper</a></em>.</p>
                 <p>As my first full-length music project, I felt it fitting to lay out <em>Man of Substance</em> as an introduction to me as a person, and as a musician. The title of the album captures my self-image and how I would like to portray myself to
                     others, and the tracklist is divided into 3 different parts that serve different purposes.</p>
