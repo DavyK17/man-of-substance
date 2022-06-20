@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
 
 const Nav = () => {
-    const menuToggle = () => {
+    const menuToggle = (dir = 0) => {
         const menu = document.getElementsByClassName("menu")[0];
         const isOpen = menu.classList.contains("open");
 
+        if (dir === 1 && !isOpen) return menu.classList.add("open");
+        if (dir === -1 && isOpen) return menu.classList.remove("open");
         return isOpen ? menu.classList.remove("open") : menu.classList.add("open");
     }
     let activeClassName = "active";
@@ -30,17 +32,17 @@ const Nav = () => {
                 </div>
                 <ul>
                     <li>
-                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/">
                             Home
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/contributors">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/contributors">
                             Contributors
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} to="/tracks">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/tracks">
                             Tracklist
                         </NavLink>
                     </li>
