@@ -21,7 +21,7 @@ const App = () => {
                 <Route path="/tracks/:id/credits" element={<Track type="credits" />} />
                 <Route path="/tracks/:id/lyrics" element={<Track type="lyrics" />} />
                 <Route path="/tracks/:id/synopsis" element={<Track type="synopsis" />} />
-                <Route path="/tracks/:id" element={<Track />} />
+                <Route path="/tracks/:id" element={<Track type="synopsis" />} />
                 <Route path="/tracks" element={<Tracks />} />
                 <Route path="*" element={<NotFound />} />
             </Route>
