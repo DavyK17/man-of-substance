@@ -8,6 +8,24 @@ const Tracks = () => {
         return track[0].title;
     }
 
+    const parts = [
+        data.tracks.filter(track => parseInt(track.id) <= 7),
+        data.tracks.filter(track => parseInt(track.id) >= 8 && parseInt(track.id) <= 14),
+        data.tracks.filter(track => parseInt(track.id) >= 15)
+    ]
+
+    const displayTracks = part => {
+        return parts[part - 1].map((track, i) => {
+            return (
+                <li key={i}>
+                    <Link to={`/tracks/${parseInt(track.id)}`}>
+                        {displayTitle(parseInt(track.id))}
+                    </Link>
+                </li>
+            )
+        })
+    }
+
     useEffect(() => {
         document.onkeydown = null;
     });
@@ -19,101 +37,19 @@ const Tracks = () => {
                 <div>
                     <h2>Substance</h2>
                     <ol>
-                        <li>
-                            <Link to="/tracks/1">
-                                {displayTitle(1)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/2">
-                                {displayTitle(2)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/3">
-                                {displayTitle(3)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/4">
-                                {displayTitle(4)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/5">
-                                {displayTitle(5)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/6">
-                                {displayTitle(6)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/7">
-                                {displayTitle(7)}
-                            </Link>
-                        </li>
+                        {displayTracks(1)}
                     </ol>
                 </div>
                 <div>
                     <h2>Sippin' and Trippin'</h2>
                     <ol start="8">
-                        <li>
-                            <Link to="/tracks/8">
-                                {displayTitle(8)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/9">
-                                {displayTitle(9)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/10">
-                                {displayTitle(10)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/11">
-                                {displayTitle(11)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/12">
-                                {displayTitle(12)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/13">
-                                {displayTitle(13)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/14">
-                                {displayTitle(14)}
-                            </Link>
-                        </li>
+                        {displayTracks(2)}
                     </ol>
                 </div>
                 <div>
                     <h2>Bonus</h2>
                     <ol start="15">
-                        <li>
-                            <Link to="/tracks/15">
-                                {displayTitle(15)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/16">
-                                {displayTitle(16)}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/tracks/17">
-                                {displayTitle(17)}
-                            </Link>
-                        </li>
+                        {displayTracks(3)}
                     </ol>
                 </div>
             </div>
