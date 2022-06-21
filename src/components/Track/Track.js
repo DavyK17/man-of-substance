@@ -23,6 +23,8 @@ const Track = props => {
             if (code === "KeyC") return navigate(`/tracks/${id}/credits`);
             if (code === "KeyL") return navigate(`/tracks/${id}/lyrics`);
             if (code === "KeyS") return navigate(`/tracks/${id}/synopsis`);
+
+            if (code === "Home") return navigate(`/tracks`);
         }
     }, [id]);
 
