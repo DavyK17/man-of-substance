@@ -47,6 +47,11 @@ const Nav = () => {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/credits">
+                            Credits
+                        </NavLink>
+                    </li>
+                    <li>
                         <a href="https://bit.ly/stream-mos" target="_blank" rel="noreferrer">
                             Stream
                         </a>
