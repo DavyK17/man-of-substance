@@ -26,7 +26,7 @@ const Track = props => {
 
             if (code === "Home") return navigate(`/tracks`);
         }
-    }, [id]);
+    }, [id, type]);
 
     const current = data.tracks.filter(track => parseInt(track.id) === id)[0];
     const previous = data.tracks.filter(track => parseInt(track.id) === id - 1)[0];
