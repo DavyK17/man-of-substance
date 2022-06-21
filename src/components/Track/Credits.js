@@ -1,35 +1,8 @@
 import { Link } from "react-router-dom";
+import Adjacent from "./Adjacent";
 import TopLink from "./TopLink";
 
 const Credits = props => {
-    const footer = seq => {
-        if (seq === -1 && props.previous) {
-            return (
-                <>
-                    <h2>Previous</h2>
-                    <p>
-                        <Link to={`/tracks/${props.previous.id}/credits`}>
-                            {props.previous.title}
-                        </Link>
-                    </p>
-                </>
-            )
-        }
-
-        if (seq === 1 && props.next) {
-            return (
-                <>
-                    <h2>Next</h2>
-                    <p>
-                        <Link to={`/tracks/${props.next.id}/credits`}>
-                            {props.next.title}
-                        </Link>
-                    </p>
-                </>
-            )
-        }
-    }
-
     const titles = {
         additionalProducers: "Additional producers",
         additionalVocals: "Additional vocals",
@@ -183,13 +156,9 @@ const Credits = props => {
                 {credit("interpolates")}
             </div>
             <footer className="track-footer">
-                <div className="previous">
-                    {footer(-1)}
-                </div>
+                <Adjacent type="credits" seq={-1} previous={props.previous} />
                 <TopLink type="credits" />
-                <div className="next">
-                    {footer(1)}
-                </div>
+                <Adjacent type="credits" seq={1} next={props.next} />
             </footer>
         </>
     )
