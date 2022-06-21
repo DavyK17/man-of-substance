@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import Adjacent from "./Adjacent";
-import TopLink from "./TopLink";
+import Footer from "./Footer";
 
 const Synopsis = props => {
     return (
@@ -16,15 +15,7 @@ const Synopsis = props => {
                 </div>
             </div>
             <div className="track-synopsis" dangerouslySetInnerHTML={{ __html: props.current.synopsis }}></div>
-            <footer className="track-footer">
-                <div className="previous">
-                    <Adjacent type="synopsis" seq={-1} previous={props.previous} />
-                </div>
-                <TopLink type="synopsis" />
-                <div className="next">
-                    <Adjacent type="synopsis" seq={1} next={props.next} />
-                </div>
-            </footer>
+            <Footer type="synopsis" previous={props.previous} next={props.next} />
         </>
     )
 }

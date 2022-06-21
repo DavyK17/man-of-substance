@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import Adjacent from "./Adjacent";
-import TopLink from "./TopLink";
+import Footer from "./Footer";
 
 const Credits = props => {
     const titles = {
@@ -155,15 +154,7 @@ const Credits = props => {
                 {credit("samples")}
                 {credit("interpolates")}
             </div>
-            <footer className="track-footer">
-                <div className="previous">
-                    <Adjacent type="credits" seq={-1} previous={props.previous} />
-                </div>
-                <TopLink type="credits" />
-                <div className="next">
-                    <Adjacent type="credits" seq={1} next={props.next} />
-                </div>
-            </footer>
+            <Footer type="credits" previous={props.previous} next={props.next} />
         </>
     )
 }
