@@ -19,17 +19,7 @@ const TopLink = props => {
         event.preventDefault();
         const value = event.target[0].value;
 
-        if (props.type === "synopsis") {
-            return navigate(`/tracks/${value}`);
-        }
-
-        if (props.type === "lyrics") {
-            return navigate(`/tracks/${value}/lyrics`);
-        }
-
-        if (props.type === "credits") {
-            return navigate(`/tracks/${value}/credits`);
-        }
+        return navigate(`/tracks/${value}/${props.type}`);
     }
 
     return (
