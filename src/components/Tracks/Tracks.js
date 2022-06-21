@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import data from "../../assets/data.json";
 
@@ -6,6 +7,10 @@ const Tracks = () => {
         const track = data.tracks.filter(track => parseInt(track.id) === id);
         return track[0].title;
     }
+
+    useEffect(() => {
+        document.onkeydown = null;
+    });
 
     return (
         <main>
