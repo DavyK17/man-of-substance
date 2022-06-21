@@ -19,6 +19,10 @@ const Track = props => {
             if (id === 1 || (id + 1) <= 17) {
                 if (code === "ArrowRight") return navigate(`/tracks/${id + 1}/${type}`);
             }
+
+            if (code === "KeyC") return navigate(`/tracks/${id}/credits`);
+            if (code === "KeyL") return navigate(`/tracks/${id}/lyrics`);
+            if (code === "KeyS") return navigate(`/tracks/${id}/synopsis`);
         }
     }, [id]);
 
