@@ -43,10 +43,10 @@ const Credits = () => {
 
     return (
         <main>
-            <header class="track-head">
-                <h1 class="title">Album credits</h1>
+            <header className="track-head">
+                <h1 className="title">Album credits</h1>
             </header>
-            <div class="track-credits">
+            <div className="track-credits">
                 {
                     Object.keys(titles).map((name, i) => {
                         return credit(name, i)
