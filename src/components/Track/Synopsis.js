@@ -17,9 +17,13 @@ const Synopsis = props => {
             </div>
             <div className="track-synopsis" dangerouslySetInnerHTML={{ __html: props.current.synopsis }}></div>
             <footer className="track-footer">
-                <Adjacent type="synopsis" seq={-1} previous={props.previous} />
+                <div className="previous">
+                    <Adjacent type="synopsis" seq={-1} previous={props.previous} />
+                </div>
                 <TopLink type="synopsis" />
-                <Adjacent type="synopsis" seq={1} next={props.next} />
+                <div className="next">
+                    <Adjacent type="synopsis" seq={1} next={props.next} />
+                </div>
             </footer>
         </>
     )

@@ -156,9 +156,13 @@ const Credits = props => {
                 {credit("interpolates")}
             </div>
             <footer className="track-footer">
-                <Adjacent type="credits" seq={-1} previous={props.previous} />
+                <div className="previous">
+                    <Adjacent type="credits" seq={-1} previous={props.previous} />
+                </div>
                 <TopLink type="credits" />
-                <Adjacent type="credits" seq={1} next={props.next} />
+                <div className="next">
+                    <Adjacent type="credits" seq={1} next={props.next} />
+                </div>
             </footer>
         </>
     )

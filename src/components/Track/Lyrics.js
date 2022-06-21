@@ -17,9 +17,13 @@ const Lyrics = props => {
             </div>
             <div className="track-lyrics" dangerouslySetInnerHTML={{ __html: props.current.lyrics }}></div>
             <footer className="track-footer">
-                <Adjacent type="lyrics" seq={-1} previous={props.previous} />
+                <div className="previous">
+                    <Adjacent type="lyrics" seq={-1} previous={props.previous} />
+                </div>
                 <TopLink type="lyrics" />
-                <Adjacent type="lyrics" seq={1} next={props.next} />
+                <div className="next">
+                    <Adjacent type="lyrics" seq={1} next={props.next} />
+                </div>
             </footer>
         </>
     )
