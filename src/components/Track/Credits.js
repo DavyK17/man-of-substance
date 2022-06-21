@@ -3,23 +3,23 @@ import Footer from "./Footer";
 
 const Credits = props => {
     const titles = {
+        featuring: "Featuring",
+        producers: "Producers",
+        arrangement: "Arrangement",
+        guitar: "Guitar",
         additionalProducers: "Additional producers",
         additionalVocals: "Additional vocals",
-        arrangement: "Arrangement",
-        featuring: "Featuring",
-        guitar: "Guitar",
-        interpolates: "Interpolates",
         mixMaster: "Mixing and mastering",
-        producers: "Producers",
         recorded: "Recorded at",
+        interpolates: "Interpolates",
         samples: "Samples"
     }
 
-    const credit = type => {
+    const credit = (type, key) => {
         if (props.current.credits.hasOwnProperty(type)) {
             if (type === "featuring") {
                 return (
-                    <div className="credit">
+                    <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
                             props.current.credits[type].map((name, i) => {
@@ -65,7 +65,7 @@ const Credits = props => {
                 }
 
                 return (
-                    <div className="credit">
+                    <div key={key} className="credit">
                         <h2>{props.current.credits[type].length > 1 ? titles[type] : singular()}</h2>
                         {
                             props.current.credits[type].map((name, i) => {
@@ -80,7 +80,7 @@ const Credits = props => {
 
             if (type === "recorded") {
                 return (
-                    <div className="credit">
+                    <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
                             props.current.credits[type].map((name, i) => {
@@ -98,7 +98,7 @@ const Credits = props => {
 
             if (type === "samples" || type === "interpolates") {
                 return (
-                    <div className="credit">
+                    <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
                             props.current.credits[type].map((name, i) => {
@@ -115,7 +115,7 @@ const Credits = props => {
             }
 
             return (
-                <div className="credit">
+                <div key={key} className="credit">
                     <h2>{titles[type]}</h2>
                     {
                         props.current.credits[type].map((name, i) => {
@@ -143,16 +143,11 @@ const Credits = props => {
                 </div>
             </div>
             <div className="track-credits">
-                {credit("featuring")}
-                {credit("producers")}
-                {credit("arrangement")}
-                {credit("guitar")}
-                {credit("additionalProducers")}
-                {credit("additionalVocals")}
-                {credit("mixMaster")}
-                {credit("recorded")}
-                {credit("samples")}
-                {credit("interpolates")}
+                {
+                    Object.keys(titles).map((name, i) => {
+                        return credit(name, i)
+                    })
+                }
             </div>
             <Footer type="credits" previous={props.previous} next={props.next} />
         </>
