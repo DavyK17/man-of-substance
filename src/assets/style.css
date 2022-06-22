@@ -414,6 +414,7 @@ nav a:active {
     font-size: 0.75rem;
     text-transform: uppercase;
     color: var(--red);
+    margin-bottom: 0.25rem;
 }
 
 .track-head .info #break::before {
