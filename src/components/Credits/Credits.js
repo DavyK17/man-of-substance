@@ -5,6 +5,7 @@ const Credits = () => {
         execProducers: "Executive producers",
         photography: "Photography",
         graphics: "Graphic design",
+        visualisers: "Visualisers",
         website: "Website"
     }
 
