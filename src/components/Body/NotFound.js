@@ -11,7 +11,7 @@ const NotFound = () => {
 
     return (
         <main>
-            <div className="not-found">
+            <div className="not-found" data-testid="not-found">
                 <div className="head">
                     <h1>Not found</h1>
                     <p className="link">{location.pathname}</p>
