@@ -324,9 +324,16 @@ nav a:active {
 }
 
 .tracklist-lead {
+    font-size: 1.25rem;
     text-align: center;
     margin: unset;
     margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 991px) {
+    .tracklist-lead {
+        margin-top: 1rem;
+    }
 }
 
 .tracklist h2,
