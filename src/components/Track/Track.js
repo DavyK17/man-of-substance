@@ -49,16 +49,18 @@ const Track = props => {
             if (time === 0) return "";
     
             const pluraliser = () => {
+                let label;
                 switch(unit) {
                     case "min":
-                        return time > 1 ? "minutes" : "minute";
+                        label = time > 1 ? "minutes" : "minute";
                         break;
                     case "sec":
-                        return time > 1 ? "seconds" : "second";
+                        label = time > 1 ? "seconds" : "second";
                         break;
                     default:
-                        return undefined;
+                        label = undefined;
                 }
+                return label;
             }
     
             return `${time} ${pluraliser()}`;
@@ -68,19 +70,21 @@ const Track = props => {
     }
 
     const renderBody = type => {
+        let body;
         switch(type) {
             case "synopsis":
-                return <Synopsis id={id} current={current} previous={previous} next={next} />
+                body = <Synopsis id={id} current={current} previous={previous} next={next} />
                 break;
             case "lyrics":
-                return <Lyrics id={id} current={current} previous={previous} next={next} />
+                body = <Lyrics id={id} current={current} previous={previous} next={next} />
                 break;
             case "credits":
-                return <Credits id={id} current={current} previous={previous} next={next} />
+                body = <Credits id={id} current={current} previous={previous} next={next} />
                 break;
             default:
-                return <Synopsis id={id} current={current} previous={previous} next={next} />
+                body = <Synopsis id={id} current={current} previous={previous} next={next} />
         }
+        return body;
     }
     
     return (

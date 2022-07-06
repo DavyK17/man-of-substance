@@ -54,14 +54,18 @@ const Credits = props => {
 
             if (type === "additionalProducers" || type === "producers") {
                 const singular = () => {
+                    let label;
                     switch(type) {
                         case "additionalProducers":
-                            return "Additional producer";
+                            label = "Additional producer";
                             break;
                         case "producers":
-                            return "Producer";
+                            label = "Producer";
                             break;
+                        default:
+                            label = undefined;
                     }
+                    return label;
                 }
 
                 return (
