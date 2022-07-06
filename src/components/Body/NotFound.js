@@ -17,7 +17,7 @@ const NotFound = () => {
                     <p className="link">{location.pathname}</p>
                 </div>
                 <p>You came for this link, nikasema, "No".</p>
-                <p>Ukaamua <a href="#" onClick={goBack}>ku-click</a> ndio urudi nyuma, yo.</p>
+                <p>Ukaamua <a href="/#" onClick={goBack}>ku-click</a> ndio urudi nyuma, yo.</p>
             </div>
         </main>
     )
