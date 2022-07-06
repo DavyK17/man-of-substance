@@ -25,6 +25,7 @@ const Track = props => {
                 if (code === "Home") return navigate(`/tracks`);
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, type]);
 
     const current = data.tracks.filter(track => parseInt(track.id) === id)[0];
