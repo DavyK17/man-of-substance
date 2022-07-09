@@ -136,6 +136,14 @@ nav {
 }
 
 @media only screen and (max-width: 575px) {
+    nav {
+        ul {
+            li {
+                display: block;
+                margin: 1rem 0;
+            }
+        }
+    }
     #mobile-menu-open,
     #mobile-menu-close {
         display: block;
@@ -157,10 +165,6 @@ nav {
             left: 0;
             transition: left 0.2s;
         }
-    }
-    nav li {
-        display: block;
-        margin: 1rem 0;
     }
 }
 
@@ -368,15 +372,21 @@ nav {
 }
 
 @media only screen and (max-width: 575px) {
-    .track-head .info #break::before {
-        content: "\A";
-        white-space: pre-wrap;
+    .track-head {
+        .info {
+            #break::before {
+                content: "\A";
+                white-space: pre-wrap;
+            }
+        }
     }
 }
 
 @media only screen and (max-width: 768px) {
-    .track-head h1 {
-        font-size: 1.5rem;
+    .track-head {
+        h1 {
+            font-size: 1.5rem;
+        }
     }
 }
 
@@ -442,8 +452,10 @@ nav {
 }
 
 @media only screen and (min-width: 768px) {
-    .track-footer>div {
-        flex: 1 1 300px;
+    .track-footer {
+        &>div {
+            flex: 1 1 300px;
+        }
     }
 }
 
@@ -468,10 +480,12 @@ nav {
 }
 
 @media only screen and (max-width: 340px) {
-    .track-links .link-buttons {
-        width: inherit;
-        a {
+    .track-links {
+        .link-buttons {
             width: inherit;
+            a {
+                width: inherit;
+            }
         }
     }
 }
@@ -632,7 +646,9 @@ nav {
 }
 
 @media only screen and (min-width: 992px) {
-    .challenge #challenge-submit {
-        margin: unset;
+    .challenge {
+        #challenge-submit {
+            margin: unset;
+        }
     }
 }
