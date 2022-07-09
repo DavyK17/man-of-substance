@@ -1,0 +1,46 @@
+/* Secret challenge */
+
+.challenge {
+    text-align: center;
+    h1 {
+        font-family: $font-head;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .input {
+        display: flex;
+        width: 220px;
+        margin: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
+    input {
+        width: 100px;
+        height: 2.5rem;
+        font-family: $font-head;
+    }
+    input[type=number] {
+        font-size: 1.25rem;
+        padding: 0 0.5rem;
+    }
+    #challenge-submit {
+        font-size: 1rem;
+        @extend %link-buttons;
+        &:hover,
+        &:focus {
+            @extend %link-buttons-hover;
+        }
+        &:active {
+            color: $red;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .challenge {
+        #challenge-submit {
+            margin: unset;
+        }
+    }
+}

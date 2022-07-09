@@ -1,0 +1,259 @@
+/* Track */
+
+.track-head {
+    text-align: center;
+    h1 {
+        font-family: $font-head;
+        font-weight: bold;
+        font-size: 2rem;
+        text-transform: uppercase;
+    }
+    .writers {
+        font-size: 0.75rem;
+        margin: unset;
+        margin-top: 0.5rem;
+        opacity: 0.75;
+    }
+    .info {
+        margin: 1rem 0;
+        h2,
+        p {
+            margin: unset;
+        }
+        h2 {
+            font-family: $font-head;
+            text-transform: uppercase;
+        }
+        .style {
+            font-family: $font-head;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: $red;
+            margin-bottom: 0.25rem;
+            opacity: 0.5;
+        }
+        #break::before {
+            content: " ";
+        }
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .track-head {
+        .info {
+            #break::before {
+                content: "\A";
+                white-space: pre-wrap;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .track-head {
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+}
+
+.track-footer {
+    display: flex;
+    font-size: 0.875rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    padding-top: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+    .top-link {
+        text-align: center;
+    }
+    .previous {
+        h2,
+        p {
+            margin: unset;
+        }
+        h2 {
+            margin-bottom: 0.25rem;
+            opacity: 0.5;
+        }
+    }
+    .next {
+        text-align: right;
+        h2,
+        p {
+            margin: unset;
+        }
+        h2 {
+            margin-bottom: 0.25rem;
+            opacity: 0.5;
+        }
+    }
+    .track-spinnerbox {
+        margin-bottom: 0.25rem;
+        input {
+            font-family: $font-head;
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .track-footer {
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        &>div {
+            margin-bottom: 1rem;
+        }
+        .previous,
+        .next {
+            text-align: center
+        }
+        .previous {
+            order: 1;
+        }
+        .next {
+            order: 2;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .track-footer {
+        &>div {
+            flex: 1 1 300px;
+        }
+    }
+}
+
+.track-links {
+    text-align: center;
+    margin: auto;
+    .link-buttons {
+        display: flex;
+        justify-content: space-evenly;
+        a {
+            width: 300px;
+            @extend %link-buttons;
+            &:hover,
+            &:focus {
+                @extend %link-buttons-hover;
+            }
+            &:active {
+                color: $red;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 340px) {
+    .track-links {
+        .link-buttons {
+            width: inherit;
+            a {
+                width: inherit;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .track-links {
+        width: 100%;
+        .link-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+@media only screen and (min-width: 701px) {
+    .track-links {
+        width: 700px;
+    }
+}
+
+.track-synopsis,
+.track-lyrics,
+.track-credits {
+    text-align: center;
+}
+
+@media only screen and (min-width: 1200px) {
+    .track-synopsis,
+    .track-lyrics,
+    .track-credits {
+        width: 1000px;
+        margin: auto;
+    }
+}
+
+.track-lyrics,
+.track-credits {
+    margin-top: 2rem;
+}
+
+.track-lyrics {
+    .section {
+        margin: 1rem 0;
+        h2,
+        p {
+            margin: unset;
+        }
+        h2 {
+            color: $red;
+            opacity: 0.75;
+            &.skit {
+                margin: 1rem 0;
+            }
+        }
+        .section-break {
+            margin-bottom: 0.75rem;
+        }
+    }
+    .ad-lib,
+    .effect {
+        opacity: 0.5;
+    }
+    .effect {
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+}
+
+.track-credits {
+    .credit {
+        margin: 1rem 0;
+        h2,
+        p {
+            margin: unset;
+        }
+        h2 {
+            font-family: $font-head;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .group-name {
+            margin-bottom: 0.25rem;
+        }
+        .group-member {
+            font-size: 0.875rem;
+            opacity: 0.5;
+            &:first {
+                margin-top: 0.5rem;
+            }
+        }
+        .location {
+            margin-bottom: 0.5rem;
+            .studio,
+            .city {
+                display: block;
+            }
+            .city {
+                font-size: 0.75rem;
+                opacity: 0.75;
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+/* Contributors */
+
+.contributors {
+    @extend %tracklist-contributors;
+    ul {
+        @extend %tracklist-contributors-list;
+    }
+}
+
+.contributors-lead {
+    text-align: center;
+    margin: auto auto 2rem auto;
+}
+
+@media only screen and (min-width: 1200px) {
+    .contributors-lead {
+        width: 1000px;
+    }
+}

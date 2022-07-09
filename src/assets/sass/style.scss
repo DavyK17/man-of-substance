@@ -1,0 +1,70 @@
+/* Imports */
+
+@import url("https://fonts.googleapis.com/css2?family=Joan&family=Lexend+Deca&display=swap");
+@import "helper/variables";
+@import "helper/placeholders";
+@import "components/nav";
+@import "pages/home";
+@import "pages/contributors";
+@import "pages/tracklist";
+@import "pages/track";
+@import "pages/challenge";
+@import "pages/error";
+
+/* General elements */
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+html {
+    font-size: 20px;
+}
+
+::-moz-selection {
+    background: $silver;
+}
+
+::selection {
+    background: $silver;
+}
+
+body {
+    background-color: $bg-color;
+    font-family: $font-body;
+    line-height: 1.25;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+p {
+    margin: 0.75rem 0;
+}
+
+a {
+    color: black;
+    text-decoration-color: $red;
+    transition: text-decoration-color 0.1s ease-in-out;
+    &:hover,
+    &:focus {
+        text-decoration-color: $silver;
+        transition: text-decoration-color 0.1s ease-in-out;
+    }
+}
+
+main {
+    padding: 2rem;
+}
+
+@media only screen and (max-width: 991px) {
+    main {
+        padding: 1rem;
+    }
+}
