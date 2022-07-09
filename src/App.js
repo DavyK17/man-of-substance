@@ -20,11 +20,13 @@ const App = () => {
             <Route element={<Layout />}>
                 <Route path="/credits" element={<Credits />} />
                 <Route path="/contributors" element={<Contributors />} />
-                <Route path="/tracks/:id/credits" element={<Track type="credits" />} />
-                <Route path="/tracks/:id/lyrics" element={<Track type="lyrics" />} />
-                <Route path="/tracks/:id/synopsis" element={<Track type="synopsis" />} />
-                <Route path="/tracks/:id" element={<Track type="synopsis" />} />
-                <Route path="/tracks" element={<Tracks />} />
+                <Route path="/tracks">
+                    <Route path=":id/credits" element={<Track type="credits" />} />
+                    <Route path=":id/lyrics" element={<Track type="lyrics" />} />
+                    <Route path=":id/synopsis" element={<Track type="synopsis" />} />
+                    <Route path=":id" element={<Track type="synopsis" />} />
+                    <Route path="" element={<Tracks />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
