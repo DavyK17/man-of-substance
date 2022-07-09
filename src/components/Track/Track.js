@@ -6,7 +6,7 @@ import Lyrics from "./Lyrics";
 import Credits from "./Credits";
 
 const Track = props => {
-    let { type } = props;
+    let { type = "synopsis" } = props;
     let params = useParams();
     let location = useLocation();
     let navigate = useNavigate();
