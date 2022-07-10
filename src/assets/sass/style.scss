@@ -31,9 +31,13 @@ html {
 }
 
 body {
+    width: 100%;
     background-color: $bg-color;
     font-family: $font-body;
     line-height: 1.25;
+    &.menu-open {
+        position: fixed;
+    }
 }
 
 strong {
