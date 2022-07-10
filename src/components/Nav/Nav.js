@@ -2,12 +2,22 @@ import { NavLink } from "react-router-dom";
 
 const Nav = () => {
     const menuToggle = (dir = 0) => {
+        const body = document.getElementsByTagName("body")[0];
         const menu = document.getElementsByClassName("menu")[0];
-        const isOpen = menu.classList.contains("open");
+        const isOpen = menu.classList.contains("open") && body.classList.contains("menu-open");
 
-        if (dir === 1 && !isOpen) return menu.classList.add("open");
-        if (dir === -1 && isOpen) return menu.classList.remove("open");
-        return isOpen ? menu.classList.remove("open") : menu.classList.add("open");
+        const open = () => {
+            menu.classList.add("open");
+            body.classList.add("menu-open");
+        }
+        const close = () => {
+            menu.classList.remove("open");
+            body.classList.remove("menu-open");
+        }
+
+        if (dir === 1 && !isOpen) return open();
+        if (dir === -1 && isOpen) return close();
+        return isOpen ? close() : open();
     }
     let activeClassName = "active";
     
