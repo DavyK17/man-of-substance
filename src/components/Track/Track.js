@@ -90,9 +90,7 @@ const Track = props => {
     }
 
     const renderComponent = () => {
-        if (id < 1 || id > 17 || isNaN(id)) {
-            return <NotFound />
-        }
+        if (id < 1 || id > 17 || isNaN(id)) return <NotFound />;
 
         return <main>
                     <header className="track-head">
