@@ -4,6 +4,7 @@ import data from "../../assets/data.json";
 import Synopsis from "./Synopsis";
 import Lyrics from "./Lyrics";
 import Credits from "./Credits";
+import NotFound from "../Body/NotFound";
 
 const Track = props => {
     let { type = "synopsis" } = props;
@@ -87,20 +88,26 @@ const Track = props => {
         }
         return body;
     }
+
+    const renderComponent = () => {
+        if (id < 1 || id > 17 || isNaN(id)) {
+            return <NotFound />
+        }
+
+        return <main>
+                    <header className="track-head">
+                        <h1 className="title">{current.title}</h1>
+                        <p className="writers">Written by {writers()}</p>
+                        <div className="info">
+                            <p className="style">{current.style.join(" / ")}</p>
+                            <p><strong>Runtime:</strong><span id="break"></span>{runtime(current.runtime)}</p>
+                        </div>
+                    </header>
+                    {renderBody(type)}
+               </main>
+    }
     
-    return (
-        <main>
-            <header className="track-head">
-                <h1 className="title">{current.title}</h1>
-                <p className="writers">Written by {writers()}</p>
-                <div className="info">
-                    <p className="style">{current.style.join(" / ")}</p>
-                    <p><strong>Runtime:</strong><span id="break"></span>{runtime(current.runtime)}</p>
-                </div>
-            </header>
-            {renderBody(type)}
-        </main>
-    )
+    return renderComponent();
 }
 
 export default Track;
