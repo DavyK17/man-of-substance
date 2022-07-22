@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cover from "../../assets/cover.png";
+import cover from "../../assets/img/cover.png";
 
 const Home = () => {
     return (
