@@ -74,7 +74,8 @@
                     "studio": "Black Hole Records",
                     "city": "Nairobi, Kenya"
                 }]
-            }
+            },
+            "missingFrom": ["mixtape", "mixtapeBase"]
         },
         {
             "id": "4",
@@ -120,7 +121,8 @@
                     "studio": "Black Hole Records",
                     "city": "Nairobi, Kenya"
                 }]
-            }
+            },
+            "missingFrom": ["mixtape", "mixtapeBase"]
         },
         {
             "id": "6",
@@ -209,7 +211,8 @@
                         "city": "Stockholm, Sweden"
                     }
                 ]
-            }
+            },
+            "missingFrom": ["mixtape", "mixtapeBase"]
         },
         {
             "id": "10",
@@ -297,7 +300,8 @@
                         "city": "Nairobi, Kenya"
                     }
                 ]
-            }
+            },
+            "missingFrom": ["mixtape", "mixtapeBase"]
         },
         {
             "id": "14",
@@ -340,7 +344,8 @@
                     "studio": "Black Hole Records",
                     "city": "Nairobi, Kenya"
                 }]
-            }
+            },
+            "missingFrom": ["base", "mixtapeBase"]
         },
         {
             "id": "16",
@@ -358,7 +363,8 @@
                     "studio": "DVK's bedroom",
                     "city": "Nairobi, Kenya"
                 }]
-            }
+            },
+            "missingFrom": ["base", "mixtapeBase"]
         },
         {
             "id": "17",
@@ -387,7 +393,8 @@
                         "city": "Nairobi, Kenya"
                     }
                 ]
-            }
+            },
+            "missingFrom": ["base", "mixtape", "mixtapeBase"]
         }
     ]
 }
