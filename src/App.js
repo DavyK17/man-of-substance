@@ -40,7 +40,7 @@ const App = () => {
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
-            <Route element={<Layout />}>
+            <Route element={<Layout ver={ver} setVer={setVer} />}>
                 <Route path="/credits" element={<Credits />} />
                 <Route path="/contributors" element={<Contributors />} />
                 <Route path="/tracks">
@@ -48,7 +48,7 @@ const App = () => {
                     <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
                     <Route path=":id/synopsis" element={<Track type="synopsis" tracks={tracks} />} />
                     <Route path=":id" element={<Track tracks={tracks} />} />
-                    <Route path="" element={<Tracks tracks={tracks} setTracks={tracks => setTracks(tracks)} ver={ver} setVer={ver => setVer(ver)} />} />
+                    <Route path="" element={<Tracks tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Route>
