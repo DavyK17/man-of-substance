@@ -15,14 +15,14 @@ const App = () => {
         window.scrollTo(0, 0);
     }, [location]);
 
-    const [ver, setVer] = useState("main");
+    const [ver, setVer] = useState("full");
     const filterTracks = () => {
         let filtered;
 
-        if (ver === "main") filtered = data.tracks;
+        if (ver === "full") filtered = data.tracks;
         if (ver === "base") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom") || (track.hasOwnProperty("missingFrom") && !track.missingFrom.includes("base")));
         if (ver === "mixtape") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom") || (track.hasOwnProperty("missingFrom") && !track.missingFrom.includes("mixtape")));
-        if (ver === "mixtapeBase") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom"));
+        if (ver === "lite") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom"));
 
         return filtered.map((item, i) => {
             let copy = { ...item };

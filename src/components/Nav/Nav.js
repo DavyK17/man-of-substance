@@ -77,10 +77,10 @@ const Nav = props => {
                 <div className="version-select">
                     <label for="edition">Edition</label>
                     <select name="edition" id="edition" onChange={handleChange}>
-                        <option value="main">Main</option>
+                        <option value="full">Full</option>
                         <option value="base">Base</option>
                         <option value="mixtape">Mixtape</option>
-                        <option value="mixtapeBase">Mixtape Base</option>
+                        <option value="lite">Lite</option>
                     </select>
                 </div>
             </div>

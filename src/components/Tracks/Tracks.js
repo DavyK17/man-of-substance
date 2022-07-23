@@ -14,17 +14,17 @@ const Tracks = props => {
         let last = -1;
 
         if (n === 1) {
-            if (ver === "main" || ver === "base") last = 7;
-            if (ver === "mixtape" || ver === "mixtapeBase") last = 5;
+            if (ver === "full" || ver === "base") last = 7;
+            if (ver === "mixtape" || ver === "lite") last = 5;
             return tracks.filter(track => parseInt(track.id) <= last);
         }
 
         if (n === 2) {
-            if (ver === "main" || ver === "base") {
+            if (ver === "full" || ver === "base") {
                 first = 8;
                 last = 14;
             }
-            if (ver === "mixtape" || ver === "mixtapeBase") {
+            if (ver === "mixtape" || ver === "lite") {
                 first = 6;
                 last = 10;
             };
@@ -32,8 +32,8 @@ const Tracks = props => {
         }
 
         if (n === 3) {
-            if (ver === "base" || ver === "mixtapeBase" ) return [];
-            if (ver === "main") first = 15;
+            if (ver === "base" || ver === "lite" ) return [];
+            if (ver === "full") first = 15;
             if (ver === "mixtape") first = 11;
             return tracks.filter(track => parseInt(track.id) >= first);
         }
@@ -57,7 +57,7 @@ const Tracks = props => {
     });
 
     const renderBonus = () => {
-        if (ver === "main" || ver === "mixtape") return (
+        if (ver === "full" || ver === "mixtape") return (
             <div>
                 <h2>Bonus</h2>
                 <ol start={parts[2][0] ? parts[2][0].id : "0"}>
