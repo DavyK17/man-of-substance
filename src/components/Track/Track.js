@@ -15,8 +15,8 @@ const Track = props => {
     useEffect(() => {
         document.onkeydown = ({ code }) => {
             if (location.pathname !== "/tracks" && location.pathname.includes("/tracks")) {
-                if (id === 17 || (id - 1) >= 1) if (code === "ArrowLeft") return navigate(`/tracks/${id - 1}/${type}`);
-                if (id === 1 || (id + 1) <= 17) if (code === "ArrowRight") return navigate(`/tracks/${id + 1}/${type}`);
+                if (id === tracks.length || (id - 1) >= 1) if (code === "ArrowLeft") return navigate(`/tracks/${id - 1}/${type}`);
+                if (id === 1 || (id + 1) <= tracks.length) if (code === "ArrowRight") return navigate(`/tracks/${id + 1}/${type}`);
     
                 if (code === "KeyC") return navigate(`/tracks/${id}/credits`);
                 if (code === "KeyL") return navigate(`/tracks/${id}/lyrics`);
@@ -89,7 +89,7 @@ const Track = props => {
     }
 
     const renderComponent = () => {
-        if (id < 1 || id > 17 || isNaN(id)) return <NotFound />;
+        if (id < 1 || id > tracks.length || isNaN(id)) return <NotFound />;
 
         return <main>
                     <header className="track-head">
