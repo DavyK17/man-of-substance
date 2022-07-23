@@ -15,7 +15,7 @@ const Synopsis = props => {
                 </div>
             </div>
             <div className="track-synopsis" dangerouslySetInnerHTML={{ __html: props.current.synopsis }}></div>
-            <Footer type="synopsis" previous={props.previous} next={props.next} />
+            <Footer type="synopsis" previous={props.previous} next={props.next} tracks={props.tracks}  />
         </>
     )
 }

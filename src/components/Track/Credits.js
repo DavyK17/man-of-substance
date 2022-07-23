@@ -153,7 +153,7 @@ const Credits = props => {
                     })
                 }
             </div>
-            <Footer type="credits" previous={props.previous} next={props.next} />
+            <Footer type="credits" previous={props.previous} next={props.next} tracks={props.tracks} />
         </>
     )
 }

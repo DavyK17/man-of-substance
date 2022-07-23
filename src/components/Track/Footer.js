@@ -7,7 +7,7 @@ const Footer = props => {
             <div className="previous">
                 <Adjacent type={props.type} seq={-1} previous={props.previous} />
             </div>
-            <TopLink type={props.type} />
+            <TopLink type={props.type} tracks={props.tracks} />
             <div className="next">
                 <Adjacent type={props.type} seq={1} next={props.next} />
             </div>

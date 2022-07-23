@@ -15,7 +15,7 @@ const Lyrics = props => {
                 </div>
             </div>
             <div className="track-lyrics" dangerouslySetInnerHTML={{ __html: props.current.lyrics }}></div>
-            <Footer type="lyrics" previous={props.previous} next={props.next} />
+            <Footer type="lyrics" previous={props.previous} next={props.next} tracks={props.tracks} />
         </>
     )
 }
