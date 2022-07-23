@@ -75,16 +75,16 @@ const Track = props => {
         let body;
         switch(type) {
             case "synopsis":
-                body = <Synopsis id={id} current={current} previous={previous} next={next} />
+                body = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />
                 break;
             case "lyrics":
-                body = <Lyrics id={id} current={current} previous={previous} next={next} />
+                body = <Lyrics id={id} current={current} previous={previous} next={next} tracks={tracks} />
                 break;
             case "credits":
-                body = <Credits id={id} current={current} previous={previous} next={next} />
+                body = <Credits id={id} current={current} previous={previous} next={next} tracks={tracks} />
                 break;
             default:
-                body = <Synopsis id={id} current={current} previous={previous} next={next} />
+                body = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />
         }
         return body;
     }
