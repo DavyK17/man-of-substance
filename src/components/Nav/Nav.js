@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 const Nav = props => {
-    const { ver, setVer } = props;
+    const { setVer } = props;
 
     const menuToggle = (dir = 0) => {
         const body = document.getElementsByTagName("body")[0];

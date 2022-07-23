@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Tracks = props => {
-    const { tracks, ver, setVer } = props;
+    const { tracks, ver } = props;
 
     const displayTitle = id => {
         const track = tracks.filter(track => parseInt(track.id) === id);
