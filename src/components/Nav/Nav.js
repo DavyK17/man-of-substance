@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 
-const Nav = () => {
+const Nav = props => {
+    const { ver, setVer } = props;
+
     const menuToggle = (dir = 0) => {
         const body = document.getElementsByTagName("body")[0];
         const menu = document.getElementsByClassName("menu")[0];
@@ -20,6 +22,11 @@ const Nav = () => {
         return isOpen ? close() : open();
     }
     let activeClassName = "active";
+
+    const handleChange = ({ target }) => {
+        setVer(target.value);
+        menuToggle(-1);
+    }
     
     return (
         <nav>
@@ -67,6 +74,15 @@ const Nav = () => {
                         </a>
                     </li>
                 </ul>
+                <div className="version-select">
+                    <label for="edition">Edition</label>
+                    <select name="edition" id="edition" onChange={handleChange}>
+                        <option value="main">Main</option>
+                        <option value="base">Base</option>
+                        <option value="mixtape">Mixtape</option>
+                        <option value="mixtapeBase">Mixtape Base</option>
+                    </select>
+                </div>
             </div>
         </nav>
     )
