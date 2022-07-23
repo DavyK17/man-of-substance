@@ -69,10 +69,6 @@ const Tracks = props => {
 
     return (
         <main>
-            <button onClick={() => setVer("main")}>Main Edition</button>
-            <button onClick={() => setVer("base")}>Base Edition</button>
-            <button onClick={() => setVer("mixtape")}>Mixtape Edition</button>
-            <button onClick={() => setVer("mixtapeBase")}>Mixtape Base Edition</button>
             <p className="tracklist-lead">Select a track to view details.</p>
             <div className="tracklist">
                 <div>
