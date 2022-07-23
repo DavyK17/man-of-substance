@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import data from "../../assets/data.json";
 import Synopsis from "./Synopsis";
 import Lyrics from "./Lyrics";
 import Credits from "./Credits";
 import NotFound from "../Body/NotFound";
 
 const Track = props => {
-    let { type = "synopsis" } = props;
+    let { tracks, type = "synopsis" } = props;
     let params = useParams();
     let location = useLocation();
     let navigate = useNavigate();
@@ -29,9 +28,9 @@ const Track = props => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, type]);
 
-    const current = data.tracks.filter(track => parseInt(track.id) === id)[0];
-    const previous = data.tracks.filter(track => parseInt(track.id) === id - 1)[0];
-    const next = data.tracks.filter(track => parseInt(track.id) === id + 1)[0];
+    const current = tracks.filter(track => parseInt(track.id) === id)[0];
+    const previous = tracks.filter(track => parseInt(track.id) === id - 1)[0];
+    const next = tracks.filter(track => parseInt(track.id) === id + 1)[0];
 
     const writers = () => {
         if (current.credits.writers.length === 1) return current.credits.writers.join("");
