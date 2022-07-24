@@ -17,10 +17,20 @@
 }
 
 .tracklist-lead {
-    font-size: 1.25rem;
-    text-align: center;
-    margin: unset;
     margin-bottom: 2rem;
+    p {
+        margin: unset;
+        text-align: center;
+        &.head {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        &:not(.head) {
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+    }
 }
 
 @media only screen and (max-width: 991px) {
