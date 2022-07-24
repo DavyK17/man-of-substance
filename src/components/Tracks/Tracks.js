@@ -14,17 +14,17 @@ const Tracks = props => {
         let last = -1;
 
         if (n === 1) {
-            if (ver === "full" || ver === "base") last = 7;
-            if (ver === "mixtape" || ver === "lite") last = 5;
+            if (ver === "full" || ver === "expanded") last = 7;
+            if (ver === "mixtape" || ver === "base") last = 5;
             return tracks.filter(track => parseInt(track.id) <= last);
         }
 
         if (n === 2) {
-            if (ver === "full" || ver === "base") {
+            if (ver === "full" || ver === "expanded") {
                 first = 8;
                 last = 14;
             }
-            if (ver === "mixtape" || ver === "lite") {
+            if (ver === "mixtape" || ver === "base") {
                 first = 6;
                 last = 10;
             };
@@ -32,7 +32,7 @@ const Tracks = props => {
         }
 
         if (n === 3) {
-            if (ver === "base" || ver === "lite" ) return [];
+            if (ver === "expanded" || ver === "base" ) return [];
             if (ver === "full") first = 15;
             if (ver === "mixtape") first = 11;
             return tracks.filter(track => parseInt(track.id) >= first);

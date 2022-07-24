@@ -20,9 +20,9 @@ const App = () => {
         let filtered;
 
         if (ver === "full") filtered = data.tracks;
-        if (ver === "base") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom") || (track.hasOwnProperty("missingFrom") && !track.missingFrom.includes("base")));
+        if (ver === "expanded") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom") || (track.hasOwnProperty("missingFrom") && !track.missingFrom.includes("expanded")));
         if (ver === "mixtape") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom") || (track.hasOwnProperty("missingFrom") && !track.missingFrom.includes("mixtape")));
-        if (ver === "lite") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom"));
+        if (ver === "base") filtered = data.tracks.filter(track => !track.hasOwnProperty("missingFrom"));
 
         return filtered.map((item, i) => {
             let copy = { ...item };

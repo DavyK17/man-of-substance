@@ -75,7 +75,7 @@
                     "city": "Nairobi, Kenya"
                 }]
             },
-            "missingFrom": ["mixtape", "lite"]
+            "missingFrom": ["mixtape", "base"]
         },
         {
             "id": "4",
@@ -122,7 +122,7 @@
                     "city": "Nairobi, Kenya"
                 }]
             },
-            "missingFrom": ["mixtape", "lite"]
+            "missingFrom": ["mixtape", "base"]
         },
         {
             "id": "6",
@@ -212,7 +212,7 @@
                     }
                 ]
             },
-            "missingFrom": ["mixtape", "lite"]
+            "missingFrom": ["mixtape", "base"]
         },
         {
             "id": "10",
@@ -301,7 +301,7 @@
                     }
                 ]
             },
-            "missingFrom": ["mixtape", "lite"]
+            "missingFrom": ["mixtape", "base"]
         },
         {
             "id": "14",
@@ -345,7 +345,7 @@
                     "city": "Nairobi, Kenya"
                 }]
             },
-            "missingFrom": ["base", "lite"]
+            "missingFrom": ["expanded", "base"]
         },
         {
             "id": "16",
@@ -364,7 +364,7 @@
                     "city": "Nairobi, Kenya"
                 }]
             },
-            "missingFrom": ["base", "lite"]
+            "missingFrom": ["expanded", "base"]
         },
         {
             "id": "17",
@@ -394,7 +394,7 @@
                     }
                 ]
             },
-            "missingFrom": ["base", "mixtape", "lite"]
+            "missingFrom": ["expanded", "mixtape", "base"]
         }
     ]
 }

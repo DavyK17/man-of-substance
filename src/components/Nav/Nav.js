@@ -75,12 +75,12 @@ const Nav = props => {
                     </li>
                 </ul>
                 <div className="version-select">
-                    <label for="edition">Edition</label>
-                    <select name="edition" id="edition" onChange={handleChange}>
+                    <label for="version">Version</label>
+                    <select name="version" id="version" onChange={handleChange}>
                         <option value="full">Full</option>
-                        <option value="base">Base</option>
+                        <option value="expanded">Expanded</option>
                         <option value="mixtape">Mixtape</option>
-                        <option value="lite">Lite</option>
+                        <option value="base">Base</option>
                     </select>
                 </div>
             </div>
