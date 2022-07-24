@@ -69,7 +69,10 @@ const Tracks = props => {
 
     return (
         <main>
-            <p className="tracklist-lead">Select a track to view details.</p>
+            <div className="tracklist-lead">
+                <p className="head">Select a track to view details.</p>
+                <p>Use the dropdown in the menu to follow the evolution of the tracklist.</p>
+            </div>
             <div className="tracklist">
                 <div>
                     <h2>Substance</h2>
