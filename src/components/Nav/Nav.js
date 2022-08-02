@@ -76,11 +76,11 @@ const Nav = props => {
                 </ul>
                 <div className="version-select">
                     <label for="version">Version</label>
-                    <select name="version" id="version" onChange={handleChange}>
-                        <option value="full">Full</option>
-                        <option value="expanded">Expanded</option>
-                        <option value="mixtape">Mixtape</option>
+                    <select name="version" id="version" onChange={handleChange} defaultValue="full">
                         <option value="base">Base</option>
+                        <option value="mixtape">Mixtape</option>
+                        <option value="expanded">Expanded</option>
+                        <option value="full">Full</option>
                     </select>
                 </div>
             </div>
