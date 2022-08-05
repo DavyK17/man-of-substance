@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import cover from "../../assets/img/cover.png";
+import Cover from "./Cover";
 
 const Home = () => {
     return (
@@ -23,7 +23,7 @@ const Home = () => {
                 <p className="signature">Davy Kamanzi / DVK</p>
             </header>
             <div className="home-links">
-                <img className="cover-art" src={cover} alt="Man of Substance cover art" />
+                <Cover />
                 <div className="link-buttons">
                     <a role="button" target="_blank" href="https://bit.ly/stream-mos" rel="noreferrer">
                         Stream the album
