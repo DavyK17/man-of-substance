@@ -4,7 +4,6 @@ import Layout from "./components/Body/Layout";
 import Home from "./components/Home/Home";
 import Credits from "./components/Credits/Credits";
 import Contributors from "./components/Contributors/Contributors";
-import Rewards from "./components/Rewards/Rewards";
 import Tracks from "./components/Tracks/Tracks";
 import Track from "./components/Track/Track";
 import NotFound from "./components/Body/NotFound";
@@ -43,7 +42,6 @@ const App = () => {
             <Route path="/" exact element={<Home />} />
             <Route element={<Layout ver={ver} setVer={setVer} />}>
                 <Route path="/contributors" element={<Contributors />} />
-                <Route path="/rewards" element={<Rewards />} />
                 <Route path="/tracks">
                     <Route path=":id/credits" element={<Track type="credits" tracks={tracks} />} />
                     <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
