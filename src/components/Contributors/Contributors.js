@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Server from "../../api/Server";
 
 const Contributors = () => {
@@ -33,7 +34,7 @@ const Contributors = () => {
     return (
         <main>
             <div className="contributors-lead">
-                <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <a href="#rewards">clicking here</a>.</p>
+                <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <Link to="/rewards">clicking here</Link>.</p>
                 <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p>
             </div>
             <div className="contributors">
