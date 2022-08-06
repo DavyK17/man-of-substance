@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Server from "../../api/Server";
+import Intro from "./Intro";
+import Login from "./Login";
+import Info from "./Info";
 
-const Contributors = () => {
+const Contributors = props => {
     const [contributors, setContributors] = useState({});
+    const [contributor, setContributor] = useState();
+    const [type, setType] = useState("intro");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -14,36 +18,28 @@ const Contributors = () => {
         fetchData();
     }, []);
 
-    const renderList = tier => {
-        if (Object.keys(contributors).length === 0 || contributors[tier].length === 0) return;
+    const renderBody = type => {
+        let body;
+        switch (type) {
+            case "intro":
+                body = <Intro contributors={contributors} contributor={contributor} setType={setType} />
+                break;
+            case "login":
+                body = <Login contributor={contributor} setContributor={setContributor} setType={setType} />
+                break;
+            case "info":
+                body = <Info contributor={contributor} setContributor={setContributor} setType={setType} />
+                break;
+            default:
+                body = <Intro contributors={contributors} setType={setType} />
+        }
 
-        return (
-            <div>
-                <h2>{tier.charAt(0).toUpperCase() + tier.slice(1)}</h2>
-                <ul>
-                    {
-                        contributors[tier].map(({ name }, i) => {
-                            return <li key={i}>{name}</li>
-                        })
-                    }
-                </ul>
-            </div>
-        )
+        return body;
     }
 
     return (
         <main>
-            <div className="contributors-lead">
-                <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <Link to="/rewards">clicking here</Link>.</p>
-                <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p>
-            </div>
-            <div className="contributors">
-                {renderList("bronze")}
-                {renderList("silver")}
-                {renderList("gold")}
-                {renderList("platinum")}
-                {renderList("executive")}
-            </div>
+            {renderBody(type)}
         </main>
     )
 }
