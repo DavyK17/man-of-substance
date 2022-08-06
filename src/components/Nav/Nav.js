@@ -75,7 +75,7 @@ const Nav = props => {
                     </li>
                 </ul>
                 <div className="version-select">
-                    <label for="version">Version</label>
+                    <label htmlFor="version">Version</label>
                     <select name="version" id="version" onChange={handleChange} defaultValue="full">
                         <option value="base">Base</option>
                         <option value="mixtape">Mixtape</option>
