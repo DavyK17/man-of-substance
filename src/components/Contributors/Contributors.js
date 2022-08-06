@@ -1,4 +1,35 @@
+import { useState, useEffect } from "react";
+import Server from "../../api/Server";
+
 const Contributors = () => {
+    const [contributors, setContributors] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            let { bronze, silver, gold, platinum, executive } = await Server.getContributors();
+            setContributors({ bronze, silver, gold, platinum, executive });
+        }
+
+        fetchData();
+    }, []);
+
+    const renderList = tier => {
+        if (Object.keys(contributors).length === 0 || contributors[tier].length === 0) return;
+
+        return (
+            <div>
+                <h2>{tier.charAt(0).toUpperCase() + tier.slice(1)}</h2>
+                <ul>
+                    {
+                        contributors[tier].map(({ name }, i) => {
+                            return <li key={i}>{name}</li>
+                        })
+                    }
+                </ul>
+            </div>
+        )
+    }
+
     return (
         <main>
             <div className="contributors-lead">
@@ -6,36 +37,11 @@ const Contributors = () => {
                 <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p>
             </div>
             <div className="contributors">
-                <div>
-                    <h2>Bronze</h2>
-                    <ul>
-                        <li>Ruth Nyambura</li>
-                        <li>Bryan Mutai</li>
-                        <li>Sidney Kamanzi</li>
-                        <li>Chizi Muti</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Silver</h2>
-                    <ul>
-                        <li>Mburu Mbugua</li>
-                        <li>Oscar Nzirera</li>
-                        <li>Gichuhi Thuo</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Gold</h2>
-                    <ul>
-                        <li>Eric Lu Savali</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Platinum</h2>
-                    <ul>
-                        <li>Diane Banziririki</li>
-                        <li>Hervé Mugisha</li>
-                    </ul>
-                </div>
+                {renderList("bronze")}
+                {renderList("silver")}
+                {renderList("gold")}
+                {renderList("platinum")}
+                {renderList("executive")}
             </div>
         </main>
     )
