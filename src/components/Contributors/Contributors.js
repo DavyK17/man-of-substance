@@ -38,7 +38,7 @@ const Contributors = props => {
     }
 
     return (
-        <main>
+        <main className="contributors">
             {renderBody(type)}
         </main>
     )

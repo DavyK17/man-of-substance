@@ -29,7 +29,7 @@ const Intro = props => {
                 <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <a href="/contributors" onClick={handleClick}>clicking here</a>.</p>
                 <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p>
             </div>
-            <div className="contributors">
+            <div className="contributors-list">
                 {renderList("bronze")}
                 {renderList("silver")}
                 {renderList("gold")}
