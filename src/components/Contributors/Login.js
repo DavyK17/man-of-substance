@@ -13,7 +13,9 @@ const Login = props => {
         if (!data) return document.getElementById("status").innerHTML = "This email does not exist in the database";
         if (data.rewardsClaimed) return document.getElementById("status").innerHTML = "Rewards have already been claimed for this user";
 
-        setContributor(data);
+        localStorage.setItem("mos-contributor", JSON.stringify(data));
+        localStorage.setItem("mos-contributor-expiry", Date.now() + 86400);
+        setContributor(JSON.parse(localStorage.getItem("mos-contributor")));
     }
 
     useEffect(() => {
