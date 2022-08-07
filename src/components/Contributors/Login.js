@@ -3,7 +3,7 @@ import Server from "../../api/Server";
 import Footer from "./Footer";
 
 const Login = props => {
-    const { contributor, setContributor, setType } = props;
+    const { setContributor, setType, validUser } = props;
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -19,9 +19,7 @@ const Login = props => {
     }
 
     useEffect(() => {
-        const validState = contributor && Object.keys(contributor).length === 4 && (contributor.hasOwnProperty("name") && typeof contributor.name === "string") && (contributor.hasOwnProperty("email") && typeof contributor.email === "string") && (contributor.hasOwnProperty("amount") && typeof contributor.amount === "number") && (contributor.hasOwnProperty("rewardsClaimed") && typeof contributor.rewardsClaimed === "boolean");
-
-        if (validState) setType("info");
+        if (validUser) setType("info");
     });
 
     return (
@@ -36,7 +34,7 @@ const Login = props => {
                 <p id="status"></p>
             </form>
 
-            <Footer contributor={contributor} setType={setType} />
+            <Footer setType={setType} validUser={validUser} />
         </>
     )
 }

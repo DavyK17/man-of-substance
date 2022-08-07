@@ -1,11 +1,11 @@
 import Skeleton from "react-loading-skeleton";
 
 const Intro = props => {
-    const { contributors, contributor, setType, isLoading, error } = props;
+    const { contributors, setType, isLoading, error, validUser } = props;
 
     const handleClick = e => {
         e.preventDefault();
-        localStorage.getItem("mos-contributor") ? setType("info") : (contributor ? setType("info") : setType("login"));
+        validUser ? setType("info") : setType("login");
     }
 
     const renderList = tier => {

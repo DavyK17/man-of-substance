@@ -1,5 +1,5 @@
 const Footer = props => {
-    const { contributor, setContributor, setType } = props;
+    const { setContributor, setType, validUser } = props;
     
     const backToIntro = e => {
         e.preventDefault();
@@ -15,7 +15,7 @@ const Footer = props => {
 
         setType("login");
     }
-    const logoutButton = contributor ? <button onClick={logout}>Logout</button> : null;
+    const logoutButton = validUser ? <button onClick={logout}>Logout</button> : null;
 
     return (
         <div className="link-buttons">
