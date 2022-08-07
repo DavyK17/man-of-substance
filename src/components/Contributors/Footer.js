@@ -16,9 +16,11 @@ const Footer = props => {
         setType("login");
     }
     const logoutButton = validUser ? <button onClick={logout}>Logout</button> : null;
+    const submitButton = validUser ? <button type="submit">Claim rewards</button> : null;
 
     return (
         <div className="link-buttons">
+            {submitButton}
             <button onClick={backToIntro}>Back to Intro</button>
             {logoutButton}
         </div>
