@@ -26,6 +26,10 @@
     ul {
         @extend %tracklist-contributors-list;
     }
+    #error {
+        font-size: 0.875rem;
+        color: $red;
+    }
 }
 
 .contributors-lead {
