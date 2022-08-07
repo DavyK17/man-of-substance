@@ -40,16 +40,16 @@ const App = () => {
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
-            <Route element={<Layout ver={ver} setVer={setVer} />}>
-                <Route path="/contributors" element={<Contributors />} />
-                <Route path="/tracks">
+            <Route path="/*" element={<Layout ver={ver} setVer={setVer} />}>
+                <Route path="contributors" element={<Contributors />} />
+                <Route path="tracks">
                     <Route path=":id/credits" element={<Track type="credits" tracks={tracks} />} />
                     <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
                     <Route path=":id/synopsis" element={<Track type="synopsis" tracks={tracks} />} />
                     <Route path=":id" element={<Track tracks={tracks} />} />
                     <Route path="" element={<Tracks tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
                 </Route>
-                <Route path="/credits" element={<Credits />} />
+                <Route path="credits" element={<Credits />} />
                 <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
