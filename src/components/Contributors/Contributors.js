@@ -43,18 +43,17 @@ const Contributors = () => {
 
     const renderBody = type => {
         let body;
+        let defaultBody = <Intro contributors={contributors} setType={setType} isLoading={isLoading} error={error} validUser={validUser} />;
         switch (type) {
-            case "intro":
-                body = <Intro contributors={contributors} setType={setType} isLoading={isLoading} error={error} validUser={validUser} />
-                break;
             case "login":
                 body = <Login contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
                 break;
             case "info":
-                body = <Info contributor={contributor} setContributor={setContributor} setType={setType} />
+                body = <Info contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
                 break;
+            case "intro":
             default:
-                body = <Intro contributors={contributors} setType={setType} />
+                body = defaultBody;
         }
 
         return body;
