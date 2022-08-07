@@ -8,7 +8,11 @@ const Footer = props => {
     
     const logout = e => {
         e.preventDefault();
+
         setContributor();
+        localStorage.removeItem("mos-contributor");
+        localStorage.removeItem("mos-contributor-expiry");
+
         setType("login");
     }
     const logoutButton = contributor ? <button onClick={logout}>Logout</button> : null;
