@@ -38,3 +38,9 @@
         animation-iteration-count: infinite;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .react-loading-skeleton {
+        width: 85vw;
+    }
+}
