@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Routes, Route } from "react-router-dom";
+import VersionSelect from "./VersionSelect";
 
 const Nav = props => {
     const { setVer } = props;
@@ -22,11 +23,6 @@ const Nav = props => {
         return isOpen ? close() : open();
     }
     let activeClassName = "active";
-
-    const handleChange = ({ target }) => {
-        setVer(target.value);
-        menuToggle(-1);
-    }
     
     return (
         <nav>
@@ -74,15 +70,9 @@ const Nav = props => {
                         </a>
                     </li>
                 </ul>
-                <div className="version-select">
-                    <label htmlFor="version">Version</label>
-                    <select name="version" id="version" onChange={handleChange} defaultValue="full">
-                        <option value="base">Base</option>
-                        <option value="mixtape">Mixtape</option>
-                        <option value="expanded">Expanded</option>
-                        <option value="full">Full</option>
-                    </select>
-                </div>
+                <Routes>
+                    <Route path="tracks" element={<VersionSelect setVer={setVer} menuToggle={menuToggle} />} />
+                </Routes>
             </div>
         </nav>
     )
