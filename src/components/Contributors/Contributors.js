@@ -4,7 +4,7 @@ import Intro from "./Intro";
 import Login from "./Login";
 import Info from "./Info";
 
-const Contributors = props => {
+const Contributors = () => {
     const [contributors, setContributors] = useState({});
     const [contributor, setContributor] = useState();
     const [type, setType] = useState("intro");
@@ -14,7 +14,7 @@ const Contributors = props => {
 
     useEffect(() => {
         if (localStorage.getItem("mos-contributor")) setContributor(JSON.parse(localStorage.getItem("mos-contributor")));
-        
+
         const fetchData = async () => {
             setIsLoading(true);
 
@@ -39,14 +39,16 @@ const Contributors = props => {
         fetchData();
     }, []);
 
+    const validUser = contributor && Object.keys(contributor).length === 4 && (contributor.hasOwnProperty("name") && typeof contributor.name === "string") && (contributor.hasOwnProperty("email") && typeof contributor.email === "string") && (contributor.hasOwnProperty("amount") && typeof contributor.amount === "number") && (contributor.hasOwnProperty("rewardsClaimed") && typeof contributor.rewardsClaimed === "boolean");
+
     const renderBody = type => {
         let body;
         switch (type) {
             case "intro":
-                body = <Intro contributors={contributors} contributor={contributor} setType={setType} isLoading={isLoading} error={error} />
+                body = <Intro contributors={contributors} setType={setType} isLoading={isLoading} error={error} validUser={validUser} />
                 break;
             case "login":
-                body = <Login contributor={contributor} setContributor={setContributor} setType={setType} />
+                body = <Login contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
                 break;
             case "info":
                 body = <Info contributor={contributor} setContributor={setContributor} setType={setType} />
