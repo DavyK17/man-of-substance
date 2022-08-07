@@ -5,7 +5,7 @@ const Intro = props => {
 
     const handleClick = e => {
         e.preventDefault();
-        contributor ? setType("info") : setType("login");
+        localStorage.getItem("mos-contributor") ? setType("info") : (contributor ? setType("info") : setType("login"));
     }
 
     const renderList = tier => {
