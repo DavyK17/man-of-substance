@@ -13,6 +13,8 @@ const Contributors = props => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        if (localStorage.getItem("mos-contributor")) setContributor(JSON.parse(localStorage.getItem("mos-contributor")));
+        
         const fetchData = async () => {
             setIsLoading(true);
 
