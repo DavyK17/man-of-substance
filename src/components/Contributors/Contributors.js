@@ -8,11 +8,30 @@ const Contributors = props => {
     const [contributors, setContributors] = useState({});
     const [contributor, setContributor] = useState();
     const [type, setType] = useState("intro");
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            let { bronze, silver, gold, platinum, executive } = await Server.getContributors();
-            setContributors({ bronze, silver, gold, platinum, executive });
+            setIsLoading(true);
+
+            try {
+                const url = `${Server.url}/contributors`;
+                let response = await fetch(url);
+
+                if (response.ok) {
+                    response = await response.json();
+
+                    let { bronze, silver, gold, platinum, executive } = response;
+                    setContributors({ bronze, silver, gold, platinum, executive });
+                }
+            } catch (err) {
+                setError(err);
+                console.log(err);
+            }
+            
+            setIsLoading(false);
         }
 
         fetchData();
@@ -22,7 +41,7 @@ const Contributors = props => {
         let body;
         switch (type) {
             case "intro":
-                body = <Intro contributors={contributors} contributor={contributor} setType={setType} />
+                body = <Intro contributors={contributors} contributor={contributor} setType={setType} isLoading={isLoading} error={error} />
                 break;
             case "login":
                 body = <Login contributor={contributor} setContributor={setContributor} setType={setType} />
