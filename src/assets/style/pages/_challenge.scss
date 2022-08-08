@@ -33,22 +33,32 @@
             font-size: 1.25rem;
             padding: 0 0.5rem;
         }
-        &[type=email] {
+        &[type=email],
+        &[type=text],
+        &[type=tel] {
             width: 350px;
             font-size: 1rem;
             padding: 0 0.5rem;
         }
-    }
-    #challenge-submit {
-        width: 100px;
-        font-size: 1rem;
-        @extend %link-buttons;
-        &:hover,
-        &:focus {
-            @extend %link-buttons-hover;
+        &[type=submit] {
+            width: 100px;
+            font-size: 1rem;
+            @extend %link-buttons;
+            &:hover,
+            &:focus {
+                @extend %link-buttons-hover;
+            }
+            &:active {
+                color: $red;
+            }
         }
-        &:active {
-            color: $red;
+    }
+    .result {
+        display: flex;
+        justify-content: center;
+        input {
+            font-family: $font-body;
+            margin: 0.5rem;
         }
     }
     #status {
@@ -66,17 +76,24 @@
             }
         }
         input {
-            &[type=email] {
+            &[type=email],
+            &[type=text],
+            &[type=tel] {
                 width: 100%;
             }
+        }
+        .result {
+            flex-direction: column;
         }
     }
 }
 
 @media only screen and (min-width: 992px) {
-    .challenge {
-        #challenge-submit {
-            margin: unset;
-        }
+    #challenge-submit {
+        margin: unset;
+    }
+    #challenger-submit {
+        margin: unset;
+        margin-top: 1rem;
     }
 }
