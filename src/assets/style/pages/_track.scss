@@ -198,7 +198,8 @@
         margin: 1rem 0;
         h2,
         p {
-            margin: unset;
+            width: fit-content;
+            margin: auto;
         }
         h2 {
             color: $red;
