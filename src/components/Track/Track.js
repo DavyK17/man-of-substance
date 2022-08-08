@@ -1,12 +1,15 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Synopsis from "./Synopsis";
 import Lyrics from "./Lyrics";
 import Credits from "./Credits";
+import Challenge from "../Challenge/Challenge";
 import NotFound from "../Body/NotFound";
 
 const Track = props => {
     let { tracks, type = "synopsis" } = props;
+    const [found, setFound] = useState(false);
+
     let params = useParams();
     let location = useLocation();
     let navigate = useNavigate();
@@ -87,11 +90,12 @@ const Track = props => {
             default:
                 body = defaultBody;
         }
-        
+
         return body;
     }
 
     const renderComponent = () => {
+        if (found) return <Challenge />;
         if (id < 1 || id > tracks.length || isNaN(id)) return <NotFound />;
 
         return <main>
