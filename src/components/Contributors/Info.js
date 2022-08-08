@@ -1,4 +1,5 @@
 import Footer from "./Footer";
+import Rewards from "./Rewards";
 import TrackDownload from "./TrackDownload";
 
 const Info = props => {
@@ -38,6 +39,7 @@ const Info = props => {
                     <p className="writers">{contributor.email}</p>
                 </div>
             </header>
+            <Rewards tier={getTier(contributor.amount)} />
             <form className="rewards-claim" onSubmit={handleSubmit}>
                 <TrackDownload tier={getTier(contributor.amount)} />
                 <Footer setContributor={setContributor} setType={setType} validUser={validUser} />
