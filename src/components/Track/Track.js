@@ -98,7 +98,7 @@ const Track = props => {
         if (found) return <Challenge />;
         if (id < 1 || id > tracks.length || isNaN(id)) return <NotFound />;
 
-        return <main>
+        return <>
                     <header className="track-head">
                         <h1 className="title">{current.title}</h1>
                         <p className="writers">Written by {writers()}</p>
@@ -108,10 +108,14 @@ const Track = props => {
                         </div>
                     </header>
                     {renderBody(type)}
-               </main>
+               </>
     }
     
-    return renderComponent();
+    return (
+        <main>
+            {renderComponent()}
+        </main>
+    );
 }
 
 export default Track;
