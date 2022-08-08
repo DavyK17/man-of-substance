@@ -72,6 +72,8 @@ const Track = props => {
 
     const renderBody = type => {
         let body;
+        let defaultBody = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />;
+
         switch(type) {
             case "synopsis":
                 body = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />
@@ -83,8 +85,9 @@ const Track = props => {
                 body = <Credits id={id} current={current} previous={previous} next={next} tracks={tracks} />
                 break;
             default:
-                body = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />
+                body = defaultBody;
         }
+        
         return body;
     }
 
