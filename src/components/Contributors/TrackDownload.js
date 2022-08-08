@@ -4,10 +4,15 @@ const TrackDownload = props => {
     const { tier } = props;
 
     const renderBody = () => {
+        const format = tier => {
+            if (tier === "supporter" || tier === "bronze") return "MP3";
+            return "MP3 and WAV";
+        };
+
         if (tier === "supporter") {
             return (
                 <>
-                    <label htmlFor="track-dropdown">Select a track to download:</label>
+                    <label htmlFor="track-dropdown">Select a track to download ({format(tier)}):</label>
                     <select name="track-dropdown" id="track-dropdown">
                         {
                             data.tracks.map((track, i) => {
@@ -25,10 +30,10 @@ const TrackDownload = props => {
                 if (tier === "silver") return 5;
             };
 
-            const checks = document.querySelectorAll(".checklist-wrapper input");
+            const checks = document.querySelectorAll(".track-checkbox input");
             checks.forEach(check => {
                 const maxCheck = e => {
-                    const checked = document.querySelectorAll(".checklist-wrapper input:checked");
+                    const checked = document.querySelectorAll(".track-checkbox input:checked");
                     if (checked.length >= max(tier) + 1) return false;
                 }
 
@@ -37,7 +42,7 @@ const TrackDownload = props => {
 
             return (
                 <>
-                    <p>Select up to {max(tier)} tracks to download:</p>
+                    <p>Select tracks to download ({format(tier)}):</p>
                     <div className="checklist-wrapper">
                         <ol>
                             {
