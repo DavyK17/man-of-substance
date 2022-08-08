@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import data from "../../assets/data.json";
 
 const TrackDownload = props => {
     const { tier } = props;
 
+    const format = tier => {
+        if (tier === "supporter" || tier === "bronze") return "MP3";
+        return "MP3 and WAV";
+    };
+
+    const max = tier => {
+        if (tier === "bronze") return 3;
+        if (tier === "silver") return 5;
+    };
+
     const renderBody = () => {
-        const format = tier => {
-            if (tier === "supporter" || tier === "bronze") return "MP3";
-            return "MP3 and WAV";
-        };
 
         if (tier === "supporter") {
             return (
@@ -25,21 +32,6 @@ const TrackDownload = props => {
         }
 
         if (tier === "bronze" || tier === "silver") {
-            const max = tier => {
-                if (tier === "bronze") return 3;
-                if (tier === "silver") return 5;
-            };
-
-            const checks = document.querySelectorAll(".track-checkbox input");
-            checks.forEach(check => {
-                const maxCheck = e => {
-                    const checked = document.querySelectorAll(".track-checkbox input:checked");
-                    if (checked.length >= max(tier) + 1) return false;
-                }
-
-                check.onclick = maxCheck;
-            });
-
             return (
                 <>
                     <p>Select tracks to download ({format(tier)}):</p>
@@ -87,6 +79,18 @@ const TrackDownload = props => {
     }
 
     const divClassName = "track-select " + (tier === "supporter" ? "dropdown" : "checklist");
+
+    useEffect(() => {
+        const checks = document.querySelectorAll(".track-checkbox input");
+        checks.forEach(check => {
+            const maxCheck = e => {
+                const checked = document.querySelectorAll(".track-checkbox input:checked");
+                if (checked.length >= max(tier) + 1) return false;
+            }
+            
+            check.onclick = maxCheck;
+        });
+    });
 
     return (
         <div className={divClassName}>
