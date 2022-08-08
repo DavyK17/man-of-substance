@@ -1,18 +1,13 @@
-const Challenge = () => {
-    const handleSubmit = event => {
-        event.preventDefault();
-    }
+import { useState } from "react";
+import Start from "./Start";
+import Result from "./Result"
 
-    return (
-        <form className="challenge" onSubmit={handleSubmit}>
-            <h1>Secret Challenge</h1>
-            <p>How many lines on the album (in total) reference a fighting game?</p>
-            <div className="input challenge">
-                <input type="number" id="challenge-answer" min="1" />
-                <input type="submit" id="challenge-submit" value="Enter" />
-            </div>
-        </form>
-    )
+const Challenge = () => {
+    const [answer, setAnswer] = useState();
+    const [started, setStarted] = useState(false);
+
+    if (started) return <Result answer={answer} setStarted={setStarted} />
+    return <Start setAnswer={setAnswer} setStarted={setStarted} />
 }
 
 export default Challenge;
