@@ -33,8 +33,41 @@
             }
         }
     }
-    .rewards-claim {
+    .rewards-head {
         text-align: center;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.25);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        h2 {
+            font-family: $font-head;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .rewards-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            .reward {
+                width: 450px;
+                margin: 0 1rem;
+                text-align: center;
+                h3 {
+                    font-family: $font-head;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+                ul {
+                    padding: unset;
+                    list-style-type: none;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+    .rewards-claim {
+        margin: auto;
         .track-select {
             display: flex;
             flex-direction: column;
@@ -51,6 +84,7 @@
             }
             .checklist-wrapper {
                 @extend %tracklist-contributors;
+                justify-content: space-between;
                 ol {
                     @extend %tracklist-contributors-list;
                     li {
@@ -76,8 +110,13 @@
 
 @media only screen and (min-width: 1200px) {
     .contributors {
-        .contributors-lead {
+        .contributors-lead,
+        .rewards-head,
+        .rewards-claim {
             width: 1000px;
+        }
+        .rewards-head {
+            margin: auto;
         }
     }
 }
