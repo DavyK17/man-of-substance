@@ -82,7 +82,7 @@ const Track = props => {
                 body = <Synopsis id={id} current={current} previous={previous} next={next} tracks={tracks} />
                 break;
             case "lyrics":
-                body = <Lyrics id={id} current={current} previous={previous} next={next} tracks={tracks} />
+                body = <Lyrics id={id} current={current} previous={previous} next={next} tracks={tracks} setFound={setFound} />
                 break;
             case "credits":
                 body = <Credits id={id} current={current} previous={previous} next={next} tracks={tracks} />
