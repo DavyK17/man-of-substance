@@ -95,7 +95,7 @@ const Track = props => {
     }
 
     const renderComponent = () => {
-        if (found) return <Challenge />;
+        if (found) return <Challenge setFound={setFound} />;
         if (id < 1 || id > tracks.length || isNaN(id)) return <NotFound />;
 
         return <>
