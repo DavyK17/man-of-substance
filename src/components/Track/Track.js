@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useSwipeable } from "react-swipeable";
 import Synopsis from "./Synopsis";
 import Lyrics from "./Lyrics";
 import Credits from "./Credits";
@@ -110,9 +111,19 @@ const Track = props => {
                     {renderBody(type)}
                </>
     }
+
+    const swipeHandlers = useSwipeable({
+        onSwipedRight: () => {
+            if (id === tracks.length || (id - 1) >= 1) return navigate(`/tracks/${previous.id}/${type}`);
+        },
+        onSwipedLeft: () => {
+            if (id === 1 || (id + 1) <= tracks.length) return navigate(`/tracks/${next.id}/${type}`);
+        },
+        preventScrollOnSwipe: true
+    });
     
     return (
-        <main>
+        <main {...swipeHandlers}>
             {renderComponent()}
         </main>
     );
