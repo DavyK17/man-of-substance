@@ -2,7 +2,7 @@ import { NavLink, Routes, Route } from "react-router-dom";
 import VersionSelect from "./VersionSelect";
 
 const Nav = props => {
-    const { setVer } = props;
+    const { ver, setVer } = props;
 
     const menuToggle = (dir = 0) => {
         const body = document.getElementsByTagName("body")[0];
@@ -71,7 +71,7 @@ const Nav = props => {
                     </li>
                 </ul>
                 <Routes>
-                    <Route path="tracks" element={<VersionSelect setVer={setVer} menuToggle={menuToggle} />} />
+                    <Route path="tracks" element={<VersionSelect ver={ver} setVer={setVer} menuToggle={menuToggle} />} />
                 </Routes>
             </div>
         </nav>
