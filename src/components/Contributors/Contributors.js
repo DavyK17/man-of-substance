@@ -60,7 +60,7 @@ const Contributors = () => {
     }
 
     return (
-        <main className="contributors">
+        <main className="contributors" data-testid="contributors">
             {renderBody(type)}
         </main>
     )

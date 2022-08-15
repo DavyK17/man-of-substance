@@ -68,7 +68,7 @@ const Tracks = props => {
     }
 
     return (
-        <main>
+        <main data-testid="tracklist">
             <div className="tracklist-lead">
                 <p className="head">Select a track to view details.</p>
                 <p>Use the dropdown in the menu to follow the evolution of the tracklist.</p>

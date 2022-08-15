@@ -43,7 +43,7 @@ const Credits = () => {
     }
 
     return (
-        <main>
+        <main data-testid="credits">
             <header className="track-head">
                 <h1 className="title">Album credits</h1>
             </header>
