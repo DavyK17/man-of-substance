@@ -1,5 +1,5 @@
 const VersionSelect = props => {
-    const { setVer, menuToggle } = props;
+    const { ver, setVer, menuToggle } = props;
 
     const handleChange = ({ target }) => {
         setVer(target.value);
@@ -9,7 +9,7 @@ const VersionSelect = props => {
     return (
         <div className="version-select">
             <label htmlFor="version">Version</label>
-            <select name="version" id="version" onChange={handleChange} defaultValue="full">
+            <select name="version" id="version" onChange={handleChange} defaultValue={ver}>
                 <option value="base">Base</option>
                 <option value="mixtape">Mixtape</option>
                 <option value="expanded">Expanded</option>
