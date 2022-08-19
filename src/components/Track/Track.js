@@ -10,6 +10,11 @@ import NotFound from "../Body/NotFound";
 const Track = props => {
     let { tracks, type = "synopsis" } = props;
     const [found, setFound] = useState(false);
+    const [locked, setLocked] = useState();
+
+    // useEffect(() => {
+    //     setLocked(Math.round(Date.now() / 1000) < 1667509200 ? true : false);
+    // }, []);
 
     let params = useParams();
     let location = useLocation();
@@ -92,21 +97,24 @@ const Track = props => {
                 body = defaultBody;
         }
 
-        return body;
+        let lockedText = <p className="locked">This content will be available on release day.</p>
+        return locked ? lockedText : body;
     }
 
     const renderComponent = () => {
         if (found) return <Challenge setFound={setFound} />;
         if (id < 1 || id > tracks.length || isNaN(id)) return <NotFound />;
 
+        let info = locked ? null :  <div className="info">
+                                        <p className="style">{current.style.join(" / ")}</p>
+                                        <p><strong>Runtime:</strong><span id="break"></span>{runtime(current.runtime)}</p>
+                                    </div>
+                                    
         return <>
                     <header className="track-head">
                         <h1 className="title">{current.title}</h1>
                         <p className="writers">Written by {writers()}</p>
-                        <div className="info">
-                            <p className="style">{current.style.join(" / ")}</p>
-                            <p><strong>Runtime:</strong><span id="break"></span>{runtime(current.runtime)}</p>
-                        </div>
+                        {info}
                     </header>
                     {renderBody(type)}
                </>

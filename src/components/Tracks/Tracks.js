@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Tracks = props => {
     const { tracks, ver } = props;
+    const [locked, setLocked] = useState();
+
+    // useEffect(() => {
+    //     setLocked(Math.round(Date.now() / 1000) < 1667422800 ? true : false);
+    // }, []);
 
     const displayTitle = id => {
         const track = tracks.filter(track => parseInt(track.id) === id);
@@ -67,27 +72,34 @@ const Tracks = props => {
         )
     }
 
+    const renderBody = () => {
+        if (locked) return <p className="locked">This content will be available on the eve of release day.</p>;
+        return <>
+                    <div className="tracklist-lead">
+                        <p className="head">Select a track to view details.</p>
+                        <p>Use the dropdown in the menu to follow the evolution of the tracklist.</p>
+                    </div>
+                    <div className="tracklist">
+                        <div>
+                            <h2>Substance</h2>
+                            <ol>
+                                {displayTracks(1)}
+                            </ol>
+                        </div>
+                        <div>
+                            <h2>Sippin' and Trippin'</h2>
+                            <ol start={parts[1][0].id}>
+                                {displayTracks(2)}
+                            </ol>
+                        </div>
+                        {renderBonus()}
+                    </div>
+                </>
+    }
+
     return (
         <main data-testid="tracklist">
-            <div className="tracklist-lead">
-                <p className="head">Select a track to view details.</p>
-                <p>Use the dropdown in the menu to follow the evolution of the tracklist.</p>
-            </div>
-            <div className="tracklist">
-                <div>
-                    <h2>Substance</h2>
-                    <ol>
-                        {displayTracks(1)}
-                    </ol>
-                </div>
-                <div>
-                    <h2>Sippin' and Trippin'</h2>
-                    <ol start={parts[1][0].id}>
-                        {displayTracks(2)}
-                    </ol>
-                </div>
-                {renderBonus()}
-            </div>
+            {renderBody()}
         </main>
     )
 }
