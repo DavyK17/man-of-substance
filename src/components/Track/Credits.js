@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
 const Credits = props => {
+    const { id, current, previous, next, tracks } = props;
+
     const titles = {
         featuring: "Featuring",
         producers: "Producers",
@@ -16,26 +18,26 @@ const Credits = props => {
     }
 
     const credit = (type, key) => {
-        if (props.current.credits.hasOwnProperty(type)) {
+        if (current.credits.hasOwnProperty(type)) {
             if (type === "featuring") {
                 return (
                     <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
-                            props.current.credits[type].map((name, i) => {
-                                if (Array.isArray(props.current.credits[type][i + 1])) {
+                            current.credits[type].map((name, i) => {
+                                if (Array.isArray(current.credits[type][i + 1])) {
                                     return (
                                         <p key={i} className="group-name">{name}</p>
                                     )
                                 }
 
-                                if (Array.isArray(props.current.credits[type][i])) {
+                                if (Array.isArray(current.credits[type][i])) {
                                     return (
                                         <>
                                             {
-                                                props.current.credits[type][i].map((sub, j) => {
+                                                current.credits[type][i].map((sub, j) => {
                                                     return (
-                                                        <p key={`${props.current.credits[type][i - 1]}-${j + 1}`} className="group-member">{sub}</p>
+                                                        <p key={`${current.credits[type][i - 1]}-${j + 1}`} className="group-member">{sub}</p>
                                                     )
                                                 })
                                             }
@@ -70,9 +72,9 @@ const Credits = props => {
 
                 return (
                     <div key={key} className="credit">
-                        <h2>{props.current.credits[type].length > 1 ? titles[type] : singular()}</h2>
+                        <h2>{current.credits[type].length > 1 ? titles[type] : singular()}</h2>
                         {
-                            props.current.credits[type].map((name, i) => {
+                            current.credits[type].map((name, i) => {
                                 return (
                                     <p key={i}>{name}</p>
                                 )
@@ -87,7 +89,7 @@ const Credits = props => {
                     <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
-                            props.current.credits[type].map((name, i) => {
+                            current.credits[type].map((name, i) => {
                                 return (
                                     <p className="location" key={i}>
                                         <span className="studio">{name.studio}</span>
@@ -105,7 +107,7 @@ const Credits = props => {
                     <div key={key} className="credit">
                         <h2>{titles[type]}</h2>
                         {
-                            props.current.credits[type].map((name, i) => {
+                            current.credits[type].map((name, i) => {
                                 return (
                                     <p className="location" key={i}>
                                         <span className="studio">{name.title}</span>
@@ -122,7 +124,7 @@ const Credits = props => {
                 <div key={key} className="credit">
                     <h2>{titles[type]}</h2>
                     {
-                        props.current.credits[type].map((name, i) => {
+                        current.credits[type].map((name, i) => {
                             return (
                                 <p key={i}>{name}</p>
                             )
@@ -138,10 +140,10 @@ const Credits = props => {
         <>
             <div className="track-links">
                 <div className="link-buttons">
-                    <Link role="button" to={`/tracks/${props.id}/synopsis`}>
+                    <Link role="button" to={`/tracks/${id}/synopsis`}>
                         Synopsis
                     </Link>
-                    <Link role="button" to={`/tracks/${props.id}/lyrics`}>
+                    <Link role="button" to={`/tracks/${id}/lyrics`}>
                         Lyrics
                     </Link>
                 </div>
@@ -153,7 +155,7 @@ const Credits = props => {
                     })
                 }
             </div>
-            <Footer type="credits" previous={props.previous} next={props.next} tracks={props.tracks} />
+            <Footer type="credits" previous={previous} next={next} tracks={tracks} />
         </>
     )
 }
