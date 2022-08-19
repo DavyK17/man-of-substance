@@ -12,7 +12,7 @@
         }
         #error {
             font-size: 0.875rem;
-            color: $red;
+            color: adjust-color($red, $alpha: -0.4);
         }
     }
     .link-buttons {
