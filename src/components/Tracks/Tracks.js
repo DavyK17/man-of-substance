@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import VersionSelect from "./VersionSelect";
 
 const Tracks = props => {
-    const { tracks, ver } = props;
+    const { tracks, ver, setVer } = props;
     const [locked, setLocked] = useState();
 
     // useEffect(() => {
@@ -77,7 +78,8 @@ const Tracks = props => {
         return <>
                     <div className="tracklist-lead">
                         <p className="head">Select a track to view details.</p>
-                        <p>Use the dropdown in the menu to follow the evolution of the tracklist.</p>
+                        <p>Use the dropdown below to follow the evolution of the tracklist.</p>
+                        <VersionSelect ver={ver} setVer={setVer} />
                     </div>
                     <div className="tracklist">
                         <div>
