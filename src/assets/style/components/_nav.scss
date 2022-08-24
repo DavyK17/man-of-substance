@@ -36,23 +36,6 @@ nav {
                 color: $red;
             }
         }
-        .version-select {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            grid-area: end;
-            label {
-                color: white;
-            }
-            select {
-                width: 175px;
-                font-family: $font-head;
-                font-size: 0.875rem;
-                text-align: center;
-                text-transform: uppercase;
-                margin-left: 0.75rem;
-            }
-        }
     }
     #mobile-menu-open,
     #mobile-menu-close {
@@ -94,14 +77,6 @@ nav {
                 li {
                     display: block;
                     margin: 1rem 0;
-                }
-            }
-            .version-select {
-                flex-direction: column;
-                margin-top: 3rem;
-                select {
-                    margin-left: unset;
-                    margin-top: 0.75rem;
                 }
             }
         }
