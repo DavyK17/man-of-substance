@@ -17,7 +17,6 @@
 }
 
 .tracklist-lead {
-    margin-bottom: 2rem;
     p {
         margin: unset;
         text-align: center;
@@ -51,6 +50,12 @@
 
 @media only screen and (max-width: 991px) {
     .tracklist-lead {
-        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .tracklist-lead {
+        margin-bottom: 0.75rem;
     }
 }
