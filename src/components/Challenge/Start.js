@@ -12,7 +12,7 @@ const Start = props => {
     return (
         <form className="challenge start" onSubmit={handleSubmit} autoComplete="off">
             <h1>Secret Challenge</h1>
-            <p>How many lines on the album (in total) reference a fighting game?</p>
+            <p>How many lines on the album (in total) explicitly reference a fighting game?</p>
             <div className="input challenge">
                 <input type="number" id="challenge-answer" min="1" required />
                 <input type="submit" id="challenge-submit" value="Enter" />
