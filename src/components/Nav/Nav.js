@@ -1,9 +1,6 @@
-import { NavLink, Routes, Route } from "react-router-dom";
-import VersionSelect from "./VersionSelect";
+import { NavLink } from "react-router-dom";
 
-const Nav = props => {
-    const { ver, setVer } = props;
-
+const Nav = () => {
     const menuToggle = (dir = 0) => {
         const body = document.getElementsByTagName("body")[0];
         const menu = document.getElementsByClassName("menu")[0];
@@ -70,9 +67,6 @@ const Nav = props => {
                         </a>
                     </li>
                 </ul>
-                <Routes>
-                    <Route path="tracks" element={<VersionSelect ver={ver} setVer={setVer} menuToggle={menuToggle} />} />
-                </Routes>
             </div>
         </nav>
     )
