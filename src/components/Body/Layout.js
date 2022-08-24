@@ -1,12 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Nav from "../Nav/Nav";
 
-const Layout = props => {
-    const { ver, setVer } = props;
-    
+const Layout = () => {
     return (
         <>
-            <Nav ver={ver} setVer={setVer} />
+            <Nav />
             <Outlet />
         </>
     )
