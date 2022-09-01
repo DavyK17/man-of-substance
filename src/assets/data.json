@@ -1,10 +1,12 @@
 {
     "credits": {
         "execProducers": ["DVK"],
-        "photography": ["Sticks & Stones Ltd"],
+        "photography": ["Tilu the Creator"],
         "graphics": ["Brian Bett"],
+        "trailer": ["Tilu the Creator"],
         "visualisers": ["Brian Bett"],
-        "website": ["Davy Kamanzi"]
+        "website": ["Davy Kamanzi"],
+        "copyright": ["2022 Ginton Entertainment"]
     },
     "tracks": [{
             "id": "1",
