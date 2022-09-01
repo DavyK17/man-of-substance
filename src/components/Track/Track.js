@@ -47,7 +47,7 @@ const Track = props => {
 
         const arr = current.credits.writers.slice();
         const last = arr.pop();
-        return arr.join(", ") + ", and " + last;
+        return arr.join(", ") + " and " + last;
     }
 
     const runtime = time => {
