@@ -12,12 +12,15 @@ const Credits = () => {
         execProducers: "Executive producers",
         photography: "Photography",
         graphics: "Graphic design",
+        trailer: "Trailer",
         visualisers: "Visualisers",
         website: "Website"
     }
 
     const credit = (type, key) => {
         if (data.credits.hasOwnProperty(type)) {
+            if (type === "copyright") return null;
+
             if (type === "execProducers") {
                 return (
                     <div key={key} className="credit">
@@ -62,12 +65,13 @@ const Credits = () => {
                             })
                         }
                     </div>
+                    <p className="copyright">&copy; &#8471; {data.credits.copyright[0]}</p>
                 </>
     }
 
     return (
         <main data-testid="credits">
-            {renderBody()};
+            {renderBody()}
         </main>
     )
 }
