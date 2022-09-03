@@ -11,6 +11,7 @@ const Credits = () => {
     const titles = {
         execProducers: "Executive producers",
         photography: "Photography",
+        styling: "Styling",
         graphics: "Graphic design",
         trailer: "Trailer",
         visualisers: "Visualisers",
