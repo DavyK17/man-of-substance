@@ -128,7 +128,7 @@ const Track = props => {
             if (id === 1 || (id + 1) <= tracks.length) return navigate(`/tracks/${next.id}/${type}`);
         },
         preventScrollOnSwipe: true,
-        delta: 50
+        delta: 100
     });
     
     return (
