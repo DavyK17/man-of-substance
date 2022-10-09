@@ -22,8 +22,10 @@ const Track = props => {
     const id = parseInt(params.id);
 
     useEffect(() => {
-        document.onkeydown = ({ code }) => {
+        document.onkeydown = ({ code, altKey, ctrlKey, metaKey, shiftKey}) => {
             if (location.pathname !== "/tracks" && location.pathname.includes("/tracks")) {
+                if (altKey || ctrlKey || metaKey || shiftKey) return null;
+
                 if (id === tracks.length || (id - 1) >= 1) if (code === "ArrowLeft") return navigate(`/tracks/${id - 1}/${type}`);
                 if (id === 1 || (id + 1) <= tracks.length) if (code === "ArrowRight") return navigate(`/tracks/${id + 1}/${type}`);
     
@@ -33,7 +35,7 @@ const Track = props => {
     
                 if (code === "Home") return navigate(`/tracks`);
             }
-        }
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, type]);
 
