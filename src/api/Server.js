@@ -1,7 +1,8 @@
 const Server = {
+    url: `${process.env.NODE_ENV === "production" ? "https://man-of-substance-server.herokuapp.com" : "http://localhost:8000"}/api`,
     getContributors: async() => {
         try {
-            const url = "/api/contributors";
+            const url = `${Server.url}/contributors`;
 
             let response = await fetch(url);
             if (response.ok) {
@@ -15,7 +16,7 @@ const Server = {
 
     getContributorByEmail: async(email) => {
         try {
-            const url = `/api/contributors?email=${email}`;
+            const url = `${Server.url}/contributors?email=${email}`;
 
             let response = await fetch(url);
             if (response.ok) {
@@ -32,7 +33,7 @@ const Server = {
             let ip = await fetch("https://api.ipify.org/");
             ip = await ip.text();
 
-            const url = "/api/challenge";
+            const url = `${Server.url}/challenge`;
             const data = new URLSearchParams({ name, phone, ip, answer });
 
             let response = await fetch(url, { method: "POST", body: data });
@@ -50,7 +51,7 @@ const Server = {
             let ip = await fetch("https://api.ipify.org/");
             ip = await ip.text();
 
-            const url = `/api/challenge?ip=${ip}`;
+            const url = `${Server.url}/challenge?ip=${ip}`;
 
             let response = await fetch(url);
             if (response.ok) {
@@ -64,7 +65,7 @@ const Server = {
 
     getCorrectAttempt: async() => {
         try {
-            const url = "/api/challenge/correct";
+            const url = `${Server.url}/challenge/correct`;
 
             let response = await fetch(url);
             if (response.ok) {
