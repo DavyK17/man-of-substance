@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Server from "../../api/Server";
 import Intro from "./Intro";
 import Login from "./Login";
 import Info from "./Info";
@@ -18,7 +19,7 @@ const Contributors = () => {
             setIsLoading(true);
 
             try {
-                const url = "/api/contributors";
+                const url = `${Server.url}/contributors`;
                 let response = await fetch(url);
 
                 if (response.ok) {
