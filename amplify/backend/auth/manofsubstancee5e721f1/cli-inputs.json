@@ -26,13 +26,15 @@
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+      "preferred_username",
       "email"
     ],
     "userpoolClientReadAttributes": [
-      "email"
+      "email",
+      "preferred_username"
     ],
     "userpoolClientLambdaRole": "manofse5e721f1_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "e5e721f1",
     "resourceName": "manofsubstancee5e721f1",
     "authSelections": "identityPoolAndUserPool",
