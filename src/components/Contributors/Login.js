@@ -13,8 +13,8 @@ const Login = props => {
         try {
             const user = await Auth.signIn(username, password);
             if (user.username === process.env.REACT_APP_AWS_ID) return true;
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.log(err);
             return false;
         }
     }

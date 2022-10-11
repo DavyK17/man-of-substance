@@ -12,8 +12,8 @@ const Footer = props => {
         try {
             await Auth.signOut();
             return true;
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.log(err);
             return false;
         }
     }
