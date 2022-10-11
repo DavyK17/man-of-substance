@@ -5,6 +5,7 @@ const Result = props => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+        document.getElementById("status").innerHTML = "Drum roll please…";
 
         try {
             let response = await Server.getAttempts();

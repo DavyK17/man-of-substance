@@ -39,7 +39,7 @@ const Contributors = () => {
         fetchData();
     }, []);
 
-    const validUser = contributor && Object.keys(contributor).length === 4 && (contributor.hasOwnProperty("name") && typeof contributor.name === "string") && (contributor.hasOwnProperty("email") && typeof contributor.email === "string") && (contributor.hasOwnProperty("amount") && typeof contributor.amount === "number") && (contributor.hasOwnProperty("rewardsClaimed") && typeof contributor.rewardsClaimed === "boolean");
+    const validUser = contributor && Object.keys(contributor).length === 5 && (contributor.hasOwnProperty("name") && typeof contributor.name === "string") && (contributor.hasOwnProperty("email") && typeof contributor.email === "string") && (contributor.hasOwnProperty("amount") && typeof contributor.amount === "number") && (contributor.hasOwnProperty("rewardsClaimed") && typeof contributor.rewardsClaimed === "boolean") && (contributor.hasOwnProperty("signedIn") && contributor.signedIn);
 
     const renderBody = type => {
         let body;
