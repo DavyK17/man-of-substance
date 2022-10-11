@@ -28,6 +28,7 @@ yarn-error.log*
 .netlify
 
 .env
+aws_user_credentials.csv
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
