@@ -42,7 +42,7 @@ const Nav = () => {
                 </div>
                 <ul>
                     <li>
-                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/">
+                        <NavLink className={({ isActive }) => isActive ? activeClassName : undefined} onClick={() => menuToggle(-1)} to="/" end>
                             Home
                         </NavLink>
                     </li>
