@@ -123,8 +123,8 @@ const Track = props => {
     }
 
     const swipeHandlers = useSwipeable({
-        onSwiped: ({ absY, deltaX }) => {
-            if (absY > 100) return null;
+        onSwiped: ({ dir, absY, deltaX }) => {
+            if (dir === "Up" || dir === "Down" || absY > 100) return null;
             if (deltaX < 0) if (id === 1 || (id + 1) <= tracks.length) return navigate(`/tracks/${next.id}/${type}`);
             if (deltaX > 0) if (id === tracks.length || (id - 1) >= 1) return navigate(`/tracks/${previous.id}/${type}`);
         },
