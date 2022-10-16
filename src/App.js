@@ -10,8 +10,8 @@ import NotFound from "./components/Body/NotFound";
 import data from "./assets/data.json";
 
 import { Amplify } from 'aws-amplify';
-import awsmobile from './aws-exports';
-Amplify.configure(awsmobile);
+import awsExports from './aws-exports';
+Amplify.configure(awsExports);
 
 const App = () => {
     let location = useLocation();
