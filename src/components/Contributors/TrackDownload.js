@@ -2,19 +2,26 @@ import { useEffect } from "react";
 import data from "../../assets/data.json";
 
 const TrackDownload = props => {
-    const { tier } = props;
+    const { tier, max } = props;
 
     const format = tier => {
         if (tier === "supporter" || tier === "bronze") return "MP3";
         return "MP3 or WAV";
     };
 
-    const max = tier => {
-        if (tier === "bronze") return 3;
-        if (tier === "silver") return 5;
-    };
-
     const renderBody = () => {
+        const formatDropdown = () => {
+            if (tier === "supporter" || tier === "bronze") return null;
+            return (
+                <>
+                    <label htmlFor="track-dropdown">Select your desired format:</label>
+                    <select name="track-dropdown" id="track-dropdown">
+                        <option value="mp3">MP3 (smaller size, recommended)</option>
+                        <option value="wav">WAV (higher quality, large file size)</option>
+                    </select>
+                </>
+            )
+        };
 
         if (tier === "supporter") {
             return (
@@ -73,9 +80,12 @@ const TrackDownload = props => {
                             }
                         </ol>
                     </div>
+                    {formatDropdown()}
                 </>
             )
         }
+
+        if (tier === "gold" || tier === "platinum" || tier === "executive") return formatDropdown();
     }
 
     const divClassName = "track-select " + (tier === "supporter" ? "dropdown" : "checklist");
