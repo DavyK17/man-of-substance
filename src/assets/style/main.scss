@@ -98,6 +98,11 @@ main {
     border: 0;
 }
 
+#status {
+    font-size: 0.875rem;
+    color: $red;
+}
+
 @media only screen and (max-width: 991px) {
     main {
         padding: 1rem;
