@@ -59,7 +59,6 @@ const Login = props => {
                     <input type="email" id="rewards-email" name="rewards-email" />
                     <input type="submit" id="challenge-submit" name="rewards-submit" value="Enter" />
                 </div>
-                <p id="status"></p>
             </form>
 
             <Footer setType={setType} validUser={validUser} />
