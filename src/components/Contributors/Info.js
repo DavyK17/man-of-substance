@@ -14,6 +14,11 @@ const Info = props => {
         if (amount >= 50000) return "executive";
     }
 
+    const max = (tier = getTier(contributor.amount)) => {
+        if (tier === "bronze") return 3;
+        if (tier === "silver") return 5;
+    };
+
     return (
         <>
             <header className="track-head">
@@ -25,8 +30,8 @@ const Info = props => {
             </header>
             <Rewards tier={getTier(contributor.amount)} />
             <form className="rewards-claim">
-                <TrackDownload tier={getTier(contributor.amount)} />
-                <Footer tier={getTier(contributor.amount)} setContributor={setContributor} setType={setType} validUser={validUser} />
+                <TrackDownload tier={getTier(contributor.amount)} max={max} />
+                <Footer tier={getTier(contributor.amount)} max={max} setContributor={setContributor} setType={setType} validUser={validUser} />
             </form>
         </>
     )
