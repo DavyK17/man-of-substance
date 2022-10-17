@@ -6,7 +6,7 @@ const TrackDownload = props => {
 
     const format = tier => {
         if (tier === "supporter" || tier === "bronze") return "MP3";
-        return "MP3 and WAV";
+        return "MP3 or WAV";
     };
 
     const max = tier => {
