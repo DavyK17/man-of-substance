@@ -17,7 +17,7 @@
     }
     .link-buttons {
         display: flex;
-        margin-top: 2rem;
+        margin-top: 1rem;
         flex-direction: column;
         align-items: center;
         button {
@@ -85,6 +85,8 @@
             .checklist-wrapper {
                 @extend %tracklist-contributors;
                 justify-content: space-between;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.25);
                 ol {
                     @extend %tracklist-contributors-list;
                     li {
