@@ -62,20 +62,6 @@ const Server = {
             console.log(err);
         }
     },
-
-    getCorrectAttempt: async() => {
-        try {
-            const url = `${Server.url}/challenge/correct`;
-
-            let response = await fetch(url);
-            if (response.ok) {
-                response = response.json();
-                return response;
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
 }
 
 export default Server;
