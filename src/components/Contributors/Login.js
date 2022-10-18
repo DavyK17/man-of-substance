@@ -54,7 +54,7 @@ const Login = props => {
         <>
             <form className="challenge" onSubmit={handleSubmit} autoComplete="off">
                 <h1>Contributor Rewards</h1>
-                <p>Enter the email address you provided (on WhatsApp) after making your contribution:</p>
+                <p>Enter the email address you provided after making your contribution:</p>
                 <div className="input rewards">
                     <input type="email" id="rewards-email" name="rewards-email" />
                     <input type="submit" id="challenge-submit" name="rewards-submit" value="Enter" />
