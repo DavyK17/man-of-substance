@@ -49,7 +49,7 @@ const Result = props => {
             <p>Enter your details below:</p>
             <div className="input result">
                 <input type="text" id="challenger-name" placeholder="Name" required />
-                <input type="tel" id="challenger-phone" pattern="^0(11[0-5]|7(([0-2]|9)\d|4([0-6]|8)|5[7-9]|6[8-9]))\d{6}$" placeholder="M-Pesa number (i.e. 0xxxxxxxxx)" required />
+                <input type="tel" id="challenger-phone" pattern="^254(11[0-5]|7(([0-2]|9)\d|4([0-6]|8)|5[7-9]|6[8-9]))\d{6}$" placeholder="M-Pesa number (i.e. 254xxxxxxxxx)" required />
             </div>
             <input type="submit" id="challenger-submit" value="Enter" />
             <p id="status"></p>
