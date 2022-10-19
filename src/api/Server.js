@@ -48,10 +48,7 @@ const Server = {
 
     getAttempts: async() => {
         try {
-            let ip = await fetch("https://api.ipify.org/");
-            ip = await ip.text();
-
-            const url = `${Server.url}/challenge?ip=${ip}`;
+            const url = `${Server.url}/challenge`;
 
             let response = await fetch(url);
             if (response.ok) {
