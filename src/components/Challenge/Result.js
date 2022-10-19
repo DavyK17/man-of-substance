@@ -1,7 +1,7 @@
 import Server from "../../api/Server";
 
 const Result = props => {
-    const { answer, setStarted, setSolved, setFound } = props;
+    const { answer, setStarted, setFound } = props;
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -24,10 +24,11 @@ const Result = props => {
             }
             
             response = await Server.attemptChallenge(e.target["challenger-name"].value, e.target["challenger-phone"].value, answer);
+            if (!response) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed.";
+
             setTimeout(() => {
-                if (answer === parseInt(process.env.REACT_APP_CHALLENGE_ANSWER)) {
+                if (response.includes("Challenge completed")) {
                     document.getElementById("status").innerHTML = "Congratulations! You will receive your prize money shortly.";
-                    setSolved(true);
                     setTimeout(() => {
                         setFound(false);
                     }, 1500);
@@ -40,6 +41,7 @@ const Result = props => {
             }, Math.floor(Math.random() * 3000));
         } catch (err) {
             console.log(err);
+            document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
         }
     }
 
