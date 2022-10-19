@@ -1,7 +1,7 @@
 import Server from "../../api/Server";
 
 const Result = props => {
-    const { answer, setStarted, setSolved, setFound } = props;
+    const { answer, setStarted, setFound } = props;
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -24,10 +24,11 @@ const Result = props => {
             }
             
             response = await Server.attemptChallenge(e.target["challenger-name"].value, e.target["challenger-phone"].value, answer);
+            if (!response) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed.";
+
             setTimeout(() => {
-                if (answer === parseInt(process.env.REACT_APP_CHALLENGE_ANSWER)) {
+                if (response.includes("Challenge completed")) {
                     document.getElementById("status").innerHTML = "Congratulations! You will receive your prize money shortly.";
-                    setSolved(true);
                     setTimeout(() => {
                         setFound(false);
                     }, 1500);
@@ -40,6 +41,7 @@ const Result = props => {
             }, Math.floor(Math.random() * 3000));
         } catch (err) {
             console.log(err);
+            document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
         }
     }
 
@@ -49,7 +51,7 @@ const Result = props => {
             <p>Enter your details below:</p>
             <div className="input result">
                 <input type="text" id="challenger-name" placeholder="Name" required />
-                <input type="tel" id="challenger-phone" pattern="^0(11[0-5]|7(([0-2]|9)\d|4([0-6]|8)|5[7-9]|6[8-9]))\d{6}$" placeholder="M-Pesa number (i.e. 0xxxxxxxxx)" required />
+                <input type="tel" id="challenger-phone" pattern="^254(11[0-5]|7(([0-2]|9)\d|4([0-6]|8)|5[7-9]|6[8-9]))\d{6}$" placeholder="M-Pesa number (i.e. 254xxxxxxxxx)" required />
             </div>
             <input type="submit" id="challenger-submit" value="Enter" />
             <p id="status"></p>

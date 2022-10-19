@@ -1,10 +1,10 @@
-import Skeleton from "react-loading-skeleton";
-
 const Start = props => {
-    const { isLoading, solved, setAnswer, setStarted } = props;
+    const { setAnswer, setStarted } = props;
 
     const handleSubmit = e => {
         e.preventDefault();
+        document.getElementById("status").innerHTML = "Tulia kiambatasi…";
+
         setTimeout(() => {
             setAnswer(parseInt(e.target["challenge-answer"].value));
             setStarted(true);
@@ -12,15 +12,13 @@ const Start = props => {
     }
 
     const renderBody = () => {
-        if (isLoading) return <Skeleton />;
-        if (solved) return <p>The challenge has already been solved.</p>;
-        
         return <>
             <p>How many lines on the album (in total) explicitly reference a fighting game?</p>
             <div className="input challenge">
                 <input type="number" id="challenge-answer" min="1" required />
                 <input type="submit" id="challenge-submit" value="Enter" />
             </div>
+            <p id="status">NOTICE: By clicking "Enter", you are consenting to the collection and use of your IP address by Ginton Entertainment to keep track of your challenge attempts. If you do not agree to this condition, please do not click "Enter".</p>
         </>
     }
 

@@ -45,21 +45,64 @@ const Footer = props => {
                 let zip = new JSZip();
 
                 document.getElementById("status").innerHTML = "Preparing download…";
-                for (let i = 0; i < files.length; i++) {
-                    let { filename, key } = files[i];
-    
-                    let req = Storage.get(key, {
-                        download: true,
-                        expires: 3600,
-                        progressCallback: progress => {
-                            let percentage = Math.round((progress.loaded / progress.total) * 100);
-                            document.getElementById("status").innerHTML = `Downloading (${i + 1}/${files.length}): ${percentage}%`;
-                        }
-                    });
-                    setRequest(req);
+                if (tier === "platinum" || tier === "executive") {
+                    let musicZip = zip.folder("music");
+                    let commentaryZip = zip.folder("commentary");
 
-                    let result = await req;
-                    zip.file(filename, result.Body);
+                    for (let i = 0; i < 17; i++) {
+                        let { music, commentary } = files;
+
+                        let filenameM = music[i].filename;
+                        let keyM = music[i].key;
+
+                        let filenameC = commentary[i].filename;
+                        let keyC = commentary[i].key;
+        
+                        // Music
+                        let req = Storage.get(keyM, {
+                            download: true,
+                            expires: 3600,
+                            progressCallback: progress => {
+                                let percentage = Math.round((progress.loaded / progress.total) * 100);
+                                document.getElementById("status").innerHTML = `Downloading (${i + 1}/17): ${percentage}% (Music)`;
+                            }
+                        });
+                        setRequest(req);
+
+                        let result = await req;
+                        musicZip.file(filenameM, result.Body);
+
+                        // Commentary
+                        req = Storage.get(keyC, {
+                            download: true,
+                            expires: 3600,
+                            progressCallback: progress => {
+                                let percentage = Math.round((progress.loaded / progress.total) * 100);
+                                document.getElementById("status").innerHTML = `Downloading (${i + 1}/17): ${percentage}% (Commentary)`;
+                            }
+                        });
+                        setRequest(req);
+
+                        result = await req;
+                        commentaryZip.file(filenameC, result.Body);
+                    }
+                } else {
+                    for (let i = 0; i < files.length; i++) {
+                        let { filename, key } = files[i];
+        
+                        let req = Storage.get(key, {
+                            download: true,
+                            expires: 3600,
+                            progressCallback: progress => {
+                                let percentage = Math.round((progress.loaded / progress.total) * 100);
+                                document.getElementById("status").innerHTML = `Downloading (${i + 1}/${files.length}): ${percentage}%`;
+                            }
+                        });
+                        setRequest(req);
+
+                        let result = await req;
+                        zip.file(filename, result.Body);
+                    }
                 }
     
                 document.getElementById("status").innerHTML = "Preparing ZIP file…";
@@ -113,13 +156,13 @@ const Footer = props => {
         e.preventDefault();
         if (request) Files.cancel();
 
+        const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
         if (tier === "supporter") {
             let filename = data.tracks[parseInt(e.target.form[0].value) - 1].filename + ".mp3";
             let key = "mp3/" + filename;
 
             let downloaded = await Files.download(key, filename);
             if (!downloaded) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
-            return document.getElementById("status").innerHTML = "Wazi champ";
         }
 
         if (tier === "bronze" || tier === "silver") {
@@ -139,10 +182,9 @@ const Footer = props => {
 
             let downloaded = await Files.zip(tracks);
             if (!downloaded) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
-            return document.getElementById("status").innerHTML = "Fiti mkuu";
         }
 
-        if (tier === "gold" || tier === "platinum" || tier === "executive") {
+        if (tier === "gold") {
             let tracks = [];
             let format = e.target.form[0].value;
             data.tracks.map(track => {
@@ -153,8 +195,28 @@ const Footer = props => {
 
             let downloaded = await Files.zip(tracks);
             if (!downloaded) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
-            return document.getElementById("status").innerHTML = "Safi kiongos";
         }
+
+        if (tier === "platinum" || tier === "executive") {
+            let files = { music: [], commentary: [] };
+            let { music, commentary } = files;
+            let format = e.target.form[0].value;
+
+            data.tracks.map(track => {
+                let filename = track.filename + `.${format}`;
+                let key = `${format}/` + filename;
+                music.push({ filename, key });
+
+                filename = track.filename + ".m4a";
+                key = "m4a/" + filename;
+                return commentary.push({ filename, key });
+            });
+
+            let downloaded = await Files.zip(files);
+            if (!downloaded) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
+        }
+
+        return document.getElementById("status").innerHTML = responses[Math.floor(Math.random() * responses.length)];
     }
     const submitButton = validUser ? <button type="submit" onClick={submit}>Claim rewards</button> : null;
 

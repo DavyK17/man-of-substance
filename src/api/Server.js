@@ -48,10 +48,7 @@ const Server = {
 
     getAttempts: async() => {
         try {
-            let ip = await fetch("https://api.ipify.org/");
-            ip = await ip.text();
-
-            const url = `${Server.url}/challenge?ip=${ip}`;
+            const url = `${Server.url}/challenge`;
 
             let response = await fetch(url);
             if (response.ok) {
@@ -62,20 +59,6 @@ const Server = {
             console.log(err);
         }
     },
-
-    getCorrectAttempt: async() => {
-        try {
-            const url = `${Server.url}/challenge/correct`;
-
-            let response = await fetch(url);
-            if (response.ok) {
-                response = response.json();
-                return response;
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
 }
 
 export default Server;
