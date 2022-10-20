@@ -21,20 +21,7 @@ const Info = props => {
 
     const displayVideo = () => {
         if (contributor.amount >= 2000) {
-            let cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_DEV;
-            switch (process.env.USER_BRANCH) {
-                case "dev":
-                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_DEV;
-                    break;
-                case "staging":
-                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_STAGING;
-                    break;
-                case "main":
-                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_MAIN;
-                    break;
-            }
-
-            let videoUrl = `${cloudfront}/public/mp4/${contributor.id}.mp4`
+            let videoUrl = `${process.env.REACT_APP_AWS_CLOUDFRONT}/public/mp4/${contributor.id}.mp4`
             return <div className="video">
                 <video controls>
                     <source src={videoUrl} type="video/mp4"></source>
