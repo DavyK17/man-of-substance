@@ -56,7 +56,7 @@ const Info = props => {
             <Rewards tier={getTier(contributor.amount)} />
             <form className="rewards-claim">
                 <TrackDownload tier={getTier(contributor.amount)} max={max} />
-                <Footer tier={getTier(contributor.amount)} max={max} setContributor={setContributor} setType={setType} validUser={validUser} />
+                <Footer tier={getTier(contributor.amount)} max={max} contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
             </form>
         </>
     )
