@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Auth, Storage } from 'aws-amplify';
 import data from "../../assets/data.json";
+import Server from "../../api/Server";
 
 import JSZip from "jszip";
 import streamSaver from "streamsaver";
 
 const Footer = props => {
-    const { tier, max, setContributor, setType, validUser } = props;
+    const { tier, max, contributor, setContributor, setType, validUser } = props;
     const [request, setRequest] = useState();
 
     const Files = {
@@ -216,7 +217,19 @@ const Footer = props => {
             if (!downloaded) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
         }
 
-        return document.getElementById("status").innerHTML = responses[Math.floor(Math.random() * responses.length)];
+        document.getElementById("status").innerHTML = responses[Math.floor(Math.random() * responses.length)]
+        await Server.claimRewards(contributor.email);
+
+        let signedOut = await awsSignOut();
+        if (signedOut) {
+            setTimeout(() => {
+                setContributor();
+                localStorage.removeItem("mos-contributor");
+                localStorage.removeItem("mos-contributor-expiry");
+        
+                setType("login");
+            }, 2000);
+        }
     }
     const submitButton = validUser ? <button type="submit" onClick={submit}>Claim rewards</button> : null;
 

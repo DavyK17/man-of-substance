@@ -28,6 +28,21 @@ const Server = {
         }
     },
 
+    claimRewards: async(email) => {
+        try {
+            const url = `${Server.url}/contributors`;
+            const data = new URLSearchParams({ email });
+
+            let response = await fetch(url, { method: "POST", body: data });
+            if (response.ok) {
+                response = response.text();
+                return response;
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
     attemptChallenge: async(name, phone, answer) => {
         try {
             let ip = await fetch("https://api.ipify.org/");

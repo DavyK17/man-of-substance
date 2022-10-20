@@ -19,6 +19,30 @@ const Info = props => {
         if (tier === "silver") return 5;
     };
 
+    const displayVideo = () => {
+        if (contributor.amount >= 2000) {
+            let cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_DEV;
+            switch (process.env.USER_BRANCH) {
+                case "dev":
+                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_DEV;
+                    break;
+                case "staging":
+                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_STAGING;
+                    break;
+                case "main":
+                    cloudfront = process.env.REACT_APP_AWS_CLOUDFRONT_MAIN;
+                    break;
+            }
+
+            let videoUrl = `${cloudfront}/public/mp4/${contributor.id}.mp4`
+            return <div className="video">
+                <video controls>
+                    <source src={videoUrl} type="video/mp4"></source>
+                </video>
+            </div>
+        }
+    }
+
     return (
         <>
             <header className="track-head">
@@ -28,10 +52,11 @@ const Info = props => {
                     <p className="writers">{contributor.email}</p>
                 </div>
             </header>
+            {displayVideo()}
             <Rewards tier={getTier(contributor.amount)} />
             <form className="rewards-claim">
                 <TrackDownload tier={getTier(contributor.amount)} max={max} />
-                <Footer tier={getTier(contributor.amount)} max={max} setContributor={setContributor} setType={setType} validUser={validUser} />
+                <Footer tier={getTier(contributor.amount)} max={max} contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
             </form>
         </>
     )
