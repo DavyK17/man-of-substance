@@ -52,9 +52,6 @@ const Server = {
             const data = new URLSearchParams({ name, phone, ip, answer });
 
             let response = await fetch(url, { method: "POST", body: data });
-            console.log(response);
-            let text = await response.text();
-            console.log(text);
             if (response.status === 403) return response.status;
             if (response.ok) {
                 response = response.text();
