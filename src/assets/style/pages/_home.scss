@@ -85,3 +85,21 @@
         margin: 0 auto;
     }
 }
+
+
+/* Countdown timer */
+
+#timer {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    font-family: $font-head;
+    font-size: 3rem;
+    color: $red;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: unset;
+}
