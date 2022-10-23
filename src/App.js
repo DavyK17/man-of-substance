@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Body/Layout";
 import Home from "./components/Home/Home";
-import Countdown from "./components/Home/Countdown";
+// import Countdown from "./components/Home/Countdown";
 import Credits from "./components/Credits/Credits";
 import Contributors from "./components/Contributors/Contributors";
 import Tracks from "./components/Tracks/Tracks";
@@ -42,13 +42,13 @@ const App = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ver]);
 
-    const [locked, setLocked] = useState(true);
-    useEffect(() => {
-        setLocked(Date.now() < 1666904400000 ? true : false);
-    }, []);
+    // const [locked, setLocked] = useState(true);
+    // // useEffect(() => {
+    // //     setLocked(Date.now() < 1666904400000 ? true : false);
+    // // }, []);
 
     const renderApp = () => {
-        if (locked) return <Countdown />;
+        // if (locked) return <Countdown />;
         return (
             <Routes>
                 <Route path="/" exact element={<Home />} />
