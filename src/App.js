@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Body/Layout";
 import Home from "./components/Home/Home";
+import Countdown from "./components/Home/Countdown";
 import Credits from "./components/Credits/Credits";
 import Contributors from "./components/Contributors/Contributors";
 import Tracks from "./components/Tracks/Tracks";
@@ -40,24 +41,34 @@ const App = () => {
         setTracks(filterTracks());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ver]);
-    
-    return (
-        <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/*" element={<Layout ver={ver} setVer={setVer} />}>
-                <Route path="contributors" element={<Contributors />} />
-                <Route path="tracks">
-                    <Route path=":id/credits" element={<Track type="credits" tracks={tracks} />} />
-                    <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
-                    <Route path=":id/synopsis" element={<Track type="synopsis" tracks={tracks} />} />
-                    <Route path=":id" element={<Track tracks={tracks} />} />
-                    <Route path="" element={<Tracks tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
+
+    const [locked, setLocked] = useState(true);
+    useEffect(() => {
+        setLocked(Date.now() < 1666904400000 ? true : false);
+    }, []);
+
+    const renderApp = () => {
+        if (locked) return <Countdown />;
+        return (
+            <Routes>
+                <Route path="/" exact element={<Home />} />
+                <Route path="/*" element={<Layout ver={ver} setVer={setVer} />}>
+                    <Route path="contributors" element={<Contributors />} />
+                    <Route path="tracks">
+                        <Route path=":id/credits" element={<Track type="credits" tracks={tracks} />} />
+                        <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
+                        <Route path=":id/synopsis" element={<Track type="synopsis" tracks={tracks} />} />
+                        <Route path=":id" element={<Track tracks={tracks} />} />
+                        <Route path="" element={<Tracks tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
+                    </Route>
+                    <Route path="credits" element={<Credits />} />
+                    <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="credits" element={<Credits />} />
-                <Route path="*" element={<NotFound />} />
-            </Route>
-        </Routes>
-    );
+            </Routes>
+        )
+    }
+    
+    return renderApp();
 }
 
 export default App;
