@@ -47,21 +47,28 @@ const App = () => {
         setLocked(Date.now() < 1666904400000 ? true : false);
     }, []);
 
+    const [passcode, setPasscode] = useState();
+    useEffect(() => {
+        if (localStorage.getItem("mos-passcode") && Date.now() > 1667059200000 && Date.now() < 1667070000000) setPasscode(localStorage.getItem("mos-passcode"))
+        else if (localStorage.getItem("mos-passcode")) return localStorage.removeItem("mos-passcode");
+    }, []);
+
     const renderApp = () => {
         if (locked) return <Countdown />;
+
         return (
             <Routes>
-                <Route path="/" exact element={<Home />} />
+                <Route path="/" exact element={<Home passcode={passcode} setPasscode={setPasscode} />} />
                 <Route path="/*" element={<Layout ver={ver} setVer={setVer} />}>
                     <Route path="contributors" element={<Contributors />} />
                     <Route path="tracks">
-                        <Route path=":id/credits" element={<Track type="credits" tracks={tracks} />} />
-                        <Route path=":id/lyrics" element={<Track type="lyrics" tracks={tracks} />} />
-                        <Route path=":id/synopsis" element={<Track type="synopsis" tracks={tracks} />} />
-                        <Route path=":id" element={<Track tracks={tracks} />} />
-                        <Route path="" element={<Tracks tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
+                        <Route path=":id/credits" element={<Track passcode={passcode} type="credits" tracks={tracks} />} />
+                        <Route path=":id/lyrics" element={<Track passcode={passcode} type="lyrics" tracks={tracks} />} />
+                        <Route path=":id/synopsis" element={<Track passcode={passcode} type="synopsis" tracks={tracks} />} />
+                        <Route path=":id" element={<Track passcode={passcode} tracks={tracks} />} />
+                        <Route path="" element={<Tracks passcode={passcode} tracks={tracks} setTracks={setTracks} ver={ver} setVer={setVer} />} />
                     </Route>
-                    <Route path="credits" element={<Credits />} />
+                    <Route path="credits" element={<Credits passcode={passcode} />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
