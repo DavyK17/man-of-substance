@@ -22,11 +22,13 @@ const Info = props => {
     const displayVideo = () => {
         if (contributor.amount >= 2000) {
             let videoUrl = `${process.env.REACT_APP_AWS_CLOUDFRONT}/public/mp4/${contributor.id}.mp4`
-            return <div className="video">
-                <video controls>
-                    <source src={videoUrl} type="video/mp4"></source>
-                </video>
-            </div>
+            return (
+                <div className="video">
+                    <video controls>
+                        <source src={videoUrl} type="video/mp4"></source>
+                    </video>
+                </div>
+            )
         }
     }
 

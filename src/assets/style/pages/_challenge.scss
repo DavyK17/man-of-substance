@@ -62,6 +62,11 @@
             margin: 0.5rem;
         }
     }
+    &.passcode {
+        input[name=passcode-entry] {
+            font-family: $font-body;
+        }
+    }
 }
 
 @media only screen and (max-width: 991px) {

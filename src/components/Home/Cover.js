@@ -1,22 +1,17 @@
-import { useState, useEffect } from "react";
-
-import coverP from "../../assets/img/cover.png";
+import coverP from "../../assets/img/cover.jpg";
 import coverW from "../../assets/img/cover.webp";
 
 import mockP from "../../assets/img/placeholder.png";
 import mockW from "../../assets/img/placeholder.webp";
 
-const Cover = () => {
-    const [locked, setLocked] = useState();
-
-    // useEffect(() => {
-    //     setLocked(Math.round(Date.now() / 1000) < 1667509200 ? true : false);
-    // }, []);
+const Cover = props => {
+    const { passcode } = props;
+    const unlocked = passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667509200000;
 
     return (
         <picture>
-            <source srcSet={locked ? mockW : coverW} type="image/webp"></source>
-            <img className="cover-art" src={locked ? mockP : coverP} alt="Man of Substance cover art" />
+            <source srcSet={unlocked ? coverW : mockW} type="image/webp"></source>
+            <img className="cover-art" src={unlocked ? coverP : mockP} alt="Man of Substance cover art" />
         </picture>
     )
 }
