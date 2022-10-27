@@ -1,4 +1,4 @@
-const Countdown = props => {
+const Countdown = () => {
     const timer = () => {
         const date = new Date(1666904400000);
         let interval = setInterval(() => {
