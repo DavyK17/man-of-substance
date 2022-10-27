@@ -1,14 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import VersionSelect from "./VersionSelect";
 
 const Tracks = props => {
-    const { tracks, ver, setVer } = props;
-    const [locked, setLocked] = useState();
-
-    // useEffect(() => {
-    //     setLocked(Math.round(Date.now() / 1000) < 1667422800 ? true : false);
-    // }, []);
+    const { passcode, tracks, ver, setVer } = props;
 
     const displayTitle = id => {
         const track = tracks.filter(track => parseInt(track.id) === id);
@@ -74,29 +69,32 @@ const Tracks = props => {
     }
 
     const renderBody = () => {
-        if (locked) return <p className="locked">This content will be available on the eve of release day.</p>;
-        return <>
-                    <div className="tracklist-lead">
-                        <p className="head">Select a track to view details.</p>
-                        <p>Use the dropdown below to follow the evolution of the tracklist.</p>
-                        <VersionSelect ver={ver} setVer={setVer} />
+        if (passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667422800000) return (
+            <>
+                <div className="tracklist-lead">
+                    <p className="head">Select a track to view details.</p>
+                    <p>Use the dropdown below to follow the evolution of the tracklist.</p>
+                    <VersionSelect ver={ver} setVer={setVer} />
+                </div>
+                <div className="tracklist">
+                    <div>
+                        <h2>Substance</h2>
+                        <ol>
+                            {displayTracks(1)}
+                        </ol>
                     </div>
-                    <div className="tracklist">
-                        <div>
-                            <h2>Substance</h2>
-                            <ol>
-                                {displayTracks(1)}
-                            </ol>
-                        </div>
-                        <div>
-                            <h2>Sippin' and Trippin'</h2>
-                            <ol start={parts[1][0].id}>
-                                {displayTracks(2)}
-                            </ol>
-                        </div>
-                        {renderBonus()}
+                    <div>
+                        <h2>Sippin' and Trippin'</h2>
+                        <ol start={parts[1][0].id}>
+                            {displayTracks(2)}
+                        </ol>
                     </div>
-                </>
+                    {renderBonus()}
+                </div>
+            </>
+        ) 
+        
+        return <p className="locked">This content will be available on the eve of release day.</p>;
     }
 
     return (
