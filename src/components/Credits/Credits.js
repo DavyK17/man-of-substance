@@ -14,7 +14,7 @@ const Credits = () => {
         styling: "Styling",
         graphics: "Graphic design",
         trailer: "Trailer",
-        visualisers: "Visualisers",
+        visualiser: "Visualiser",
         website: "Website"
     }
 
