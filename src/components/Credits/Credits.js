@@ -48,8 +48,7 @@ const Credits = props => {
     }
 
     const renderBody = () => {
-        if (passcode !== process.env.REACT_APP_PASSCODE) return <p className="locked">This content will be available on release day.</p>;
-        return (
+        if (passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667509200000) return (
             <>
                 <header className="track-head">
                     <h1 className="title">Album credits</h1>
@@ -63,7 +62,9 @@ const Credits = props => {
                 </div>
                 <p className="copyright">&copy; &#8471; {data.credits.copyright[0]}</p>
             </>
-        ) 
+        )
+
+        return <p className="locked">This content will be available on release day.</p>
     }
 
     return (

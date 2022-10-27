@@ -6,11 +6,12 @@ import mockW from "../../assets/img/placeholder.webp";
 
 const Cover = props => {
     const { passcode } = props;
+    const unlocked = passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667509200000;
 
     return (
         <picture>
-            <source srcSet={passcode === process.env.REACT_APP_PASSCODE ? coverW : mockW} type="image/webp"></source>
-            <img className="cover-art" src={passcode === process.env.REACT_APP_PASSCODE ? coverP : mockP} alt="Man of Substance cover art" />
+            <source srcSet={unlocked ? coverW : mockW} type="image/webp"></source>
+            <img className="cover-art" src={unlocked ? coverP : mockP} alt="Man of Substance cover art" />
         </picture>
     )
 }
