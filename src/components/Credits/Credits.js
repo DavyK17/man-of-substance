@@ -1,13 +1,7 @@
-import { useState, useEffect } from "react";
 import data from "../../assets/data.json";
 
-const Credits = () => {
-    const [locked, setLocked] = useState();
-
-    // useEffect(() => {
-    //     setLocked(Math.round(Date.now() / 1000) < 1667509200 ? true : false);
-    // }, []);
-
+const Credits = props => {
+    const { passcode } = props;
     const titles = {
         execProducers: "Executive producers",
         photography: "Photography",
@@ -54,20 +48,22 @@ const Credits = () => {
     }
 
     const renderBody = () => {
-        if (locked) return <p className="locked">This content will be available on release day.</p>;
-        return <>
-                    <header className="track-head">
-                        <h1 className="title">Album credits</h1>
-                    </header>
-                    <div className="track-credits">
-                        {
-                            Object.keys(titles).map((name, i) => {
-                                return credit(name, i)
-                            })
-                        }
-                    </div>
-                    <p className="copyright">&copy; &#8471; {data.credits.copyright[0]}</p>
-                </>
+        if (passcode !== process.env.REACT_APP_PASSCODE) return <p className="locked">This content will be available on release day.</p>;
+        return (
+            <>
+                <header className="track-head">
+                    <h1 className="title">Album credits</h1>
+                </header>
+                <div className="track-credits">
+                    {
+                        Object.keys(titles).map((name, i) => {
+                            return credit(name, i)
+                        })
+                    }
+                </div>
+                <p className="copyright">&copy; &#8471; {data.credits.copyright[0]}</p>
+            </>
+        ) 
     }
 
     return (
