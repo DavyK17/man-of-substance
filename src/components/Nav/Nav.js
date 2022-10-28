@@ -62,7 +62,7 @@ const Nav = () => {
                         </NavLink>
                     </li>
                     {
-                        !(Date.now() > 1667509200000) ? null : (
+                        Date.now() < 1667509200000 ? null : (
                             <li>
                                 <a href="https://bit.ly/stream-mos" target="_blank" rel="noreferrer">
                                     Stream

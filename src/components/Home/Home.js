@@ -58,7 +58,7 @@ const Home = props => {
                     <Cover passcode={passcode} />
                     <div className="link-buttons">
                         {
-                            !(Date.now() > 1667509200000) ? null : (
+                            Date.now() < 1667509200000 ? null : (
                                 <a role="button" target="_blank" href="https://bit.ly/stream-mos" rel="noreferrer">
                                     Stream the album
                                 </a>
