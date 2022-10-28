@@ -61,11 +61,15 @@ const Nav = () => {
                             Credits
                         </NavLink>
                     </li>
-                    <li>
-                        <a href="https://bit.ly/stream-mos" target="_blank" rel="noreferrer">
-                            Stream
-                        </a>
-                    </li>
+                    {
+                        !(Date.now() > 1667509200000) ? null : (
+                            <li>
+                                <a href="https://bit.ly/stream-mos" target="_blank" rel="noreferrer">
+                                    Stream
+                                </a>
+                            </li>
+                        )
+                    }
                 </ul>
             </div>
         </nav>
