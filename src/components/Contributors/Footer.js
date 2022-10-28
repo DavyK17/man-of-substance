@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Auth, Storage } from 'aws-amplify';
+import { useState } from "react";
+import { Auth, Storage } from "aws-amplify";
 import data from "../../assets/data.json";
 import Server from "../../api/Server";
 

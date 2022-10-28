@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 import moment from "moment";
 import Server from "../../api/Server";
 import Footer from "./Footer";
