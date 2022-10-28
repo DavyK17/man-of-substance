@@ -10,8 +10,8 @@ import Track from "./components/Track/Track";
 import NotFound from "./components/Body/NotFound";
 import data from "./assets/data.json";
 
-import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports';
+import { Amplify } from "aws-amplify";
+import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
 const App = () => {
