@@ -5,21 +5,21 @@ import Footer from "./Footer";
 const Lyrics = props => {
     const { id, current, previous, next, tracks, setFound } = props;
 
-    const openChallenge = e => {
-        e.preventDefault();
-        setFound(true);
-    }
+    // const openChallenge = e => {
+    //     e.preventDefault();
+    //     setFound(true);
+    // }
 
-    useEffect(() => {
-        let easterEgg = [];
-        document.querySelectorAll(".track-lyrics p").forEach(line => easterEgg.push(line));
-        easterEgg = easterEgg.filter(line => line.innerHTML.includes("Now we making money"));
+    // useEffect(() => {
+    //     let easterEgg = [];
+    //     document.querySelectorAll(".track-lyrics p").forEach(line => easterEgg.push(line));
+    //     easterEgg = easterEgg.filter(line => line.innerHTML.includes("Now we making money"));
         
-        if (easterEgg.length > 0) {
-            easterEgg[0].onmouseover = () => easterEgg[0].style.cursor = "pointer";
-            easterEgg[0].onclick = openChallenge
-        };
-    });
+    //     if (easterEgg.length > 0) {
+    //         easterEgg[0].onmouseover = () => easterEgg[0].style.cursor = "pointer";
+    //         easterEgg[0].onclick = openChallenge
+    //     };
+    // });
 
     return (
         <>
