@@ -7,9 +7,11 @@ const Home = props => {
     const skipUnlock = () => setPasscode(1);
     const handleSubmit = e => {
         e.preventDefault();
-        if (e.target[0].value === process.env.REACT_APP_PASSCODE) {
-            localStorage.setItem("mos-passcode", e.target[0].value);
-            return setPasscode(e.target[0].value);
+
+        let value = e.target[0].value.replace(/\s/g, "");
+        if (value === process.env.REACT_APP_PASSCODE) {
+            localStorage.setItem("mos-passcode", value);
+            return setPasscode(value);
         }
 
         return document.getElementById("status").innerHTML = "The passcode you entered was incorrect. Kindly try again.";
@@ -22,7 +24,7 @@ const Home = props => {
                     <h1>Listening party</h1>
                     <p>Enter the passcode to unlock all content:</p>
                     <div className="input rewards">
-                        <input type="text" id="rewards-email" name="passcode-entry" pattern="\d+" placeholder="Numbers only" />
+                        <input type="text" id="rewards-email" name="passcode-entry" pattern="^(\d|\s)+$" placeholder="Numbers only" />
                         <input type="submit" id="challenge-submit" name="passcode-submit" value="Enter" />
                     </div>
                 </form>
