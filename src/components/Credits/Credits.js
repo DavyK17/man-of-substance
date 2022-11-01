@@ -6,7 +6,7 @@ const Credits = props => {
         execProducers: "Executive producers",
         photography: "Photography",
         styling: "Styling",
-        graphics: "Graphic design",
+        artwork: "Artwork",
         trailer: "Trailer",
         visualiser: "Visualiser",
         website: "Website"
