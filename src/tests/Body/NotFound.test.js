@@ -3,6 +3,8 @@ import { MemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import App from "../../App";
 
+global.scrollTo = jest.fn();
+
 describe("Error page", () => {
     test("displays on non-existent route", () => {
         render(

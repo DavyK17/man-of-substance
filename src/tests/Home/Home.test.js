@@ -4,6 +4,8 @@ import { render, screen } from "@testing-library/react";
 import App from "../../App";
 import userEvent from "@testing-library/user-event";
 
+global.scrollTo = jest.fn();
+
 describe("Home page", () => {
     beforeEach(() => {
         render(
@@ -31,32 +33,38 @@ describe("Home page", () => {
     });
 
     describe("Post-trailer", () => {
-        beforeAll(() => {
-            jest.useFakeTimers();
-            jest.setSystemTime(new Date(1666915200000));
-        });
-
-        afterAll(() => {
-            jest.runOnlyPendingTimers();
-            jest.useRealTimers();
-        });
-
-        test("loads Contributors page when corresponding button is clicked", () => {
-            userEvent.click(screen.getByText("Contributors"));
-            let contributors = screen.getByTestId("contributors");
-            expect(contributors).toBeInTheDocument();
-        });
+        describe("Pre-release", () => {
+            beforeAll(() => {
+                jest.useFakeTimers();
+                jest.setSystemTime(new Date(1666915200000));
+            });
     
-        test("loads Tracklist page when corresponding button is clicked", () => {
-            userEvent.click(screen.getByText("Tracklist"));
-            let tracklist = screen.getByTestId("tracklist");
-            expect(tracklist).toBeInTheDocument();
-        });
-    
-        test("loads Credits page when corresponding button is clicked", () => {
-            userEvent.click(screen.getByText("Credits"));
-            let credits = screen.getByTestId("credits");
-            expect(credits).toBeInTheDocument();
+            afterAll(() => {
+                jest.runOnlyPendingTimers();
+                jest.useRealTimers();
+            });
+
+            test("displays placeholder cover art", () => {
+                screen.debug();
+            });
+
+            test("loads Contributors page when corresponding button is clicked", () => {
+                userEvent.click(screen.getByText("Contributors"));
+                let contributors = screen.getByTestId("contributors");
+                expect(contributors).toBeInTheDocument();
+            });
+        
+            test("loads Tracklist page when corresponding button is clicked", () => {
+                userEvent.click(screen.getByText("Tracklist"));
+                let tracklist = screen.getByTestId("tracklist");
+                expect(tracklist).toBeInTheDocument();
+            });
+        
+            test("loads Credits page when corresponding button is clicked", () => {
+                userEvent.click(screen.getByText("Credits"));
+                let credits = screen.getByTestId("credits");
+                expect(credits).toBeInTheDocument();
+            });
         });
     });
 });
