@@ -17,7 +17,7 @@ describe("Home page", () => {
     describe("Locked", () => {
         beforeAll(() => {
             jest.useFakeTimers();
-            jest.setSystemTime(new Date(1666828800000));
+            jest.setSystemTime(new Date(1666818000000));
         });
 
         afterAll(() => {
@@ -35,7 +35,7 @@ describe("Home page", () => {
         describe("Pre-release", () => {
             beforeAll(() => {
                 jest.useFakeTimers();
-                jest.setSystemTime(new Date(1666915200000));
+                jest.setSystemTime(new Date(1666904400001));
             });
     
             afterAll(() => {
@@ -52,7 +52,7 @@ describe("Home page", () => {
         describe("Post-release", () => {
             beforeAll(() => {
                 jest.useFakeTimers();
-                jest.setSystemTime(new Date(1667520000000));
+                jest.setSystemTime(new Date(1667509200001));
             });
     
             afterAll(() => {

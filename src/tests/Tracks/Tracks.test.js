@@ -23,7 +23,7 @@ describe("Tracklist page", () => {
     describe("Locked", () => {
         beforeAll(() => {
             jest.useFakeTimers();
-            jest.setSystemTime(new Date(1667347200000));
+            jest.setSystemTime(new Date(1667336400000));
         });
 
         afterAll(() => {
@@ -40,7 +40,7 @@ describe("Tracklist page", () => {
     describe("Unlocked", () => {
         beforeAll(() => {
             jest.useFakeTimers();
-            jest.setSystemTime(new Date(1667433600000));
+            jest.setSystemTime(new Date(1667422800001));
         });
 
         afterAll(() => {
