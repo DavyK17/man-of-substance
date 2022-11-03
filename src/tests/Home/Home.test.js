@@ -14,7 +14,7 @@ describe("Home page", () => {
         );
     });
 
-    describe("Pre-trailer", () => {
+    describe("Locked", () => {
         beforeAll(() => {
             jest.useFakeTimers();
             jest.setSystemTime(new Date(1666828800000));
@@ -31,7 +31,7 @@ describe("Home page", () => {
         });
     });
 
-    describe("Post-trailer", () => {
+    describe("Unlocked", () => {
         describe("Pre-release", () => {
             beforeAll(() => {
                 jest.useFakeTimers();
