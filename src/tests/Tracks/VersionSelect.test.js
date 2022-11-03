@@ -1,11 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import VersionSelect from "../../components/Tracks/VersionSelect";
-import userEvent from "@testing-library/user-event";
 
 test("calls handleChange() when option is selected", () => {
     const changeMock = jest.fn();
 
-    render(<VersionSelect handleChange={changeMock()} />);
-    userEvent.click(screen.getByText("Base"));
-    expect(changeMock).toBeCalled();
+    const { getByLabelText } = render(<VersionSelect handleChange={changeMock()} />);
+    let versionSelect = getByLabelText("Version");
+
+    fireEvent.change(versionSelect, { target: { value: "base" }});
+    expect(changeMock).toBeCalled(); 
 });
