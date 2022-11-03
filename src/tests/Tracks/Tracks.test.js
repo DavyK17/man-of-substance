@@ -6,18 +6,14 @@ import userEvent from "@testing-library/user-event";
 global.scrollTo = jest.fn();
 
 describe("Tracklist page", () => {
-    const { getByText, getByTestId, getByLabelText } = render(
-        <MemoryRouter initialEntries={["/tracks"]}>
-            <App />
-        </MemoryRouter>
-    );
-
+    let page;
     beforeEach(() => {
-        render(
+        const { getByText, getByTestId, getByLabelText } = render(
             <MemoryRouter initialEntries={["/tracks"]}>
                 <App />
             </MemoryRouter>
         );
+        page = { getByText, getByTestId, getByLabelText};
     });
 
     describe("Locked", () => {
@@ -32,7 +28,7 @@ describe("Tracklist page", () => {
         });
 
         test("shows lock message", () => {
-            let message = getByText("This content will be available on the eve of release day.");
+            let message = page.getByText("This content will be available on the eve of release day.");
             expect(message).toBeInTheDocument();
         });
     });
@@ -49,17 +45,17 @@ describe("Tracklist page", () => {
         });
 
         test("displays tracklist lead", () => {
-            let lead = getByTestId("tracklist-lead");
+            let lead = page.getByTestId("tracklist-lead");
             expect(lead).toBeInTheDocument();
         });
 
         test("displays tracklist version select", () => {
-            let versionSelect = getByLabelText("Version");
+            let versionSelect = page.getByLabelText("Version");
             expect(versionSelect).toBeInTheDocument();
         });
     
         test("displays full tracklist", () => {
-            let tracklist = getByTestId("tracklist-list");
+            let tracklist = page.getByTestId("tracklist-list");
             expect(tracklist).toBeInTheDocument();
 
             let tracks = within(tracklist).getAllByRole("listitem");
@@ -67,8 +63,8 @@ describe("Tracklist page", () => {
         });
 
         test("alters tracklist when version select is clicked", () => {
-            let versionSelect = getByLabelText("Version");
-            let tracklist = getByTestId("tracklist-list");
+            let versionSelect = page.getByLabelText("Version");
+            let tracklist = page.getByTestId("tracklist-list");
             let tracks;
 
             const change = value => {
@@ -86,8 +82,8 @@ describe("Tracklist page", () => {
         });
     
         test("renders Track page when track name is clicked", () => {
-            userEvent.click(getByText("Straight Bars"));
-            let track = getByTestId("track");
+            userEvent.click(page.getByText("Straight Bars"));
+            let track = page.getByTestId("track");
             expect(track).toBeInTheDocument();
         });
     });
