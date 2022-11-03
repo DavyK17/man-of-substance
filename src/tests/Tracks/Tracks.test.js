@@ -67,18 +67,14 @@ describe("Tracklist page", () => {
             let tracklist = page.getByTestId("tracklist-list");
             let tracks;
 
-            const change = value => {
-                fireEvent.change(versionSelect, { target: { value: value }});
+            let versions = ["base", "mixtape", "expanded", "full"];
+            versions.forEach(version => {
+                fireEvent.change(versionSelect, { target: { value: version }});
                 tracks = within(tracklist).getAllByRole("listitem");
 
-                let length = value === "base" ? 10 : value === "mixtape" ? 12 : value === "expanded" ? 14 : 17;
+                let length = version === "base" ? 10 : version === "mixtape" ? 12 : version === "expanded" ? 14 : 17;
                 expect(tracks.length).toEqual(length);
-            }
-
-            change("base");
-            change("mixtape");
-            change("expanded");
-            change("full");
+            });
         });
     
         test("renders Track page when track name is clicked", () => {
