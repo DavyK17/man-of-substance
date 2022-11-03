@@ -15,25 +15,25 @@ describe("Navigation menu", () => {
         );
     });
 
-    test("loads Home page when corresponding button is clicked", () => {
+    test("renders Home page when corresponding button is clicked", () => {
         userEvent.click(screen.getByText("Home"));
         let home = screen.getByTestId("home");
         expect(home).toBeInTheDocument();
     });
 
-    test("loads Contributors page when corresponding button is clicked", () => {
+    test("renders Contributors page when corresponding button is clicked", () => {
         userEvent.click(screen.getByText("Contributors"));
         let contributors = screen.getByTestId("contributors");
         expect(contributors).toBeInTheDocument();
     });
 
-    test("loads Tracklist page when corresponding button is clicked", () => {
+    test("renders Tracklist page when corresponding button is clicked", () => {
         userEvent.click(screen.getByText("Tracklist"));
         let tracklist = screen.getByTestId("tracklist");
         expect(tracklist).toBeInTheDocument();
     });
 
-    test("loads Credits page when corresponding button is clicked", () => {
+    test("renders Credits page when corresponding button is clicked", () => {
         userEvent.click(screen.getByText("Credits"));
         let credits = screen.getByTestId("credits");
         expect(credits).toBeInTheDocument();
