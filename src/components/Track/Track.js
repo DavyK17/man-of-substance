@@ -138,7 +138,7 @@ const Track = props => {
     });
     
     return (
-        <main {...swipeHandlers}>
+        <main data-testid="track" {...swipeHandlers}>
             {renderComponent()}
         </main>
     );
