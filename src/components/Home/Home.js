@@ -37,7 +37,7 @@ const Home = props => {
         )
 
         return (
-            <main className="home">
+            <main className="home" data-testid="home">
                 <header className="home-synopsis">
                     <h1 className="date">4 November 2022</h1>
                     <p>Hi there! My name is Davy, and this is my debut studio album <em>Man of Substance</em>, released under my pseudonym DVK. It's a hip hop project I'm extremely proud to have embarked on and released, and the second extended project on my catalogue
