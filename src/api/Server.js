@@ -1,5 +1,5 @@
 const Server = {
-    url: `${process.env.NODE_ENV === "production" ? "https://man-of-substance-server.herokuapp.com" : "http://localhost:8000"}/api`,
+    url: `${process.env.NODE_ENV === "production" ? "https://server.mos.davykamanzi.com" : "http://localhost:8000"}/api`,
     getContributors: async() => {
         try {
             const url = `${Server.url}/contributors`;
