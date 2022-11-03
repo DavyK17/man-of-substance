@@ -45,9 +45,29 @@ describe("Home page", () => {
             });
 
             test("displays placeholder cover art", () => {
-                screen.debug();
+                let cover = screen.getByAltText("Man of Substance cover art");
+                expect(cover.src).toContain("placeholder");
+            });
+        });
+
+        describe("Post-release", () => {
+            beforeAll(() => {
+                jest.useFakeTimers();
+                jest.setSystemTime(new Date(1667520000000));
+            });
+    
+            afterAll(() => {
+                jest.runOnlyPendingTimers();
+                jest.useRealTimers();
             });
 
+            test("displays actual cover art", () => {
+                let cover = screen.getByAltText("Man of Substance cover art");
+                expect(cover.src).toContain("cover");
+            });
+        });
+
+        describe("General", () => {
             test("loads Contributors page when corresponding button is clicked", () => {
                 userEvent.click(screen.getByText("Contributors"));
                 let contributors = screen.getByTestId("contributors");
