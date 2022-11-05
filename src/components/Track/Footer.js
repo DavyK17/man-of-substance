@@ -1,6 +1,6 @@
 import Adjacent from "./Adjacent";
 import TopLink from "./TopLink";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Footer = props => {
     const { type, tracks, previous, next } = props;
@@ -11,12 +11,15 @@ const Footer = props => {
         return navigate(`/tracks/${e.target[0].value}/${type}`);
     }
 
+    let params = useParams();
+    const id = parseInt(params.id);
+
     return (
         <footer className="track-footer" data-testid="track-footer">
             <div className="previous">
                 <Adjacent type={type} seq={-1} previous={previous} />
             </div>
-            <TopLink tracks={tracks} handleSubmit={topLinkSubmit} />
+            <TopLink id={id} tracks={tracks} handleSubmit={topLinkSubmit} />
             <div className="next">
                 <Adjacent type={type} seq={1} next={next} />
             </div>

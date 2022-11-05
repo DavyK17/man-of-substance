@@ -1,11 +1,7 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 const TopLink = props => {
-    const { tracks, handleSubmit } = props;
-
-    let params = useParams();
-    const id = parseInt(params.id);
+    const { id, tracks, handleSubmit } = props;
 
     const changeTrackNum = id => {
         const input = document.getElementById("track-number");
