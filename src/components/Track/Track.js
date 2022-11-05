@@ -111,7 +111,7 @@ const Track = props => {
         )
 
         let head = !(passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667422800000) ? null : (
-            <header className="track-head">
+            <header className="track-head" data-testid="track-head">
                 <h1 className="title">{current.title}</h1>
                 <p className="writers">Written by {writers()}</p>
                 {info}
