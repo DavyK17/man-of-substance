@@ -79,7 +79,7 @@ describe("Tracklist page", () => {
     
         test("renders Track page when track name is clicked", () => {
             userEvent.click(page.getByText("Straight Bars"));
-            let track = page.getByTestId("track");
+            let track = page.getByTestId("track-1");
             expect(track).toBeInTheDocument();
         });
     });
