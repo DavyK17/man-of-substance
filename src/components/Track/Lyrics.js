@@ -13,7 +13,7 @@ const Lyrics = props => {
     useEffect(() => {
         let easterEgg = [];
         document.querySelectorAll(".track-lyrics p").forEach(line => easterEgg.push(line));
-        easterEgg = easterEgg.filter(line => line.innerHTML.includes("Now we making money"));
+        easterEgg = easterEgg.filter(line => line.innerHTML.includes(process.env.REACT_APP_CHALLENGE_LYRIC));
         
         if (easterEgg.length > 0) {
             easterEgg[0].onmouseover = () => easterEgg[0].style.cursor = "pointer";
