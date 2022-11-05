@@ -19,6 +19,7 @@ const TopLink = props => {
     return (
         <div className="top-link">
             <form className="track-spinnerbox" onSubmit={handleSubmit}>
+                <label className="sr-only" htmlFor="track-number">Track number</label>
                 <input type="number" id="track-number" min="1" max={tracks.length} defaultValue={id}></input>
             </form>
             <a href="#top">Back to Top</a>
