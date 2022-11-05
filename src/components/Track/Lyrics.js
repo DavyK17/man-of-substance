@@ -23,7 +23,7 @@ const Lyrics = props => {
 
     return (
         <>
-            <div className="track-links">
+            <div className="track-links" data-testid="track-links">
                 <div className="link-buttons">
                     <Link role="button" to={`/tracks/${id}/synopsis`}>
                         Synopsis
@@ -33,7 +33,7 @@ const Lyrics = props => {
                     </Link>
                 </div>
             </div>
-            <div className="track-lyrics" dangerouslySetInnerHTML={{ __html: current.lyrics }}></div>
+            <div className="track-lyrics" data-testid="track-lyrics" dangerouslySetInnerHTML={{ __html: current.lyrics }}></div>
             <Footer type="lyrics" previous={previous} next={next} tracks={tracks} />
         </>
     )

@@ -12,7 +12,7 @@ const Footer = props => {
     }
 
     return (
-        <footer className="track-footer">
+        <footer className="track-footer" data-testid="track-footer">
             <div className="previous">
                 <Adjacent type={type} seq={-1} previous={previous} />
             </div>

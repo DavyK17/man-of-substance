@@ -138,7 +138,7 @@ const Credits = props => {
 
     return (
         <>
-            <div className="track-links">
+            <div className="track-links" data-testid="track-links">
                 <div className="link-buttons">
                     <Link role="button" to={`/tracks/${id}/synopsis`}>
                         Synopsis
@@ -148,7 +148,7 @@ const Credits = props => {
                     </Link>
                 </div>
             </div>
-            <div className="track-credits">
+            <div className="track-credits" data-testid="track-credits">
                 {
                     Object.keys(titles).map((name, i) => {
                         return credit(name, i)
