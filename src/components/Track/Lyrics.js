@@ -16,8 +16,17 @@ const Lyrics = props => {
         easterEgg = easterEgg.filter(line => line.innerHTML.includes(process.env.REACT_APP_CHALLENGE_LYRIC));
         
         if (easterEgg.length > 0) {
-            easterEgg[0].onmouseover = () => easterEgg[0].style.cursor = "pointer";
-            easterEgg[0].onclick = openChallenge
+            let timeout;
+            easterEgg[0].onmouseover = () => {
+                timeout = setTimeout(() => {
+                    easterEgg[0].style.cursor = "pointer";
+                }, 4000);
+            };
+            easterEgg[0].onmouseout = () => {
+                clearTimeout(timeout);
+                easterEgg[0].style.cursor = "auto";
+            };
+            easterEgg[0].onclick = openChallenge;
         };
     });
 
