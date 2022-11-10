@@ -20,11 +20,14 @@ const Lyrics = props => {
             easterEgg[0].onmouseover = () => {
                 timeout = setTimeout(() => {
                     easterEgg[0].style.cursor = "pointer";
+                    easterEgg[0].setAttribute("data-testid", "challenge-link");
                 }, 4000);
             };
             easterEgg[0].onmouseout = () => {
                 clearTimeout(timeout);
                 easterEgg[0].style.cursor = "auto";
+                easterEgg[0].removeAttribute("data-testid");
+                easterEgg[0].removeAttribute("style");
             };
             easterEgg[0].onclick = openChallenge;
         };
