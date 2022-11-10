@@ -3,7 +3,7 @@ const Result = props => {
     const { handleSubmit } = props;
 
     return (
-        <form className="challenge result" onSubmit={handleSubmit} autoComplete="off">
+        <form className="challenge result" onSubmit={handleSubmit} autoComplete="off" data-testid="challenge-result">
             <h1>Secret Challenge</h1>
             <p>Enter your details below:</p>
             <div className="input result">
