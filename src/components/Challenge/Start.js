@@ -6,6 +6,7 @@ const Start = props => {
             <h1>Secret Challenge</h1>
             <p>How many lines on the album (in total) explicitly reference a fighting game?</p>
             <div className="input challenge">
+                <label className="sr-only" htmlFor="challenge-answer">Answer</label>
                 <input type="number" id="challenge-answer" min="1" required />
                 <input type="submit" id="challenge-submit" value="Enter" />
             </div>
