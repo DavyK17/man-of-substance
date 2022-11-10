@@ -1,15 +1,5 @@
 const Start = props => {
-    const { setAnswer, setStarted } = props;
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        document.getElementById("status").innerHTML = "Tulia kiambatasi…";
-
-        setTimeout(() => {
-            setAnswer(parseInt(e.target["challenge-answer"].value));
-            setStarted(true);
-        }, Math.floor(Math.random() * 3000));
-    }
+    const { handleSubmit } = props;
 
     return (
         <form className="challenge start" onSubmit={handleSubmit} autoComplete="off">
