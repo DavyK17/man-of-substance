@@ -15,7 +15,14 @@ describe("Secret challenge", () => {
         );
         page = { getByText, getByTestId, getByLabelText };
         userEvent.click(page.getByText("Lyrics"));
-        userEvent.click(page.getByText(process.env.REACT_APP_CHALLENGE_LYRIC));
+
+        let link = page.getByText(process.env.REACT_APP_CHALLENGE_LYRIC);
+        fireEvent.mouseOver(link);
+        
+        act(() => {
+            jest.advanceTimersByTime(5000);
+        });
+        userEvent.click(link);
     });
 
     beforeAll(() => {
