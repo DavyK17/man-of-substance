@@ -39,7 +39,11 @@ const Challenge = props => {
             }
             
             response = await Server.attemptChallenge(e.target["challenger-name"].value, e.target["challenger-phone"].value, answer);
-            if (response === 403) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed.";
+            if (response === 403) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed."
+            else if (response !== 200) {
+                console.log(response.text());
+                return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
+            }
 
             setTimeout(() => {
                 if (response.includes("Challenge completed")) {
