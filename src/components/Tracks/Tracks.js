@@ -68,15 +68,19 @@ const Tracks = props => {
         )
     }
 
+    const changeVer = ({ target }) => {
+        setVer(target.value);
+    }
+
     const renderBody = () => {
         if (passcode === process.env.REACT_APP_PASSCODE || Date.now() > 1667422800000) return (
             <>
-                <div className="tracklist-lead">
+                <div className="tracklist-lead" data-testid="tracklist-lead">
                     <p className="head">Select a track to view details.</p>
                     <p>Use the dropdown below to follow the evolution of the tracklist.</p>
-                    <VersionSelect ver={ver} setVer={setVer} />
+                    <VersionSelect ver={ver} handleChange={changeVer} />
                 </div>
-                <div className="tracklist">
+                <div className="tracklist" data-testid="tracklist-list">
                     <div>
                         <h2>Substance</h2>
                         <ol>

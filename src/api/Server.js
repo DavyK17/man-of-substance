@@ -1,5 +1,5 @@
 const Server = {
-    url: `${process.env.NODE_ENV === "production" ? "https://server.mos.davykamanzi.com" : "http://localhost:8000"}/api`,
+    url: `${process.env.REACT_APP_ENV === "production" ? "https://server.mos.davykamanzi.com" : process.env.REACT_APP_ENV === "staging" ? "https://server-test.mos.davykamanzi.com" : "http://localhost:8000"}/api`,
     getContributors: async() => {
         try {
             const url = `${Server.url}/contributors`;
@@ -52,11 +52,10 @@ const Server = {
             const data = new URLSearchParams({ name, phone, ip, answer });
 
             let response = await fetch(url, { method: "POST", body: data });
-            if (response.status === 403) return response.status;
-            if (response.ok) {
-                response = response.text();
-                return response;
-            }
+            let text = await response.text();
+            
+            response = { status: response.status, text };
+            return response;
         } catch (err) {
             console.log(err);
         }

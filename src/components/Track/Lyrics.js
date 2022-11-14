@@ -5,25 +5,38 @@ import Footer from "./Footer";
 const Lyrics = props => {
     const { id, current, previous, next, tracks, setFound } = props;
 
-    // const openChallenge = e => {
-    //     e.preventDefault();
-    //     setFound(true);
-    // }
+    const openChallenge = e => {
+        e.preventDefault();
+        setFound(true);
+    }
 
-    // useEffect(() => {
-    //     let easterEgg = [];
-    //     document.querySelectorAll(".track-lyrics p").forEach(line => easterEgg.push(line));
-    //     easterEgg = easterEgg.filter(line => line.innerHTML.includes("Now we making money"));
+    useEffect(() => {
+        let easterEgg = [];
+        document.querySelectorAll(".track-lyrics p").forEach(line => easterEgg.push(line));
+        easterEgg = easterEgg.filter(line => line.innerHTML.includes(process.env.REACT_APP_CHALLENGE_LYRIC));
         
-    //     if (easterEgg.length > 0) {
-    //         easterEgg[0].onmouseover = () => easterEgg[0].style.cursor = "pointer";
-    //         easterEgg[0].onclick = openChallenge
-    //     };
-    // });
+        if (easterEgg.length > 0) {
+            let timeout;
+            easterEgg[0].onmouseover = () => {
+                timeout = setTimeout(() => {
+                    easterEgg[0].style.cursor = "pointer";
+                    easterEgg[0].setAttribute("data-testid", "challenge-link");
+                    easterEgg[0].onclick = openChallenge;
+                }, 4000);
+            };
+            easterEgg[0].onmouseout = () => {
+                clearTimeout(timeout);
+                easterEgg[0].style.cursor = "auto";
+                easterEgg[0].removeAttribute("data-testid");
+                easterEgg[0].removeAttribute("style");
+                easterEgg[0].onclick = null;
+            };
+        };
+    });
 
     return (
         <>
-            <div className="track-links">
+            <div className="track-links" data-testid="track-links">
                 <div className="link-buttons">
                     <Link role="button" to={`/tracks/${id}/synopsis`}>
                         Synopsis
@@ -33,7 +46,7 @@ const Lyrics = props => {
                     </Link>
                 </div>
             </div>
-            <div className="track-lyrics" dangerouslySetInnerHTML={{ __html: current.lyrics }}></div>
+            <div className="track-lyrics" data-testid="track-lyrics" dangerouslySetInnerHTML={{ __html: current.lyrics }}></div>
             <Footer type="lyrics" previous={previous} next={next} tracks={tracks} />
         </>
     )
