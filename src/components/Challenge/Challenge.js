@@ -39,24 +39,15 @@ const Challenge = props => {
             }
             
             response = await Server.attemptChallenge(e.target["challenger-name"].value, e.target["challenger-phone"].value, answer);
-            if (response === 403) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed."
-            else if (response !== 200) {
-                console.log(response.text());
-                return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
-            }
+            if (response.status === 403) return document.getElementById("status").innerHTML = "Sorry! The challenge has already been completed.";
+            if (response.status !== 200 && response.status !== 201) return document.getElementById("status").innerHTML = "An error occurred. Kindly try again.";
 
             setTimeout(() => {
-                if (response.includes("Challenge completed")) {
-                    document.getElementById("status").innerHTML = "Congratulations! You will receive your prize money shortly.";
-                    setTimeout(() => {
-                        setFound(false);
-                    }, 1500);
-                } else {
-                    document.getElementById("status").innerHTML = "Your answer was wrong. Try again.";
-                    setTimeout(() => {
-                        setStarted(false);
-                    }, 1500);
-                }
+                let completed = response.status === 200 && response.text.includes("Challenge completed");
+                document.getElementById("status").innerHTML = completed ? "Congratulations! You will receive your prize money shortly." : "Your answer was wrong. Try again.";
+                setTimeout(() => {
+                    completed ? setFound(false) : setStarted(false);
+                }, 1500);
             }, Math.floor(Math.random() * 3000));
         } catch (err) {
             console.log(err);
