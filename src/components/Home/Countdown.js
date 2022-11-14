@@ -18,7 +18,7 @@ const Countdown = () => {
     }
 
     return (
-        <main className="countdown">
+        <main className="countdown" data-testid="countdown">
             <header className="track-head">
                 <h1 className="title sr-only">Man of Substance</h1>
             </header>

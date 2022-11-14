@@ -1,10 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 const TopLink = props => {
-    let navigate = useNavigate();
-    let params = useParams();
-    const id = parseInt(params.id);
+    const { id, tracks, handleSubmit } = props;
 
     const changeTrackNum = id => {
         const input = document.getElementById("track-number");
@@ -15,17 +12,11 @@ const TopLink = props => {
         changeTrackNum(id);
     }, [id]);
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        const value = event.target[0].value;
-
-        return navigate(`/tracks/${value}/${props.type}`);
-    }
-
     return (
         <div className="top-link">
             <form className="track-spinnerbox" onSubmit={handleSubmit}>
-                <input type="number" id="track-number" min="1" max={props.tracks.length} defaultValue={id}></input>
+                <label className="sr-only" htmlFor="track-number">Track number</label>
+                <input type="number" id="track-number" min="1" max={tracks.length} defaultValue={id}></input>
             </form>
             <a href="#top">Back to Top</a>
         </div>

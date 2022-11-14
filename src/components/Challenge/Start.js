@@ -1,21 +1,12 @@
 const Start = props => {
-    const { setAnswer, setStarted } = props;
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        document.getElementById("status").innerHTML = "Tulia kiambatasi…";
-
-        setTimeout(() => {
-            setAnswer(parseInt(e.target["challenge-answer"].value));
-            setStarted(true);
-        }, Math.floor(Math.random() * 3000));
-    }
+    const { handleSubmit } = props;
 
     return (
-        <form className="challenge start" onSubmit={handleSubmit} autoComplete="off">
+        <form className="challenge start" onSubmit={handleSubmit} autoComplete="off" data-testid="challenge-start">
             <h1>Secret Challenge</h1>
             <p>How many lines on the album (in total) explicitly reference a fighting game?</p>
             <div className="input challenge">
+                <label className="sr-only" htmlFor="challenge-answer">Answer</label>
                 <input type="number" id="challenge-answer" min="1" required />
                 <input type="submit" id="challenge-submit" value="Enter" />
             </div>

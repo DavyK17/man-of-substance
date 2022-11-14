@@ -1,12 +1,8 @@
 const VersionSelect = props => {
-    const { ver, setVer } = props;
-
-    const handleChange = ({ target }) => {
-        setVer(target.value);
-    }
+    const { ver, handleChange } = props;
 
     return (
-        <div className="version-select">
+        <div className="version-select" data-testid="version-select">
             <label htmlFor="version" className="sr-only">Version</label>
             <select name="version" id="version" onChange={handleChange} defaultValue={ver}>
                 <option value="base">Base</option>
