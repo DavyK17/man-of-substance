@@ -55,6 +55,10 @@ const Tracks = props => {
 
     useEffect(() => {
         document.onkeydown = null;
+
+        let clue;
+        for (let item of document.getElementsByTagName("a")) if (item.innerHTML === "Combi") clue = item;
+        if (clue) clue.classList.add("challenge-clue");
     });
 
     const renderBonus = () => {

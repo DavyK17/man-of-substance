@@ -41,6 +41,12 @@ const Intro = props => {
             )
         }
 
+        let clue;
+        if (!isLoading && !error) {
+            for (let item of document.getElementsByTagName("li")) if (item.innerHTML === "Oscar Nzirera") clue = item;
+            if (clue) clue.classList.add("challenge-clue");
+        }
+
         const listIntro = !isLoading && !error ? <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p> : null;
 
         return (

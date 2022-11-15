@@ -40,7 +40,7 @@ const Home = props => {
             <main className="home" data-testid="home">
                 <header className="home-synopsis">
                     <h1 className="date">4 November 2022</h1>
-                    <p>Hi there! My name is Davy, and this is my debut studio album <em>Man of Substance</em>, released under my pseudonym DVK. It's a hip hop project I'm extremely proud to have embarked on and released, and the second extended project on my catalogue
+                    <p>Hi there! My name is Davy, and this is my <span className="challenge-clue">debut</span> studio album <em>Man of Substance</em>, released under my pseudonym DVK. It's a hip hop project I'm extremely proud to have embarked on and released, and the second extended project on my catalogue
                         after my debut EP <em><a href="https://bit.ly/NotARapperEP" target="blank" rel="noreferrer">Not a Rapper</a></em>.</p>
                     <p>As my first full-length project, I felt it fitting to lay out <em>Man of Substance</em> as an introduction to me as a person and as a musician, with the tracklist divided into 3 different parts that seek to achieve that goal. The title of the album captures my self-image and how I would like to portray myself to
                         others.</p>
