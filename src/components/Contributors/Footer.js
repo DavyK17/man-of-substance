@@ -5,7 +5,7 @@ const Footer = props => {
     const submitButton = validUser ? <button type="submit" onClick={submitClick}>Claim rewards</button> : null;
 
     return (
-        <div className="link-buttons">
+        <div className="link-buttons" data-testid="contributors-footer">
             {submitButton}
             <button onClick={introClick}>Back to Intro</button>
             {logoutButton}

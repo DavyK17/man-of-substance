@@ -103,7 +103,7 @@ const TrackDownload = props => {
     });
 
     return (
-        <div className={divClassName}>
+        <div className={divClassName} data-testid="contributor-track-select">
             {renderBody()}
         </div>
     )

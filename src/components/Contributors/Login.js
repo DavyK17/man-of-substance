@@ -10,7 +10,7 @@ const Login = props => {
 
     return (
         <>
-            <form className="challenge" onSubmit={handleSubmit} autoComplete="off">
+            <form className="challenge" onSubmit={handleSubmit} autoComplete="off" data-testid="contributor-login">
                 <h1>Contributor Rewards</h1>
                 <p>Enter the email address you provided after making your contribution:</p>
                 <div className="input rewards">

@@ -32,7 +32,7 @@ const Info = props => {
         if (contributor.amount >= 2000) {
             let videoUrl = `${process.env.REACT_APP_AWS_CLOUDFRONT}/public/mp4/${contributor.id}.mp4`
             return (
-                <div className="video">
+                <div className="video" data-testid="contributor-video">
                     <video controls>
                         <source src={videoUrl} type="video/mp4"></source>
                     </video>
@@ -152,7 +152,7 @@ const Info = props => {
 
     return (
         <>
-            <header className="track-head">
+            <header className="track-head" data-testid="contributor-info">
                 <h1 className="title">{contributor.name}</h1>
                 <div className="info">
                     <p className="style">{getTier(contributor.amount).charAt(0).toUpperCase() + getTier(contributor.amount).slice(1)}</p>

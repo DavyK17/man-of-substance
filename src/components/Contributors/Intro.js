@@ -46,11 +46,11 @@ const Intro = props => {
 
         return (
             <>
-                <div className="contributors-lead">
+                <div className="contributors-lead" data-testid="contributors-lead">
                     <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <a href="/contributors" onClick={loginClick}>clicking here</a>.</p>
                     {listIntro}
                 </div>
-                <div className="contributors-list">
+                <div className="contributors-list" data-testid="contributors-list">
                     {list()}
                 </div>
             </>

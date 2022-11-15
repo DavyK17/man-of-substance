@@ -56,7 +56,7 @@ const Rewards = props => {
     }
 
     return (
-        <div className="rewards-head">
+        <div className="rewards-head" data-testid="contributor-rewards">
             <h2 className="sr-only">Your rewards</h2>
             <div className="rewards-list">
                 {renderRewards()}
