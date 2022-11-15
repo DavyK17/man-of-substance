@@ -161,7 +161,7 @@ const Info = props => {
             </header>
             {displayVideo()}
             <Rewards tier={getTier(contributor.amount)} />
-            <form className="rewards-claim">
+            <form className="rewards-claim" data-testid="contributor-rewards-claim">
                 <TrackDownload tier={getTier(contributor.amount)} max={max} />
                 <Footer validUser={validUser} submitClick={claimRewards} introClick={backToIntro} logoutClick={logout} />
             </form>
