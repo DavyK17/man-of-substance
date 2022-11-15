@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import VersionSelect from "../../components/Tracks/VersionSelect";
 
-test("calls handleChange() when option is selected", () => {
+test("calls handleChange when option is selected", () => {
     const changeMock = jest.fn();
 
     const { getByLabelText } = render(<VersionSelect handleChange={changeMock()} />);

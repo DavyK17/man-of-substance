@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import TopLink from "../../components/Track/TopLink";
 
-test("calls handleSubmit() when form is submitted", () => {
+test("calls handleSubmit when form is submitted", () => {
     const tracksMock = [1, 2, 3];
     const submitMock = jest.fn();
 

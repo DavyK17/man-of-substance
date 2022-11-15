@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import Start from "../../components/Challenge/Start";
 
-test("calls handleSubmit() when answer is submitted", () => {
+test("calls handleSubmit when answer is submitted", () => {
     let startMock = jest.fn();
     const { getByLabelText } = render(<Start handleSubmit={startMock} />);
 
