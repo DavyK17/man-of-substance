@@ -1,12 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 
 const Intro = props => {
-    const { contributors, setType, isLoading, error, validUser } = props;
-
-    const handleClick = e => {
-        e.preventDefault();
-        validUser ? setType("info") : setType("login");
-    }
+    const { contributors, isLoading, error, loginClick } = props;
 
     const renderList = tier => {
         if (Object.keys(contributors).length === 0 || contributors[tier].length === 0) return;
@@ -41,15 +36,21 @@ const Intro = props => {
             )
         }
 
+        let clue;
+        if (!isLoading && !error) {
+            for (let item of document.getElementsByTagName("li")) if (item.innerHTML === "Oscar Nzirera") clue = item;
+            if (clue) clue.classList.add("challenge-clue");
+        }
+
         const listIntro = !isLoading && !error ? <p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p> : null;
 
         return (
             <>
-                <div className="contributors-lead">
-                    <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <a href="/contributors" onClick={handleClick}>clicking here</a>.</p>
+                <div className="contributors-lead" data-testid="contributors-lead">
+                    <p>The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All contributors can claim their respective rewards by <a href="/contributors" onClick={loginClick}>clicking here</a>.</p>
                     {listIntro}
                 </div>
-                <div className="contributors-list">
+                <div className="contributors-list" data-testid="contributors-list">
                     {list()}
                 </div>
             </>

@@ -103,6 +103,16 @@ main {
     color: $red;
 }
 
+.challenge-clue {
+    color: unset !important;
+    transition: opacity 0.15s ease-in-out !important;
+    &:hover,
+    &:focus {
+        opacity: 0.5 !important;
+        transition: opacity 0.15s ease-in-out !important;
+    }
+}
+
 @media only screen and (max-width: 991px) {
     main {
         padding: 1rem;

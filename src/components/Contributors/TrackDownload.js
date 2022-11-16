@@ -42,7 +42,7 @@ const TrackDownload = props => {
             return (
                 <>
                     <p>Select tracks to download ({format(tier)}):</p>
-                    <div className="checklist-wrapper">
+                    <div className="checklist-wrapper" data-testid="track-checklist">
                         <ol>
                             {
                                 data.tracks.filter(track => parseInt(track.id) <= 7).map((track, i) => {
@@ -103,7 +103,7 @@ const TrackDownload = props => {
     });
 
     return (
-        <div className={divClassName}>
+        <div className={divClassName} data-testid="contributor-track-select">
             {renderBody()}
         </div>
     )
