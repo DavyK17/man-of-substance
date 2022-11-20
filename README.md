@@ -31,7 +31,7 @@ The Contributors page communicates with the [backend](https://github.com/DavyK17
 Downloadable files are stored using [Amazon S3](https://aws.amazon.com/s3), while the app uses the Amplify library to allow contributors to retrieve their rewards from the web app's S3 bucket.
 
 ### Tracklist, tracks and credits
-The app instantly loads all track and credits data from a JSON file, allowing for easy viewing.
+The app instantly loads all track and credits data from a JSON file, rather than from the app's databse in order to optimise loading times.
 
 ## Wireframes
 ### Home page
@@ -56,7 +56,7 @@ The app instantly loads all track and credits data from a JSON file, allowing fo
 ![Contributors login page](./readme/screenshot-contributors-login.png)
 
 #### Tracklist page
-![Contributors page](./readme/screenshot-tracklist.png.png)
+![Contributors page](./readme/screenshot-tracklist.png)
 
 #### Track page
 ![Track page](./readme/screenshot-track.png)
@@ -73,7 +73,7 @@ The app instantly loads all track and credits data from a JSON file, allowing fo
 ![Contributors login page (mobile version)](./readme/screenshot-mobile-contributors-login.png)
 
 #### Tracklist page
-![Contributors page (mobile version)](./readme/screenshot-mobile-tracklist.png.png)
+![Contributors page (mobile version)](./readme/screenshot-mobile-tracklist.png)
 
 #### Track page
 ![Track page (mobile version)](./readme/screenshot-mobile-track.png)
