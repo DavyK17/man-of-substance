@@ -9,7 +9,6 @@
         "aws-amplify": "^4.3.37",
         "jszip": "^3.10.1",
         "moment": "^2.29.4",
-        "netlify-cli": "^10.6.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-loading-skeleton": "^3.1.0",
