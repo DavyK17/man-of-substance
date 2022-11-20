@@ -21,7 +21,7 @@
 - [StreamSaver.js](https://github.com/jimmywarting/StreamSaver.js) - JavaScript library for saving streams on the front end
 
 ## Features
-The *Man of Substance* website is a single page app (SPA) with a simple design that is accessible from desktop, tablet and mobile devices with all modern browsers, with Lighthouse scores of 72 for performance, 100 for accessibility, 92 for best practices, and 100 for SEO (full report can be viewed by [clicking here](./readme/lighthouse.pdf)).
+The *Man of Substance* website is a single page app (SPA) with a simple design that is accessible from desktop, tablet and mobile devices with all modern browsers, with Lighthouse scores of 74 for performance, 100 for accessibility, 92 for best practices, and 100 for SEO (full report can be viewed by [clicking here](./readme/lighthouse.pdf)).
 
 Prior to the album's release, each page on the site displayed certain messages showing that content was locked, depending on the content requested (these can be revisited in detail by looking at the app's tests). 
 
