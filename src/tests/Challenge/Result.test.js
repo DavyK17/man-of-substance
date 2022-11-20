@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react";
 import Result from "../../components/Challenge/Result";
 
-test("calls handleSubmit() when details are submitted", () => {
+test("calls handleSubmit when details are submitted", () => {
     let resultMock = jest.fn();
     const { getByLabelText, getByTestId, debug } = render(<Result handleSubmit={resultMock} />);
 
