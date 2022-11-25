@@ -56,9 +56,12 @@ const Tracks = props => {
     useEffect(() => {
         document.onkeydown = null;
 
-        let clue;
-        for (let item of document.getElementsByTagName("a")) if (item.innerHTML === "Combi") clue = item;
-        if (clue) clue.classList.add("challenge-clue");
+        let tracks = ["Straight Bars", "Simama Kando", "Combi"];
+        for (let item of document.querySelectorAll(".tracklist a")) {
+            tracks.forEach(track => {
+                if (item.innerHTML === track) item.classList.add("challenge-clue");
+            });
+        }
     });
 
     const renderBonus = () => {
