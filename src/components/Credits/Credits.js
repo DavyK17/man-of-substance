@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import data from "../../assets/data.json";
 
 const Credits = props => {
@@ -67,11 +66,6 @@ const Credits = props => {
 
         return <p className="locked">This content will be available on release day.</p>
     }
-
-    useEffect(() => {
-        let clue = document.querySelector("[data-testid=visualiser]");
-        clue.classList.add("challenge-clue");
-    });
 
     return (
         <main data-testid="credits">
