@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Footer from "./Footer";
 
 const Login = props => {
-    const { setType, validUser, handleSubmit } = props;
+    const { setType, validUser, handleSubmit, introClick } = props;
 
     useEffect(() => {
         if (validUser) setType("info");
@@ -19,7 +19,7 @@ const Login = props => {
                 </div>
             </form>
 
-            <Footer setType={setType} validUser={validUser} />
+            <Footer setType={setType} validUser={validUser} introClick={introClick} />
         </>
     )
 }
