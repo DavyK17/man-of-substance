@@ -48,6 +48,11 @@ const Contributors = () => {
         validUser ? setType("info") : setType("login");
     }
 
+    const introClick = e => {
+        e.preventDefault();
+        setType("intro");
+    }
+
     const awsSignIn = async () => {
         const username = process.env.REACT_APP_AWS_USER;
         const password = process.env.REACT_APP_AWS_PASS;
@@ -93,7 +98,7 @@ const Contributors = () => {
         let defaultBody = <Intro contributors={contributors} isLoading={isLoading} error={error} loginClick={loginClick} />;
         switch (type) {
             case "login":
-                body = <Login setType={setType} validUser={validUser} handleSubmit={loginSubmit} />
+                body = <Login setType={setType} validUser={validUser} handleSubmit={loginSubmit} introClick={introClick} />
                 break;
             case "info":
                 body = <Info contributor={contributor} setContributor={setContributor} setType={setType} validUser={validUser} />
