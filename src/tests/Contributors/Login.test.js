@@ -13,6 +13,7 @@ describe("Contributors - Login page", () => {
     });
 
     const setTypeMock = jest.fn();
+    const introMock = jest.fn();
     let page, signedIn, validUserMock;
     const submitMock = e => {
         e.preventDefault();
@@ -79,7 +80,7 @@ describe("Contributors - Login page", () => {
 
     describe("Unlocked", () => {
         beforeEach(() => {
-            const { getByText, getByTestId } = render(<Login setType={setTypeMock} validUser={validUserMock} handleSubmit={submitMock} />);
+            const { getByText, getByTestId } = render(<Login setType={setTypeMock} validUser={validUserMock} handleSubmit={submitMock} introClick={introMock} />);
             page = { getByText, getByTestId };
         });
 
@@ -101,6 +102,12 @@ describe("Contributors - Login page", () => {
             
             let status = page.getByText("Login failed. Kindly check your Internet connection and try again.");
             expect(status).toBeInTheDocument();
+        });
+
+        test("takes user back to intro page when corresponding button is clicked", () => {
+            let introButton = page.getByText("Back to Intro");
+            fireEvent.click(introButton);
+            expect(introMock).toBeCalled();
         });
     });
 });
