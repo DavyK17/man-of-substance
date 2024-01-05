@@ -6,13 +6,12 @@ import placeholder from "$lib/img/placeholder.webp";
 import placeholder_fallback from "$lib/img/placeholder.png";
 
 export const load: PageServerLoad = () => {
-	const locked = Date.now() > 1667059200000 && Date.now() < 1667070000000;
+	const released = Date.now() > 1667509200000;
 
 	return {
-		locked,
 		cover: {
-			default: locked ? placeholder : cover,
-			fallback: locked ? placeholder_fallback : cover_fallback
+			default: released ? cover : placeholder,
+			fallback: released ? cover_fallback : placeholder_fallback
 		}
 	};
 };
