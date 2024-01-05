@@ -8,16 +8,13 @@
 
 ## How it was built
 ### Base libraries/techonolgies
-- [React](https://reactjs.org/) - JavaScript user interface library
-- [React Router](https://reactrouter.com/) - React routing library
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) - React testing utility
+- [Svelte](https://svelte.dev/) - JavaScript user interface framework
+- [SvelteKit](https://kit.svelte.dev/) - JavaScript application framework built on Svelte
 
 ### Additional libraries/techonolgies
 - [AWS Amplify](https://aws.amazon.com/amplify/) - JavaScript library for frontend and mobile development
 - [JSZip](https://stuk.github.io/jszip/) - JavaScript library for creating, reading and editing .zip files
 - [Moment.js](https://momentjs.com/) - JavaScript time manipulation library
-- [React Loading Skeleton](https://www.npmjs.com/package/react-loading-skeleton) - Animated loading skeleton tool
-- [React Swipeable](https://github.com/FormidableLabs/react-swipeable) - React swipe event handler
 - [StreamSaver.js](https://github.com/jimmywarting/StreamSaver.js) - JavaScript library for saving streams on the front end
 
 ## Features
