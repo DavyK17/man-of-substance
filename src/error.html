@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Man of Substance - Error</title>
+		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="The debut studio album by DVK" />
+
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/logo192.png" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Joan&family=Lexend+Deca&display=swap"
+			rel="stylesheet"
+		/>
+
+		<style>
+            html {
+                font-size: 20px;
+            }
+
+			body {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+                margin: unset;
+			}
+
+			.error {
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+                text-align: center;
+                margin-top: 5rem;
+			}
+
+			h1 {
+				font-family: "Lexend Deca", sans-serif;
+                font-size: 2rem;
+				text-transform: uppercase;
+                margin: unset;
+			}
+
+			p {
+				font-family: "Joan", serif;
+                font-size: 1rem;
+			}
+
+            small {
+                font-size: 0.75rem;
+                opacity: 0.6;
+            }
+		</style>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+        <div class="error">
+            <header>
+                <h1>Whoops!</h1>
+            </header>
+            <main>
+                <p>An unexpected error occurred while rendering the page. Kindly refresh and try again.</p>
+            </main>
+            <footer>
+                <small>(%sveltekit.status% %sveltekit.error.message%)</small>
+            </footer>
+        </div>
+	</body>
+</html>
