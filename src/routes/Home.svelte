@@ -8,6 +8,10 @@
 	export let released: boolean;
 </script>
 
+<svelte:head>
+	<title>Man of Substance - Welcome</title>
+</svelte:head>
+
 <main class="home">
 	<header class="home-synopsis">
 		<h1 class="date">4 November 2022</h1>

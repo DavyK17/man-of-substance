@@ -34,6 +34,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Man of Substance - Coming soon</title>
+</svelte:head>
+
 <main class="countdown">
 	<header class="track-head">
 		<h1 class="title sr-only">Man of Substance</h1>

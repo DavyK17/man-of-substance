@@ -2,6 +2,10 @@
 	import { enhance } from "$app/forms";
 </script>
 
+<svelte:head>
+	<title>Man of Substance - Listening party</title>
+</svelte:head>
+
 <main class="listening-party">
 	<form autoComplete="off" method="POST" action="?/unlock" use:enhance>
 		<h1>Listening party</h1>
