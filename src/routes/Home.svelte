@@ -77,7 +77,7 @@
 			<a role="button" href="/contributors">Contributors</a>
 			<a role="button" href="/tracks" data-sveltekit-preload-data>Tracklist</a>
 			<a role="button" href="/credits">Album credits</a>
-			<a role="button" target="_blank" href="https://linktr.ee/davykamanzi" rel="noreferrer">
+			<a role="button" href="https://linktr.ee/davykamanzi" target="_blank" rel="noreferrer">
 				Follow DVK
 			</a>
 		</div>
