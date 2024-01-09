@@ -123,10 +123,8 @@ main {
         padding: 1rem;
     }
 
-    body {
-        &.menu-open {
-            position: fixed;
-        }
+    body.menu-open {
+        position: fixed;
     }
 
     p.locked {
