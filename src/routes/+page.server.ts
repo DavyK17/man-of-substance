@@ -15,7 +15,7 @@ export const actions: Actions = {
 		return { success: true };
 	},
 
-	skip: async ({ cookies }) => {
+	skip: ({ cookies }) => {
 		cookies.set("passcode", "false", { path: "/" });
 		return { success: true };
 	}
