@@ -41,8 +41,8 @@
         return [];
 	};
 
-    $: one = part(1, selectedVer);
-    $: two = part(2, selectedVer);
+    $: partOne = part(1, selectedVer);
+    $: partTwo = part(2, selectedVer);
     $: bonus = part(3, selectedVer);
 </script>
 
@@ -66,7 +66,7 @@
             <div>
                 <h2>Substance</h2>
                 <ol>
-                    {#each one as track}
+                    {#each partOne as track}
                         <li>
                             <a href={`/tracks/${track.id}`}>{track.title}</a>
                         </li>
@@ -75,8 +75,8 @@
             </div>
             <div>
                 <h2>Sippin' and Trippin'</h2>
-                <ol start={two[0].id}>
-                    {#each two as track}
+                <ol start={partTwo[0].id}>
+                    {#each partTwo as track}
                         <li>
                             <a href={`/tracks/${track.id}`}>{track.title}</a>
                         </li>
