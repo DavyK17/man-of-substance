@@ -2,7 +2,7 @@
 	import type { PageData } from "./$types";
 
 	const titles = {
-		execProducers: "Executive producers",
+		execProducers: "Executive producer",
 		photography: "Photography",
 		styling: "Styling",
 		artwork: "Artwork",
@@ -19,26 +19,30 @@
 </svelte:head>
 
 <main>
-	<header>
-		<h1>Album credits</h1>
-	</header>
-	<div class="album-credits">
-		{#each Object.entries(titles) as [credit, title]}
-			<div class="credit">
-				<h2>
-					{#if credit === "execProducers"}
-						{data.credits[credit].length > 1 ? title : "Executive producer"}
-					{:else}
-						{title}
-					{/if}
-				</h2>
-				{#each data.credits[credit] as name}
-					<p>{name}</p>
-				{/each}
-			</div>
-		{/each}
-	</div>
-	<p role="note" class="copyright">&copy; &#8471; {data.credits.copyright}</p>
+	{#if data.unlocked}
+		<header>
+			<h1>Album credits</h1>
+		</header>
+		<div class="album-credits">
+			{#each Object.entries(titles) as [credit, title]}
+				<div class="credit">
+					<h2>
+						{#if credit === "execProducers"}
+							{data[credit].length > 1 ? `${title}s` : title}
+						{:else}
+							{title}
+						{/if}
+					</h2>
+					{#each data[credit] as name}
+						<p>{name}</p>
+					{/each}
+				</div>
+			{/each}
+		</div>
+		<p role="note" class="copyright">&copy; &#8471; {data.copyright}</p>
+	{:else}
+		<p class="locked">This content will be available on release day.</p>
+	{/if}
 </main>
 
 <style lang="scss">
