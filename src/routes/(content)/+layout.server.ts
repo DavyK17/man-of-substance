@@ -1,6 +1,6 @@
-import type { PageServerLoad, PageServerLoadEvent } from "../$types";
+import type { LayoutServerLoad, LayoutServerLoadEvent } from "./$types";
 
-export const load: PageServerLoad = async ({ cookies, parent }: PageServerLoadEvent) => {
+export const load: LayoutServerLoad = async ({ cookies, parent }: LayoutServerLoadEvent) => {
 	const passcode = cookies.get("passcode");
 	const released = (await parent()).released;
 

@@ -1,4 +1,4 @@
-import type { PageServerLoad, PageServerLoadEvent } from "./$types";
+import type { LayoutServerLoad, LayoutServerLoadEvent } from "./$types";
 import { UNLOCK_CODE } from "$env/static/private";
 
 import cover from "$lib/img/cover.webp";
@@ -7,7 +7,7 @@ import cover_fallback from "$lib/img/cover.jpg";
 import placeholder from "$lib/img/placeholder.webp";
 import placeholder_fallback from "$lib/img/placeholder.png";
 
-export const load: PageServerLoad = ({ cookies }: PageServerLoadEvent) => {
+export const load: LayoutServerLoad = ({ cookies }: LayoutServerLoadEvent) => {
 	const passcode = cookies.get("passcode");
 
 	const locked = Date.now() < 1666904400000;
