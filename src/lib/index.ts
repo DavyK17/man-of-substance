@@ -1,5 +1,17 @@
 // place files you want to import through the `$lib` alias in this folder.
-export type Track = {
+export interface Credits {
+	[key: string]: string[] | string;
+	execProducers: string[];
+	photography: string[];
+	styling: string[];
+	artwork: string[];
+	trailer: string[];
+	visualiser: string[];
+	website: string[];
+	copyright: string;
+}
+
+export interface Track {
 	id: number;
 	title: string;
 	filename: string;
@@ -7,18 +19,22 @@ export type Track = {
 	style: string[];
 	synopsis: string;
 	lyrics: string;
-	credits: {
-		writers: string[];
-		featuring: string[];
-		producers: string[];
-		arrangement: string[];
-		guitar: string[];
-		additionalProducers: string[];
-		additionalVocals: string[];
-		mixMaster: string[];
-		samples: { title: string; info: string }[];
-		interpolates: { title: string; info: string }[];
-		recorded: { studio: string; city: string }[];
-	};
-	missingFrom: string[];
-};
+	credits: TrackCredits;
+	missingFrom?: TracklistVersions[];
+}
+
+export interface TrackCredits {
+	writers: string[];
+	featuring?: Array<string[] | string>;
+	producers: string[];
+	arrangement?: string[];
+	additionalProducers?: string[];
+	additionalVocals?: string[];
+	guitar?: string[];
+	mixMaster: string[];
+	recorded: { studio: string; city: string }[];
+	samples?: { title: string; info: string }[];
+	interpolates?: { title: string; info: string }[];
+}
+
+export type TracklistVersions = "base" | "mixtape" | "expanded" | "full";
