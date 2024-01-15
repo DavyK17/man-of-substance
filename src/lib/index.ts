@@ -12,6 +12,7 @@ export interface Credits {
 }
 
 export interface Track {
+	[key: string]: any;
 	id: number;
 	title: string;
 	filename: string;
@@ -24,6 +25,7 @@ export interface Track {
 }
 
 export interface TrackCredits {
+	[key: string]: any;
 	writers: string[];
 	featuring?: Array<string[] | string>;
 	producers: string[];
