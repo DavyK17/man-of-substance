@@ -2,7 +2,6 @@
 	import { page } from "$app/stores";
 	import type { PageData } from "../$types";
 
-	const isActive = (pathname: string): boolean => $page.url.pathname === pathname;
 	const menuToggle = (dir = 0) => {
 		const body = document.querySelector("body") as HTMLElement;
 		const menu = document.querySelector(".menu") as HTMLElement;
@@ -42,24 +41,34 @@
 		</button>
 		<ul>
 			<li>
-				<a href="/" aria-current={isActive("/")} on:click={() => menuToggle(-1)}> Home </a>
+				<a href="/" class:active={$page.url.pathname == "/"} on:click={() => menuToggle(-1)}>
+					Home
+				</a>
 			</li>
 			<li>
 				<a
 					href="/contributors"
-					aria-current={isActive("/contributors")}
+					class:active={$page.url.pathname.includes("/contributors")}
 					on:click={() => menuToggle(-1)}
 				>
 					Contributors
 				</a>
 			</li>
 			<li>
-				<a href="/tracks" aria-current={isActive("/tracks")} on:click={() => menuToggle(-1)}>
+				<a
+					href="/tracks"
+					class:active={$page.url.pathname.includes("/tracks")}
+					on:click={() => menuToggle(-1)}
+				>
 					Tracklist
 				</a>
 			</li>
 			<li>
-				<a href="/credits" aria-current={isActive("/credits")} on:click={() => menuToggle(-1)}>
+				<a
+					href="/credits"
+					class:active={$page.url.pathname == "/credits"}
+					on:click={() => menuToggle(-1)}
+				>
 					Credits
 				</a>
 			</li>
@@ -72,13 +81,7 @@
 	</div>
 </nav>
 
-{#if data.unlocked}
-	<slot />
-{:else}
-	<main>
-		<p class="locked">This content will be available on release day.</p>
-	</main>
-{/if}
+<slot />
 
 <style lang="scss">
 	nav {
@@ -105,7 +108,7 @@
 							color: $silver;
 							transition: color 0.1s ease-in-out;
 						}
-						&[aria-current="true"] {
+						&.active {
 							color: $red;
 						}
 					}
