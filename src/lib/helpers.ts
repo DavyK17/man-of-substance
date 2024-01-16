@@ -1,4 +1,14 @@
+import { dev } from "$app/environment";
 import type { Track, TracklistVersion } from "./ambient";
+import { PUBLIC_TARGET_ENV } from "$env/static/public";
+
+export const serverUrl = `${
+	dev
+		? "http://localhost:8000"
+		: PUBLIC_TARGET_ENV === "staging"
+			? "https://server-test.mos.davykamanzi.com"
+			: "https://server.mos.davykamanzi.com"
+}/api`;
 
 export const getTracklistPart = (tracklist: Track[], ver: TracklistVersion, n: 1 | 2 | 3) => {
 	let first = -1;
