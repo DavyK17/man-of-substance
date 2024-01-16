@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
+	import type { Credits } from "$lib/ambient";
 
 	const titles = {
 		execProducers: "Executive producer",
@@ -11,7 +11,7 @@
 		website: "Website"
 	};
 
-	export let data: PageData;
+	export let data: Credits;
 </script>
 
 <svelte:head>
