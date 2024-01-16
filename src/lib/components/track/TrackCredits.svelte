@@ -2,7 +2,7 @@
 	import type { Track } from "$lib/ambient";
 
 	export let current: Track;
-	const { credits } = current;
+	$: credits = current.credits;
 
 	const titles = {
 		featuring: "Featuring",
