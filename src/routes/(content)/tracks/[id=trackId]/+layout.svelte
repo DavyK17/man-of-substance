@@ -4,8 +4,10 @@
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 
-	import { tracklist } from "$lib/stores/tracks";
 	import { TrackCredits } from "$lib";
+	import { tracklist } from "$lib/stores/tracks";
+	import { displayWriters, displayRuntime } from "$lib/helpers";
+
 	import type { Track, TrackInfoVersion } from "$lib/ambient";
 
 	$: id = Number($page.params.id);
@@ -15,45 +17,6 @@
 
 	$: type = $page.params.type as TrackInfoVersion;
 	$: content = current[type];
-
-	const displayWriters = (): string => {
-		if (current.credits.writers.length === 1) return current.credits.writers.join("");
-		if (current.credits.writers.length === 2) return current.credits.writers.join(" and ");
-
-		const arr = current.credits.writers.slice();
-		const last = arr.pop();
-		return arr.join(", ") + " and " + last;
-	};
-
-	const displayRuntime = (time: number): string => {
-		const min = Math.floor(time / 60);
-		const sec = time % 60;
-		const and = min === 0 || sec === 0 ? "" : " and ";
-
-		const display = (unit: "min" | "sec", time: number) => {
-			if (time === 0) return "";
-
-			const pluraliser = () => {
-				let label;
-				switch (unit) {
-					case "min":
-						label = time > 1 ? "minutes" : "minute";
-						break;
-					case "sec":
-						label = time > 1 ? "seconds" : "second";
-						break;
-					default:
-						label = undefined;
-				}
-
-				return label;
-			};
-
-			return `${time} ${pluraliser()}`;
-		};
-
-		return `${display("min", min)}${and}${display("sec", sec)}`;
-	};
 
 	const handleTrackNumberSubmit = (e: SubmitEvent) => {
 		const target = e.target as EventTarget & HTMLFormElement;
@@ -70,7 +33,7 @@
 <main>
 	<header class="track-head">
 		<h1 class="title">{current.title}</h1>
-		<p class="writers">Written by {displayWriters()}</p>
+		<p class="writers">Written by {displayWriters(current)}</p>
 		<div class="info">
 			<p class="style">{current.style.join(" / ")}</p>
 			<p><strong>Runtime:</strong><span id="break"></span>{displayRuntime(current.runtime)}</p>

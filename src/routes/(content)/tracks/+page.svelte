@@ -1,49 +1,17 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import type { Track, TracklistVersion } from "$lib/ambient";
 
 	import { version, tracklist } from "$lib/stores/tracks";
-
-	export let data: PageData;
+	import { getTracklistPart } from "$lib/helpers";
 
 	let selectedVer = $version;
 	$: version.set(selectedVer);
 
-	const part = (n: 1 | 2 | 3, ver: TracklistVersion) => {
-		let first = -1;
-		let last = -1;
+	$: partOne = getTracklistPart($tracklist, selectedVer, 1);
+	$: partTwo = getTracklistPart($tracklist, selectedVer, 2);
+	$: bonus = getTracklistPart($tracklist, selectedVer, 3);
 
-		if (n === 1) {
-			if (ver === "full" || ver === "expanded") last = 7;
-			if (ver === "mixtape" || ver === "base") last = 5;
-			return $tracklist.filter((track: Track) => track.id <= last);
-		}
-
-		if (n === 2) {
-			if (ver === "full" || ver === "expanded") {
-				first = 8;
-				last = 14;
-			}
-			if (ver === "mixtape" || ver === "base") {
-				first = 6;
-				last = 10;
-			}
-			return $tracklist.filter((track: Track) => track.id >= first && track.id <= last);
-		}
-
-		if (n === 3) {
-			if (ver === "expanded" || ver === "base") return [];
-			if (ver === "full") first = 15;
-			if (ver === "mixtape") first = 11;
-			return $tracklist.filter((track: Track) => track.id >= first);
-		}
-
-		return [];
-	};
-
-	$: partOne = part(1, selectedVer);
-	$: partTwo = part(2, selectedVer);
-	$: bonus = part(3, selectedVer);
+	export let data: PageData;
 </script>
 
 <svelte:head>
