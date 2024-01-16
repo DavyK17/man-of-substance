@@ -21,7 +21,7 @@
 				</p>
 			{:else}
 				<div class="head">
-					<h1>Error</h1>
+					<h1>{$page.status} Error</h1>
 				</div>
 				<p>{$page.error?.message}</p>
 			{/if}
