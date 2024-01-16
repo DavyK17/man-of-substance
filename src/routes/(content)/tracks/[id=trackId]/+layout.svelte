@@ -14,9 +14,33 @@
 	$: previous = $tracklist.find((track) => track.id === id - 1);
 	$: next = $tracklist.find((track) => track.id === id + 1);
 
+	const handleTrackKeyDown = ({
+		code,
+		altKey,
+		ctrlKey,
+		metaKey,
+		shiftKey
+	}: KeyboardEvent): Promise<void> | null => {
+		if ($page.url.pathname !== "/tracks" && $page.url.pathname.includes("/tracks")) {
+			if (altKey || ctrlKey || metaKey || shiftKey) return null;
+
+			if (id === $tracklist.length || id - 1 >= 1)
+				if (code === "ArrowLeft") return goto(`/tracks/${id - 1}/${type}`);
+			if (id === 1 || id + 1 <= $tracklist.length)
+				if (code === "ArrowRight") return goto(`/tracks/${id + 1}/${type}`);
+
+			if (code === "KeyC") return goto(`/tracks/${id}/credits`);
+			if (code === "KeyL") return goto(`/tracks/${id}/lyrics`);
+			if (code === "KeyS") return goto(`/tracks/${id}/synopsis`);
+			if (code === "Home") return goto("/tracks");
+		}
+
+		return null;
+	};
+
 	const handleTrackNumberSubmit = (e: SubmitEvent) => {
 		const target = e.target as EventTarget & HTMLFormElement;
-		return goto(`/tracks/${target[0].value}/${type}`);
+		return goto(`/tracks/${(target[0] as HTMLInputElement).value}/${type}`);
 	};
 </script>
 
@@ -24,7 +48,7 @@
 	<title>Man of Substance - Tracks: "{current.title}"</title>
 </svelte:head>
 
-<!-- <svelte:document on:keydown={handleTrackChange} /> -->
+<svelte:document on:keydown={handleTrackKeyDown} />
 
 <main>
 	<header class="track-head">
@@ -222,7 +246,8 @@
 			}
 		}
 		.track-spinnerbox {
-			margin-bottom: 0.25rem;
+			width: fit-content;
+			margin: 0.375rem auto;
 			input {
 				font-family: $font-head;
 			}
