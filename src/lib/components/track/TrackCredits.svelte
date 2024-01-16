@@ -62,7 +62,7 @@
 <style lang="scss">
 	.track-credits {
 		text-align: center;
-		margin: 2rem auto auto auto;
+		margin: 1rem auto auto auto;
 
 		.credit {
 			margin: 1rem 0;

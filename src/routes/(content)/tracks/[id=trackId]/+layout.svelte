@@ -1,22 +1,18 @@
 <script lang="ts">
-	import "$lib/styles/track-lyrics.scss";
-
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 
-	import { TrackCredits } from "$lib";
 	import { tracklist } from "$lib/stores/tracks";
 	import { displayWriters, displayRuntime } from "$lib/helpers";
 
 	import type { Track, TrackInfoVersion } from "$lib/ambient";
 
 	$: id = Number($page.params.id);
+	$: type = $page.params.type as TrackInfoVersion;
+
 	$: current = $tracklist.find((track) => track.id === id) as Track;
 	$: previous = $tracklist.find((track) => track.id === id - 1);
 	$: next = $tracklist.find((track) => track.id === id + 1);
-
-	$: type = $page.params.type as TrackInfoVersion;
-	$: content = current[type];
 
 	const handleTrackNumberSubmit = (e: SubmitEvent) => {
 		const target = e.target as EventTarget & HTMLFormElement;
@@ -38,37 +34,33 @@
 			<p class="style">{current.style.join(" / ")}</p>
 			<p><strong>Runtime:</strong><span id="break"></span>{displayRuntime(current.runtime)}</p>
 		</div>
-	</header>
-	<div class="track-links">
-		<div class="link-buttons">
-			<a
-				role="button"
-				class:active={$page.url.pathname.includes("synopsis")}
-				href={`/tracks/${id}/synopsis`}
-			>
-				Synopsis
-			</a>
-			<a
-				role="button"
-				class:active={$page.url.pathname.includes("lyrics")}
-				href={`/tracks/${id}/lyrics`}
-			>
-				Lyrics
-			</a>
-			<a
-				role="button"
-				class:active={$page.url.pathname.includes("credits")}
-				href={`/tracks/${id}/credits`}
-			>
-				Credits
-			</a>
+		<div class="track-links">
+			<div class="link-buttons">
+				<a
+					role="button"
+					class:active={$page.url.pathname.includes("synopsis")}
+					href={`/tracks/${id}/synopsis`}
+				>
+					Synopsis
+				</a>
+				<a
+					role="button"
+					class:active={$page.url.pathname.includes("lyrics")}
+					href={`/tracks/${id}/lyrics`}
+				>
+					Lyrics
+				</a>
+				<a
+					role="button"
+					class:active={$page.url.pathname.includes("credits")}
+					href={`/tracks/${id}/credits`}
+				>
+					Credits
+				</a>
+			</div>
 		</div>
-	</div>
-	{#if type === "credits"}
-		<TrackCredits {current} />
-	{:else}
-		<div class={`track-${type}`}>{@html content}</div>
-	{/if}
+	</header>
+	<slot />
 	<footer class="track-footer">
 		<div class="previous">
 			{#if previous}
@@ -148,6 +140,7 @@
 			}
 		}
 	}
+
 	.track-links {
 		text-align: center;
 		margin: auto;
@@ -193,19 +186,6 @@
 	@media only screen and (min-width: 701px) {
 		.track-links {
 			width: 700px;
-		}
-	}
-
-	.track-synopsis,
-	.track-lyrics {
-		text-align: center;
-	}
-
-	@media only screen and (min-width: 1200px) {
-		.track-synopsis,
-		.track-lyrics {
-			width: 1000px;
-			margin: auto;
 		}
 	}
 
