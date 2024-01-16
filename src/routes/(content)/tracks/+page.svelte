@@ -46,6 +46,10 @@
 	$: bonus = part(3, selectedVer);
 </script>
 
+<svelte:head>
+	<title>Man of Substance - Tracks</title>
+</svelte:head>
+
 <main>
 	{#if data.unlocked}
 		<div class="tracklist-lead">
