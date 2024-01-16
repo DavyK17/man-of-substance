@@ -39,3 +39,4 @@ export interface TrackCredits {
 }
 
 export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
+export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
