@@ -70,3 +70,18 @@ export const displayRuntime = (time: number): string => {
 
 	return `${display("min", min)}${and}${display("sec", sec)}`;
 };
+
+export const formatResponseMessage = (message: string): string => {
+	if (message.includes("undefined") || message === "An unknown error occurred. Kindly try again.") {
+		// Display generic error message
+		return "An unknown error occurred. Kindly try again.";
+	} else if (message.includes("Error: ")) {
+		// Remove "Error: " from error message
+		let arr = message.split(" ");
+		arr.shift();
+		message = arr.join(" ");
+	}
+
+	// Return message
+	return message;
+};
