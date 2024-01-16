@@ -2,10 +2,10 @@ import { writable, derived } from "svelte/store";
 import data from "$lib/data.json";
 
 import type { Writable, Readable } from "svelte/store";
-import type { Track, TracklistVersions } from "$lib";
+import type { Track, TracklistVersion } from "$lib/ambient";
 
 const tracks = data.tracks as Track[];
-const buildTracklist = (ver: TracklistVersions): Track[] => {
+const buildTracklist = (ver: TracklistVersion): Track[] => {
 	let filtered = tracks;
 
 	if (ver === "expanded")
@@ -22,7 +22,7 @@ const buildTracklist = (ver: TracklistVersions): Track[] => {
 	return filtered.map((item, i) => ({ ...item, id: i + 1 }));
 };
 
-export const version: Writable<TracklistVersions> = writable("full");
-export const tracklist: Readable<Track[]> = derived(version, ($version: TracklistVersions) =>
+export const version: Writable<TracklistVersion> = writable("full");
+export const tracklist: Readable<Track[]> = derived(version, ($version: TracklistVersion) =>
 	buildTracklist($version)
 );

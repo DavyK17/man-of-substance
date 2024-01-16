@@ -1,9 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from "./$types";
-
-	import Countdown from "$lib/components/index/Countdown.svelte";
-	import ListeningParty from "$lib/components/index/ListeningParty.svelte";
-	import Home from "$lib/components/index/Home.svelte";
+	import { Home, Countdown, ListeningParty } from "$lib";
 
 	export let data: PageData;
 	export let form: ActionData;

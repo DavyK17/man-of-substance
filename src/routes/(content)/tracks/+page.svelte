@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import type { Track, TracklistVersions } from "$lib";
+	import type { Track, TracklistVersion } from "$lib/ambient";
 
 	import { version, tracklist } from "$lib/stores/tracks";
 
@@ -9,7 +9,7 @@
 	let selectedVer = $version;
 	$: version.set(selectedVer);
 
-	const part = (n: 1 | 2 | 3, ver: TracklistVersions) => {
+	const part = (n: 1 | 2 | 3, ver: TracklistVersion) => {
 		let first = -1;
 		let last = -1;
 
@@ -38,12 +38,12 @@
 			return $tracklist.filter((track: Track) => track.id >= first);
 		}
 
-        return [];
+		return [];
 	};
 
-    $: partOne = part(1, selectedVer);
-    $: partTwo = part(2, selectedVer);
-    $: bonus = part(3, selectedVer);
+	$: partOne = part(1, selectedVer);
+	$: partTwo = part(2, selectedVer);
+	$: bonus = part(3, selectedVer);
 </script>
 
 <main>
@@ -62,40 +62,40 @@
 				</select>
 			</div>
 		</div>
-        <div class="tracklist">
-            <div>
-                <h2>Substance</h2>
-                <ol>
-                    {#each partOne as track}
-                        <li>
-                            <a href={`/tracks/${track.id}`}>{track.title}</a>
-                        </li>
-                    {/each}
-                </ol>
-            </div>
-            <div>
-                <h2>Sippin' and Trippin'</h2>
-                <ol start={partTwo[0].id}>
-                    {#each partTwo as track}
-                        <li>
-                            <a href={`/tracks/${track.id}`}>{track.title}</a>
-                        </li>
-                    {/each}
-                </ol>
-            </div>
-            {#if $version === "full" || $version === "mixtape"}
-                <div>
-                    <h2>Bonus</h2>
-                    <ol start={bonus[0].id}>
-                        {#each bonus as track}
-                            <li>
-                                <a href={`/tracks/${track.id}`}>{track.title}</a>
-                            </li>
-                        {/each}
-                    </ol>
-                </div>
-            {/if}
-        </div>
+		<div class="tracklist">
+			<div>
+				<h2>Substance</h2>
+				<ol>
+					{#each partOne as track}
+						<li>
+							<a href={`/tracks/${track.id}`}>{track.title}</a>
+						</li>
+					{/each}
+				</ol>
+			</div>
+			<div>
+				<h2>Sippin' and Trippin'</h2>
+				<ol start={partTwo[0].id}>
+					{#each partTwo as track}
+						<li>
+							<a href={`/tracks/${track.id}`}>{track.title}</a>
+						</li>
+					{/each}
+				</ol>
+			</div>
+			{#if $version === "full" || $version === "mixtape"}
+				<div>
+					<h2>Bonus</h2>
+					<ol start={bonus[0].id}>
+						{#each bonus as track}
+							<li>
+								<a href={`/tracks/${track.id}`}>{track.title}</a>
+							</li>
+						{/each}
+					</ol>
+				</div>
+			{/if}
+		</div>
 	{:else}
 		<p class="locked">This content will be available on the eve of release day.</p>
 	{/if}
