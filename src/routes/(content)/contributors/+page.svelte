@@ -34,7 +34,7 @@
 	<p>
 		The making of this album included a crowdfunding campaign that yielded a portion of the funds
 		used to create it. All contributors can claim their respective rewards by
-		<a href="/contributors/login">clicking here</a>.
+		<a href="/contributors/rewards">clicking here</a>.
 	</p>
 	{#if !loading && contributors}
 		<p>
