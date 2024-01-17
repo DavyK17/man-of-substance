@@ -50,7 +50,7 @@
 					href="/contributors"
 					class:active={$page.url.pathname.includes("/contributors")}
 					on:click={() => menuToggle(-1)}
-					data-sveltekit-preload-data
+					data-sveltekit-preload-code
 				>
 					Contributors
 				</a>

@@ -74,7 +74,7 @@
 					Stream the album
 				</a>
 			{/if}
-			<a role="button" href="/contributors" data-sveltekit-preload-data>Contributors</a>
+			<a role="button" href="/contributors" data-sveltekit-preload-code>Contributors</a>
 			<a role="button" href="/tracks" data-sveltekit-preload-data>Tracklist</a>
 			<a role="button" href="/credits">Album credits</a>
 			<a role="button" href="https://linktr.ee/davykamanzi" target="_blank" rel="noreferrer">
