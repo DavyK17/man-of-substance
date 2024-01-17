@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 
-	import { version, tracklist } from "$lib/stores/tracks";
+	import { version, tracklist } from "$lib/stores";
 	import { getTracklistPart } from "$lib/helpers";
 
 	let selectedVer = $version;

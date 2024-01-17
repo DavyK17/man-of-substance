@@ -11,7 +11,7 @@
 	import { goto } from "$app/navigation";
 
 	import { TrackCredits, ChallengeStart, ChallengeEnd } from "$lib";
-	import { tracklist } from "$lib/stores/tracks";
+	import { tracklist } from "$lib/stores";
 	import { displayWriters, displayRuntime } from "$lib/helpers";
 
 	export let form: ActionData;

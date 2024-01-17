@@ -1,8 +1,8 @@
-import { writable, derived } from "svelte/store";
-import data from "$lib/data.json";
-
 import type { Writable, Readable } from "svelte/store";
+import { writable, derived } from "svelte/store";
+
 import type { Track, TracklistVersion } from "$lib/ambient";
+import data from "$lib/data.json";
 
 const tracks = data.tracks as Track[];
 const buildTracklist = (ver: TracklistVersion): Track[] => {
