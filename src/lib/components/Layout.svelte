@@ -50,6 +50,7 @@
 					href="/contributors"
 					class:active={$page.url.pathname.includes("/contributors")}
 					on:click={() => menuToggle(-1)}
+					data-sveltekit-preload-data
 				>
 					Contributors
 				</a>
@@ -59,6 +60,7 @@
 					href="/tracks"
 					class:active={$page.url.pathname.includes("/tracks")}
 					on:click={() => menuToggle(-1)}
+					data-sveltekit-preload-data
 				>
 					Tracklist
 				</a>
