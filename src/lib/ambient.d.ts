@@ -42,3 +42,4 @@ export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
 export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
 
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
+export type Contributors = { [key in ContributorTier]: { name: string }[] };
