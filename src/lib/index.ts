@@ -6,6 +6,8 @@ import Home from "./components/index/Home.svelte";
 import ListeningParty from "./components/index/ListeningParty.svelte";
 
 import TrackCredits from "./components/track/TrackCredits.svelte";
+import ChallengeStart from "./components/track/ChallengeStart.svelte";
+import ChallengeEnd from "./components/track/ChallengeEnd.svelte";
 
 export { Layout };
 
@@ -14,3 +16,5 @@ export { Home };
 export { ListeningParty };
 
 export { TrackCredits };
+export { ChallengeStart };
+export { ChallengeEnd };
