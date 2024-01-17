@@ -1,13 +1,32 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-	import type { ContributorTier } from "$lib/ambient";
+	import type { ContributorTier, Contributors } from "$lib/ambient";
 
-	export let data: PageData;
+	import { onMount } from "svelte";
+	import { serverUrl } from "$lib/helpers";
+
+	let loading: boolean;
+	let error: boolean;
+
 	let tiers: ContributorTier[] = [];
+	let contributors: Contributors;
+	const getContributors = async () => {
+		loading = true;
 
-	$: if (data?.response)
-		for (let tier in data.response)
-			if (tier !== "supporter" && data.response[tier].length > 0)
+		try {
+			const response: Contributors = await (await fetch(`${serverUrl}/contributors`)).json();
+			contributors = response;
+		} catch (err) {
+			console.error(err);
+			error = true;
+		}
+
+		loading = false;
+	};
+
+	onMount(async () => await getContributors());
+	$: if (contributors)
+		for (let tier in contributors)
+			if (tier !== "supporter" && contributors[tier as ContributorTier].length > 0)
 				tiers.push(tier as ContributorTier);
 </script>
 
@@ -19,7 +38,7 @@
 				href="/contributors/rewards">clicking here</a
 			>.
 		</p>
-		{#if data?.success}
+		{#if !loading && contributors}
 			<p>
 				A big thank you to everyone at the Supporter tier, as well as the following for their
 				financial support:
@@ -27,15 +46,19 @@
 		{/if}
 	</div>
 	<div class="contributors-list">
-		{#if data?.error}
-			<p id="error">{data?.message}</p>
-		{:else if data?.success}
+		{#if loading}
+			<p id="error">Tulia kiambatasi&hellip;</p>
+		{:else if error}
+			<p id="error">
+				An error occurred loading the list of contributors. Kindly refresh the page and try again.
+			</p>
+		{:else if contributors}
 			{#each tiers as tier}
 				<div>
 					<h2>{tier.charAt(0).toUpperCase() + tier.slice(1)}</h2>
 					<ul>
-						{#each data?.response[tier] as contributor}
-							<li>{contributor.name}</li>
+						{#each contributors[tier] as { name }}
+							<li>{name}</li>
 						{/each}
 					</ul>
 				</div>
