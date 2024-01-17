@@ -2,4 +2,6 @@
 	<title>Man of Substance - Contributors</title>
 </svelte:head>
 
-<slot />
+<main class="contributors">
+	<slot />
+</main>
