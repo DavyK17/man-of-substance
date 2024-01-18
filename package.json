@@ -37,6 +37,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"aws-amplify": "^6.0.12"
+		"aws-amplify": "^6.0.12",
+		"moment": "^2.30.1"
 	}
 }
