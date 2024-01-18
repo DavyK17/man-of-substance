@@ -18,7 +18,7 @@
 
 <style lang="scss">
 	footer {
-		margin: 1.5rem auto;
+		margin: auto;
 		text-align: center;
 	}
 </style>

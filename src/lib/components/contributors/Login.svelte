@@ -35,7 +35,7 @@
 <style lang="scss">
 	.login {
 		text-align: center;
-		margin: auto;
+		margin-bottom: 1.5rem;
 		h1 {
 			font-family: $font-head;
 			font-size: 1.5rem;
