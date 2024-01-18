@@ -1,19 +1,15 @@
 <script lang="ts">
-	import { tick } from "svelte";
+	import { onDestroy } from "svelte";
 	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
 
 	export let data: { answer?: string; name?: string; phone?: string } | undefined;
 	export let message: string | undefined;
 
-	let status: string = "";
-	const updateStatus = async () => {
-		await tick();
-		status = message as string;
-	};
-
+	$: status = message ?? "";
 	$: if (
 		browser &&
+		message !== "" &&
 		message !== "Congratulations! You will receive your prize money shortly." &&
 		message !== "The challenge has already been completed." &&
 		message !== "An error occurred. Kindly try again."
@@ -22,8 +18,8 @@
 			status = "";
 		}, 3000);
 
-		clearTimeout(timeout);
-	} else updateStatus();
+		onDestroy(() => clearTimeout(timeout));
+	}
 </script>
 
 <form
@@ -57,7 +53,7 @@
 			required
 		/>
 	</div>
-	<button type="submit" id="challenger-submit"> Enter </button>
+	<button type="submit" id="challenger-submit">Enter</button>
 	<p id="status">{status}</p>
 </form>
 
