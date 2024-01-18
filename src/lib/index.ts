@@ -9,6 +9,9 @@ import TrackCredits from "./components/track/TrackCredits.svelte";
 import ChallengeStart from "./components/track/ChallengeStart.svelte";
 import ChallengeEnd from "./components/track/ChallengeEnd.svelte";
 
+import Login from "./components/contributors/Login.svelte";
+import Rewards from "./components/contributors/Rewards.svelte";
+
 export { Layout };
 
 export { Countdown };
@@ -18,3 +21,6 @@ export { ListeningParty };
 export { TrackCredits };
 export { ChallengeStart };
 export { ChallengeEnd };
+
+export { Login };
+export { Rewards };
