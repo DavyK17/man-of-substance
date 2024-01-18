@@ -43,3 +43,11 @@ export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
 
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
 export type Contributors = { [key in ContributorTier]: { name: string }[] };
+export type Contributor = {
+	[key: string]: any;
+	id: number;
+	name: string;
+	email: string;
+	amount: number;
+	rewardsClaimed: boolean;
+};
