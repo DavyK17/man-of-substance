@@ -51,3 +51,9 @@ export type Contributor = {
 	amount: number;
 	rewardsClaimed: boolean;
 };
+export type ContributorReward = {
+	[key: string]: string | string[];
+	name: string;
+	perks: string[];
+	tiers: ContributorTier[];
+}
