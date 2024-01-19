@@ -24,8 +24,8 @@
 	{#if tier === "supporter"}
 		<div class="track-dropdown">
 			<label for="track-dropdown">Desired track ({trackFormat}):</label>
-			<select id="track-dropdown" name="track-select">
-				<option disabled selected>Select track</option>
+			<select id="track-dropdown" name="track-select" required>
+				<option disabled selected value="">Select track</option>
 				{#each tracks as { id, title }}
 					<option value={id}>{title}</option>
 				{/each}
@@ -56,8 +56,8 @@
 	{#if tier !== "supporter" && tier !== "bronze"}
 		<div class="track-dropdown" class:with-margin={tier === "silver"}>
 			<label for="track-dropdown">Desired format ({trackFormat}):</label>
-			<select id="track-dropdown" name="format-select">
-				<option disabled selected>Select format</option>
+			<select id="track-dropdown" name="format-select" required>
+				<option disabled selected value="">Select format</option>
 				<option value="mp3">MP3 (smaller size, recommended)</option>
 				<option value="wav">WAV (higher quality, large file size)</option>
 			</select>
