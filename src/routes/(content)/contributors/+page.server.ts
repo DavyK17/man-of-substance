@@ -5,14 +5,14 @@ import { serverUrl } from "$lib/helpers";
 
 export const load: PageServerLoad = async ({
 	fetch
-}): Promise<{ loadContributors: Promise<Contributors | null> }> => {
+}): Promise<{ load: Promise<Contributors | null> }> => {
 	try {
-		const loadContributors: Promise<Contributors> = (
+		const load: Promise<Contributors> = (
 			await fetch(`${serverUrl}/contributors`)
 		).json();
-		return { loadContributors };
+		return { load };
 	} catch (err) {
 		console.log(err);
-		return { loadContributors: new Promise((resolve) => resolve(null)) };
+		return { load: new Promise((resolve) => resolve(null)) };
 	}
 };
