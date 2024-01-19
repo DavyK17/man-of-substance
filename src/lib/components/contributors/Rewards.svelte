@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { SubmitFunction } from "@sveltejs/kit";
 	import type { DownloadDataOutput } from "aws-amplify/storage";
-	import type { Contributor, ContributorRewardFile } from "$lib/ambient";
+	import type { Contributor } from "$lib/ambient";
 
 	import { onDestroy } from "svelte";
 	import { isCancelError } from "aws-amplify/storage";
@@ -10,19 +9,14 @@
 	import { enhance } from "$app/forms";
 	import { beforeNavigate } from "$app/navigation";
 
-	import {
-		getContributorTier,
-		contributorRewards,
-		createDownloadTask,
-		getMaxTracksForTier
-	} from "$lib/helpers";
+	import { getContributorTier, contributorRewards } from "$lib/helpers";
 	import { PUBLIC_AWS_CLOUDFRONT } from "$env/static/public";
 
 	import TrackDownload from "./TrackDownload.svelte";
-	import { tracks } from "$lib/data.json";
 
 	export let contributor: Contributor | undefined;
 	export let message: string | undefined;
+	let request: DownloadDataOutput | null;
 
 	$: tier = getContributorTier(contributor as Contributor);
 	$: rewards = contributorRewards.filter((reward) => reward.tiers.includes(tier));
@@ -36,9 +30,8 @@
 		onDestroy(() => clearTimeout(timeout));
 	}
 
-	let request: DownloadDataOutput | null;
 	$: request = null;
-	beforeNavigate(async (navigation) => {
+	const cancelRequest = async (request: DownloadDataOutput | null, e: { cancel: () => void }) => {
 		if (request) {
 			request.cancel();
 			try {
@@ -47,114 +40,13 @@
 				console.error(err);
 				if (isCancelError(err)) {
 					status = err.message;
-					navigation.cancel();
+					e.cancel();
 				}
 			}
 		}
-	});
-
-	const downloadRewards: SubmitFunction = async (event) => {
-		// Cancel existing request if any
-		if (request) {
-			request.cancel();
-
-			try {
-				await request.result;
-			} catch (err) {
-				console.error(err);
-				if (isCancelError(err)) {
-					status = err.message;
-					return event.cancel();
-				}
-			}
-		}
-
-		// Download rewards
-		const { formData, cancel } = event;
-		const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
-
-		try {
-			if (tier === "supporter") {
-				let id = Number(formData.get("track-select") as string);
-				let filename = tracks[id - 1].filename + ".mp3";
-				let key = "mp3/" + filename;
-
-				await createDownloadTask(key, ({ transferredBytes, totalBytes }) => {
-					status = `Downloading: ${Math.round((transferredBytes / (totalBytes as number)) * 100)}%`;
-				}).result;
-			}
-
-			if (tier === "bronze" || tier === "silver") {
-				let checked: number[] = [];
-				let format = formData.get("format-select") as string;
-				for (let value of formData.values()) if (value !== format) checked.push(Number(value));
-
-				let remaining = getMaxTracksForTier(tier) - checked.length;
-				if (remaining > 0) {
-					status = `Kindly select ${remaining} ${remaining === 5 ? " " : "more "}${
-						remaining === 1 ? "song" : "songs"
-					} to download.`;
-					return cancel();
-				}
-
-				let files: ContributorRewardFile[] = [];
-				checked.map((id) => {
-					let filename = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
-					let key = `${tier === "silver" ? format : "mp3"}/${filename}`;
-					return files.push({ filename, key });
-				});
-
-				// TODO: Create and download ZIP
-				console.log(files);
-			}
-
-			if (tier === "gold") {
-				let files: ContributorRewardFile[] = [];
-				let format = formData.get("format-select") as string;
-
-				tracks.map((track) => {
-					let filename = track.filename + `.${format}`;
-					let key = `${format}/` + filename;
-					files.push({ filename, key });
-				});
-
-				// TODO: Create and download ZIP
-				console.log(files);
-			}
-
-			if (tier === "platinum" || tier === "executive") {
-				let files: { music: ContributorRewardFile[]; commentary: ContributorRewardFile[] } = {
-					music: [],
-					commentary: []
-				};
-
-				let { music, commentary } = files;
-				let format = formData.get("format-select") as string;
-
-				tracks.map((track) => {
-					let filename = track.filename + `.${format}`;
-					let key = `${format}/` + filename;
-					music.push({ filename, key });
-
-					filename = track.filename + ".m4a";
-					key = "m4a/" + filename;
-					return commentary.push({ filename, key });
-				});
-
-				// TODO: Create and download ZIP
-				console.log(files);
-			}
-
-			status = responses[Math.floor(Math.random() * responses.length)];
-		} catch (err) {
-			console.error(err);
-			if (isCancelError(err)) {
-				status = err.message;
-			} else status = "An unknown error occurred. Kindly try again.";
-		}
-
-		cancel(); // Remove this line when all TODOs are done
 	};
+
+	beforeNavigate(async (navigation) => cancelRequest(request, navigation));
 </script>
 
 <header class="rewards-head">
@@ -185,10 +77,20 @@
 		</div>
 	{/each}
 </div>
-<form class="rewards-claim" method="POST" action="?/claim" use:enhance={downloadRewards}>
+<form
+	class="rewards-claim"
+	method="POST"
+	action="?/claim"
+	use:enhance={(e) => {
+		status = "Preparing download…";
+		cancelRequest(request, e);
+	}}
+>
 	<TrackDownload {tier} />
 	<footer class="link-buttons">
 		<input type="hidden" name="email" value={contributor?.email} />
+		<input type="hidden" name="tier" value={tier} />
+
 		<button type="submit">Claim rewards</button>
 		<button formaction="?/logout" on:click={() => (status = "Ndio kutoka sasa? Haya…")}
 			>Logout</button

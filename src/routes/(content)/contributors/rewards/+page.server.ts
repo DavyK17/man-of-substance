@@ -1,12 +1,20 @@
 import type { PageServerLoad, Actions } from "./$types";
-import type { Contributor } from "$lib/ambient";
+import type { Contributor, ContributorRewardFile, ContributorTier } from "$lib/ambient";
 
 import { error, fail } from "@sveltejs/kit";
 import { signIn, signOut } from "aws-amplify/auth";
+import { isCancelError } from "aws-amplify/storage";
 import moment from "moment";
 
-import { serverUrl, formatResponseMessage } from "$lib/helpers";
+import {
+	serverUrl,
+	formatResponseMessage,
+	getMaxTracksForTier,
+	createDownloadTask
+} from "$lib/helpers";
 import { AWS_USERNAME, AWS_PASSWORD } from "$env/static/private";
+
+import { tracks } from "$lib/data.json";
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
 	const email = cookies.get("mos-contributor");
@@ -103,32 +111,112 @@ export const actions: Actions = {
 	},
 
 	claim: async ({ request, fetch, cookies }) => {
+		// Initialise responses
+		const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
+
+		// Download rewards
 		try {
-			// Get email
-			const email = (await request.formData()).get("email") as string;
-			const url = `${serverUrl}/contributors?email=${email}`;
+			// Get form data
+			const data = await request.formData();
+			const tier = data.get("tier") as ContributorTier;
 
-			// Get response
-			const response = await fetch(url, { method: "POST" });
+			// Download flows (by tier)
+			if (tier === "supporter") {
+				//-// SUPPORTER
+				let id = Number(data.get("track-select") as string);
+				let filename = tracks[id - 1].filename + ".mp3";
+				let key = "mp3/" + filename;
 
-			// Return error if status code is not 200
-			if (response.status !== 200)
-				return fail(response.status, {
-					message: formatResponseMessage(await response.text())
+				await createDownloadTask(key).result;
+			} else if (tier === "bronze" || tier === "silver") {
+				//-// BRONZE AND SILVER
+				let checked: number[] = [];
+				for (let value of data.values()) if (!isNaN(Number(value))) checked.push(Number(value));
+
+				let remaining = getMaxTracksForTier(tier) - checked.length;
+				if (remaining > 0)
+					return fail(400, {
+						message: `Kindly select ${remaining} ${remaining === 5 ? " " : "more "}${
+							remaining === 1 ? "song" : "songs"
+						} to download.`
+					});
+
+				let format = data.get("format-select") as string;
+				if (!format)
+					return fail(400, {
+						message: "Kindly select a file format"
+					});
+
+				let files: ContributorRewardFile[] = [];
+				checked.map((id) => {
+					let filename = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
+					let key = `${tier === "silver" ? format : "mp3"}/${filename}`;
+					files.push({ filename, key });
 				});
 
-			// Attempt logout
-			await signOut();
+				// TODO: Create and download ZIP
+				console.log(files);
+			} else if (tier === "gold") {
+				//-// GOLD
+				let files: ContributorRewardFile[] = [];
+				let format = data.get("format-select") as string;
 
-			// Delete cookie
-			const cookie = cookies.get("mos-contributor");
-			if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
+				tracks.map((track) => {
+					let filename = track.filename + `.${format}`;
+					let key = `${format}/` + filename;
+					files.push({ filename, key });
+				});
+
+				// TODO: Create and download ZIP
+				console.log(files);
+			} else if (tier === "platinum" || tier === "executive") {
+				//-// PLATINUM AND EXECUTIVE
+				let files: { music: ContributorRewardFile[]; commentary: ContributorRewardFile[] } = {
+					music: [],
+					commentary: []
+				};
+
+				let { music, commentary } = files;
+				let format = data.get("format-select") as string;
+
+				tracks.map((track) => {
+					let filename = track.filename + `.${format}`;
+					let key = `${format}/` + filename;
+					music.push({ filename, key });
+
+					filename = track.filename + ".m4a";
+					key = "m4a/" + filename;
+					return commentary.push({ filename, key });
+				});
+
+				// TODO: Create and download ZIP
+				console.log(files);
+			}
+
+			// // Claim rewards in database
+			// const email = data.get("email") as string;
+			// const response = await fetch(`${serverUrl}/contributors?email=${email}`, { method: "POST" });
+
+			// // Return error if status code is not 200
+			// if (response.status !== 200)
+			// 	return fail(response.status, {
+			// 		message: formatResponseMessage(await response.text())
+			// 	});
+
+			// // Attempt logout
+			// await signOut();
+
+			// // Delete cookie
+			// const cookie = cookies.get("mos-contributor");
+			// if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
 
 			// Return data
-			return { loggedIn: false };
+			return { message: responses[Math.floor(Math.random() * responses.length)] };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: "An unknown error occurred. Kindly try again." });
+			return fail(500, {
+				message: isCancelError(err) ? err.message : "An unknown error occurred. Kindly try again."
+			});
 		}
 	}
 };
