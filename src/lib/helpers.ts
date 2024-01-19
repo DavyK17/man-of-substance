@@ -1,4 +1,4 @@
-import { dev } from "$app/environment";
+import type { DownloadDataOutput, TransferProgressEvent } from "aws-amplify/storage";
 import type {
 	Track,
 	TracklistVersion,
@@ -6,6 +6,10 @@ import type {
 	ContributorTier,
 	ContributorReward
 } from "./ambient";
+
+import { downloadData } from "aws-amplify/storage";
+
+import { dev } from "$app/environment";
 import { PUBLIC_TARGET_ENV } from "$env/static/public";
 
 // Server URL
@@ -167,3 +171,15 @@ export const contributorRewards: ContributorReward[] = [
 
 export const getTrackFormat = (tier: ContributorTier): string =>
 	`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`;
+
+export const createDownloadTask = (
+	key: string,
+	progressCallback: (event: TransferProgressEvent) => any
+): DownloadDataOutput =>
+	downloadData({
+		key,
+		options: {
+			accessLevel: "guest",
+			onProgress: (event) => progressCallback(event)
+		}
+	});

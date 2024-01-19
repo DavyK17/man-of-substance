@@ -7,7 +7,7 @@
 </script>
 
 {#if data.loggedIn || form?.loggedIn}
-	<Rewards />
+	<Rewards contributor={data.contributor || form?.contributor} message={form?.message} />
 {:else}
 	<Login message={form?.message} />
 {/if}

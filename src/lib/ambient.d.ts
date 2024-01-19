@@ -56,4 +56,9 @@ export type ContributorReward = {
 	name: string;
 	perks: string[];
 	tiers: ContributorTier[];
-}
+};
+export type ContributorRewardFile = {
+	[key: string]: string;
+	filename: string;
+	key: string;
+};

@@ -5,7 +5,7 @@ import { error, fail } from "@sveltejs/kit";
 import { signIn, signOut } from "aws-amplify/auth";
 import moment from "moment";
 
-import { serverUrl } from "$lib/helpers";
+import { serverUrl, formatResponseMessage } from "$lib/helpers";
 import { AWS_USERNAME, AWS_PASSWORD } from "$env/static/private";
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
@@ -30,11 +30,14 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
 export const actions: Actions = {
 	login: async ({ request, fetch, cookies }) => {
-		const data = await request.formData();
-		const email = data.get("email") as string;
-		if (!email) return fail(400, { message: "Please enter a valid email address" });
-
 		try {
+			// Get form data
+			const data = await request.formData();
+
+			// Validate existence of email
+			const email = data.get("email") as string;
+			if (!email) return fail(400, { message: "Please enter a valid email address" });
+
 			// Get contributor
 			const response = await fetch(`${serverUrl}/contributors?email=${email}`);
 			if (response.status !== 200)
@@ -84,6 +87,36 @@ export const actions: Actions = {
 
 	logout: async ({ cookies }) => {
 		try {
+			// Attempt logout
+			await signOut();
+
+			// Delete cookie
+			const cookie = cookies.get("mos-contributor");
+			if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
+
+			// Return data
+			return { loggedIn: false };
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: "An unknown error occurred. Kindly try again." });
+		}
+	},
+
+	claim: async ({ request, fetch, cookies }) => {
+		try {
+			// Get email
+			const email = (await request.formData()).get("email") as string;
+			const url = `${serverUrl}/contributors?email=${email}`;
+
+			// Get response
+			const response = await fetch(url, { method: "POST" });
+
+			// Return error if status code is not 200
+			if (response.status !== 200)
+				return fail(response.status, {
+					message: formatResponseMessage(await response.text())
+				});
+
 			// Attempt logout
 			await signOut();
 
