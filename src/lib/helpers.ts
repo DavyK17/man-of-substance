@@ -174,12 +174,14 @@ export const getTrackFormat = (tier: ContributorTier): string =>
 
 export const createDownloadTask = (
 	key: string,
-	progressCallback: (event: TransferProgressEvent) => any
+	progressCallback?: (event: TransferProgressEvent) => any
 ): DownloadDataOutput =>
 	downloadData({
 		key,
 		options: {
 			accessLevel: "guest",
-			onProgress: (event) => progressCallback(event)
+			onProgress: (event) => {
+				if (progressCallback) progressCallback(event);
+			}
 		}
 	});
