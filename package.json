@@ -41,7 +41,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"aws-amplify": "^6.0.12",
 		"jszip": "^3.10.1",
 		"moment": "^2.30.1"
 	}
