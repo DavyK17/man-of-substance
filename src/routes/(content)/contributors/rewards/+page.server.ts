@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from "./$types";
-import type { Contributor, ContributorRewardFile, ContributorTier } from "$lib/ambient";
+import type { Contributor, ContributorTier, ContirbutorRewardFiles } from "$lib/ambient";
 
 import { error, fail } from "@sveltejs/kit";
 import { signIn, signOut } from "aws-amplify/auth";
@@ -10,7 +10,8 @@ import {
 	serverUrl,
 	formatResponseMessage,
 	getMaxTracksForTier,
-	createDownloadTask
+	createDownloadTask,
+	createZip
 } from "$lib/helpers";
 import { AWS_USERNAME, AWS_PASSWORD } from "$env/static/private";
 
@@ -110,7 +111,7 @@ export const actions: Actions = {
 		}
 	},
 
-	claim: async ({ request, fetch, cookies }) => {
+	claim: async ({ request, fetch }) => {
 		// Initialise responses
 		const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
 
@@ -121,97 +122,83 @@ export const actions: Actions = {
 			const tier = data.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
+			let download: Blob | undefined;
+
 			if (tier === "supporter") {
 				//-// SUPPORTER
 				let id = Number(data.get("track-select") as string);
 				let filename = tracks[id - 1].filename + ".mp3";
 				let key = "mp3/" + filename;
 
-				await createDownloadTask(key).result;
-			} else if (tier === "bronze" || tier === "silver") {
-				//-// BRONZE AND SILVER
-				let checked: number[] = [];
-				for (let value of data.values()) if (!isNaN(Number(value))) checked.push(Number(value));
+				let { body } = await createDownloadTask(key).result;
+				download = await body.blob();
+			} else {
+				let files: ContirbutorRewardFiles = { music: [] };
 
-				let remaining = getMaxTracksForTier(tier) - checked.length;
-				if (remaining > 0)
-					return fail(400, {
-						message: `Kindly select ${remaining} ${remaining === 5 ? " " : "more "}${
-							remaining === 1 ? "song" : "songs"
-						} to download.`
+				if (tier === "bronze" || tier === "silver") {
+					//-// BRONZE AND SILVER
+					let checked: number[] = [];
+					for (let value of data.values()) if (!isNaN(Number(value))) checked.push(Number(value));
+
+					let remaining = getMaxTracksForTier(tier) - checked.length;
+					if (remaining > 0)
+						return fail(400, {
+							message: `Kindly select ${remaining} ${remaining === 5 ? " " : "more "}${
+								remaining === 1 ? "song" : "songs"
+							} to download.`
+						});
+
+					let format = data.get("format-select") as string;
+					if (!format)
+						return fail(400, {
+							message: "Kindly select a file format"
+						});
+
+					checked.map((id) => {
+						let filename = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
+						let key = `${tier === "silver" ? format : "mp3"}/${filename}`;
+						files.music.push({ filename, key });
 					});
+				} else if (tier === "gold") {
+					//-// GOLD
+					let format = data.get("format-select") as string;
 
-				let format = data.get("format-select") as string;
-				if (!format)
-					return fail(400, {
-						message: "Kindly select a file format"
+					tracks.map((track) => {
+						let filename = track.filename + `.${format}`;
+						let key = `${format}/` + filename;
+						files.music.push({ filename, key });
 					});
+				} else if (tier === "platinum" || tier === "executive") {
+					//-// PLATINUM AND EXECUTIVE
+					let format = data.get("format-select") as string;
 
-				let files: ContributorRewardFile[] = [];
-				checked.map((id) => {
-					let filename = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
-					let key = `${tier === "silver" ? format : "mp3"}/${filename}`;
-					files.push({ filename, key });
-				});
+					files = { ...files, commentary: [] };
+					tracks.map((track) => {
+						let filename = track.filename + `.${format}`;
+						let key = `${format}/` + filename;
+						files.music.push({ filename, key });
 
-				// TODO: Create and download ZIP
-				console.log(files);
-			} else if (tier === "gold") {
-				//-// GOLD
-				let files: ContributorRewardFile[] = [];
-				let format = data.get("format-select") as string;
+						filename = track.filename + ".m4a";
+						key = "m4a/" + filename;
+						files.commentary?.push({ filename, key });
+					});
+				}
 
-				tracks.map((track) => {
-					let filename = track.filename + `.${format}`;
-					let key = `${format}/` + filename;
-					files.push({ filename, key });
-				});
-
-				// TODO: Create and download ZIP
-				console.log(files);
-			} else if (tier === "platinum" || tier === "executive") {
-				//-// PLATINUM AND EXECUTIVE
-				let files: { music: ContributorRewardFile[]; commentary: ContributorRewardFile[] } = {
-					music: [],
-					commentary: []
-				};
-
-				let { music, commentary } = files;
-				let format = data.get("format-select") as string;
-
-				tracks.map((track) => {
-					let filename = track.filename + `.${format}`;
-					let key = `${format}/` + filename;
-					music.push({ filename, key });
-
-					filename = track.filename + ".m4a";
-					key = "m4a/" + filename;
-					return commentary.push({ filename, key });
-				});
-
-				// TODO: Create and download ZIP
-				console.log(files);
+				download = await createZip(files);
 			}
 
-			// // Claim rewards in database
-			// const email = data.get("email") as string;
-			// const response = await fetch(`${serverUrl}/contributors?email=${email}`, { method: "POST" });
+			// Claim rewards in database
+			const email = data.get("email") as string;
+			const response = await fetch(`${serverUrl}/contributors?email=${email}`, { method: "POST" });
 
-			// // Return error if status code is not 200
-			// if (response.status !== 200)
-			// 	return fail(response.status, {
-			// 		message: formatResponseMessage(await response.text())
-			// 	});
-
-			// // Attempt logout
-			// await signOut();
-
-			// // Delete cookie
-			// const cookie = cookies.get("mos-contributor");
-			// if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
+			// Return error if status code is not 200
+			if (response.status !== 200)
+				return fail(response.status, {
+					message: formatResponseMessage(await response.text())
+				});
 
 			// Return data
-			return { message: responses[Math.floor(Math.random() * responses.length)] };
+			return { download, message: responses[Math.floor(Math.random() * responses.length)] };
 		} catch (err) {
 			console.error(err);
 			return fail(500, {
