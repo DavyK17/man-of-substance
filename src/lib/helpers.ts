@@ -4,10 +4,13 @@ import type {
 	TracklistVersion,
 	Contributor,
 	ContributorTier,
-	ContributorReward
+	ContributorReward,
+	ContributorRewardFile,
+	ContirbutorRewardFiles
 } from "./ambient";
 
 import { downloadData } from "aws-amplify/storage";
+import JSZip from "jszip";
 
 import { dev } from "$app/environment";
 import { PUBLIC_TARGET_ENV } from "$env/static/public";
@@ -185,3 +188,23 @@ export const createDownloadTask = (
 			}
 		}
 	});
+
+export const createZip = async (files: ContirbutorRewardFiles): Promise<Blob> => {
+	try {
+		let zip = new JSZip();
+
+		for (let type in files) {
+			let folder = zip.folder(type);
+
+			for (let { filename, key } of files[type] as ContributorRewardFile[]) {
+				let { body } = await createDownloadTask(key).result;
+				let file = await body.blob();
+				folder?.file(filename, file);
+			}
+		}
+
+		return await zip.generateAsync({ type: "blob" });
+	} catch (err) {
+		throw err;
+	}
+};

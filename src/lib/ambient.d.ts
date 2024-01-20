@@ -1,3 +1,4 @@
+// Credits
 export interface Credits {
 	[key: string]: string[] | string;
 	execProducers: string[];
@@ -9,6 +10,9 @@ export interface Credits {
 	website: string[];
 	copyright: string;
 }
+
+// Tracks
+export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
 
 export interface Track {
 	[key: string]: any;
@@ -22,6 +26,8 @@ export interface Track {
 	credits: TrackCredits;
 	missingFrom?: TracklistVersion[];
 }
+
+export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
 
 export interface TrackCredits {
 	[key: string]: any[];
@@ -38,14 +44,14 @@ export interface TrackCredits {
 	interpolates?: { title: string; info: string }[];
 }
 
-export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
-export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
-
+// Contributors
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
+
 export type Contributors = {
 	[key: string]: { name: string }[];
 	[key in ContributorTier]: { name: string }[];
 };
+
 export type Contributor = {
 	[key: string]: any;
 	id: number;
@@ -54,14 +60,22 @@ export type Contributor = {
 	amount: number;
 	rewardsClaimed: boolean;
 };
+
 export type ContributorReward = {
 	[key: string]: string | string[];
 	name: string;
 	perks: string[];
 	tiers: ContributorTier[];
 };
+
 export type ContributorRewardFile = {
 	[key: string]: string;
 	filename: string;
 	key: string;
+};
+
+export type ContirbutorRewardFiles = {
+	[key: string]: ContributorRewardFile[] | undefined;
+	music: ContributorRewardFile[];
+	commentary?: ContributorRewardFile[];
 };
