@@ -1,2 +1,19 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import type { PageData, ActionData } from "./$types";
+	import { Home, Countdown, ListeningParty } from "$lib";
+
+	export let data: PageData;
+	export let form: ActionData;
+</script>
+
+{#if data.componentType === "countdown"}
+	<Countdown />
+{:else if data.componentType === "listeningParty"}
+	{#if form?.success}
+		<Home cover={data.cover} released={data.released} />
+	{:else}
+		<ListeningParty />
+	{/if}
+{:else}
+	<Home cover={data.cover} released={data.released} />
+{/if}

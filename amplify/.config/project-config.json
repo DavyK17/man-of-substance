@@ -1,17 +1,17 @@
 {
+  "providers": [
+    "awscloudformation"
+  ],
   "projectName": "ManOfSubstance",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
-    "framework": "react",
+    "framework": "none",
     "config": {
       "SourceDir": "src",
-      "DistributionDir": "build",
-      "BuildCommand": "npm.cmd run-script build",
-      "StartCommand": "npm.cmd run-script start"
+      "DistributionDir": "dist",
+      "BuildCommand": "npm run build",
+      "StartCommand": "npm run start"
     }
-  },
-  "providers": [
-    "awscloudformation"
-  ]
+  }
 }
