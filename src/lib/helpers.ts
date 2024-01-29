@@ -183,7 +183,7 @@ export const createDownloadTask = (
 		key,
 		options: {
 			accessLevel: "guest",
-			onProgress: (event) => {
+			onProgress: (event: TransferProgressEvent) => {
 				if (progressCallback) progressCallback(event);
 			}
 		}

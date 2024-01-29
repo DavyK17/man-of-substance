@@ -69,7 +69,7 @@
 		easterEgg = easterEgg.filter((line) => line.innerHTML.includes(PUBLIC_CHALLENGE_LYRIC));
 
 		if (easterEgg.length === 1) {
-			let timeout: number;
+			let timeout: NodeJS.Timeout;
 
 			easterEgg[0].onmouseover = (e: MouseEvent) => {
 				timeout = setTimeout(() => {

@@ -20,42 +20,40 @@
 
 <div class="track-credits">
 	{#each Object.entries(titles) as [credit, title]}
-		{#if typeof credits[credit] !== "undefined"}
-			<section class="credit">
-				<h2>
-					{#if credit === "producers" || credit === "additionalProducers"}
-						{credits[credit].length > 1 ? `${title}s` : title}
-					{:else}
-						{title}
-					{/if}
-				</h2>
-				{#each credits[credit] as name, i}
-					{#if credit === "featuring"}
-						{#if Array.isArray(credits[credit][i + 1])}
-							<p class="group-name">{name}</p>
-						{:else if Array.isArray(credits[credit][i])}
-							{#each name as member}
-								<p class="group-member">{member}</p>
-							{/each}
-						{:else}
-							<p>{name}</p>
-						{/if}
-					{:else if credit === "recorded"}
-						<p class="location">
-							<span class="studio">{name.studio}</span>
-							<span class="city">{name.city}</span>
-						</p>
-					{:else if credit === "samples" || credit === "interpolates"}
-						<p class="location">
-							<span class="studio">{name.title}</span>
-							<span class="city">{name.info}</span>
-						</p>
+		<section class="credit">
+			<h2>
+				{#if credit === "producers" || credit === "additionalProducers"}
+					{credits[credit].length > 1 ? `${title}s` : title}
+				{:else}
+					{title}
+				{/if}
+			</h2>
+			{#each credits[credit] as name, i}
+				{#if credit === "featuring"}
+					{#if Array.isArray(credits[credit][i + 1])}
+						<p class="group-name">{name}</p>
+					{:else if Array.isArray(credits[credit][i])}
+						{#each name as member}
+							<p class="group-member">{member}</p>
+						{/each}
 					{:else}
 						<p>{name}</p>
 					{/if}
-				{/each}
-			</section>
-		{/if}
+				{:else if credit === "recorded"}
+					<p class="location">
+						<span class="studio">{name.studio}</span>
+						<span class="city">{name.city}</span>
+					</p>
+				{:else if credit === "samples" || credit === "interpolates"}
+					<p class="location">
+						<span class="studio">{name.title}</span>
+						<span class="city">{name.info}</span>
+					</p>
+				{:else}
+					<p>{name}</p>
+				{/if}
+			{/each}
+		</section>
 	{/each}
 </div>
 
