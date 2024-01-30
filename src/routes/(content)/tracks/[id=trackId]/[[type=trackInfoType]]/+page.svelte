@@ -71,15 +71,15 @@
 		if (easterEgg.length === 1) {
 			let timeout: NodeJS.Timeout;
 
-			easterEgg[0].onmouseover = (e: MouseEvent) => {
+			easterEgg[0].onmouseover = () => {
 				timeout = setTimeout(() => {
 					easterEgg[0].style.cursor = "pointer";
 					easterEgg[0].setAttribute("id", "challenge-link");
-					easterEgg[0].onclick = (e: MouseEvent) => (challengeFound = true);
+					easterEgg[0].onclick = () => (challengeFound = true);
 				}, 4000);
 			};
 
-			easterEgg[0].onmouseout = (e: MouseEvent) => {
+			easterEgg[0].onmouseout = () => {
 				clearTimeout(timeout);
 				easterEgg[0].removeAttribute("style");
 				easterEgg[0].removeAttribute("id");
