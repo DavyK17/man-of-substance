@@ -10,7 +10,7 @@
 		used to create it. All contributors can claim their respective rewards by
 		<a href="/contributors/rewards">clicking here</a>.
 	</p>
-	{#await data.load}
+	{#await data.contributors}
 		<span></span>
 	{:then contributors}
 		{#if contributors}
@@ -24,7 +24,7 @@
 	{/await}
 </div>
 <div class="contributors-list">
-	{#await data.load}
+	{#await data.contributors}
 		<p id="status">Tulia kiambatasi&hellip;</p>
 	{:then contributors}
 		{#if contributors}

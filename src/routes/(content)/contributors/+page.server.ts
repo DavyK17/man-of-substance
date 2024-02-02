@@ -1,18 +1,17 @@
 import type { PageServerLoad } from "./$types";
 import type { Contributors } from "$lib/ambient";
 
-import { serverUrl } from "$lib/helpers";
+import { getContributors } from "$lib/helpers";
+import { supabase } from "$lib/supabaseClient";
 
-export const load: PageServerLoad = async ({
-	fetch
-}): Promise<{ load: Promise<Contributors | null> }> => {
-	try {
-		const load: Promise<Contributors> = (
-			await fetch(`${serverUrl}/contributors`)
-		).json();
-		return { load };
-	} catch (err) {
-		console.log(err);
-		return { load: new Promise((resolve) => resolve(null)) };
-	}
+export const load: PageServerLoad = async (): Promise<{
+	contributors: Promise<Contributors | null>;
+}> => {
+	const { data, error } = await supabase.from("contributors").select("name, amount");
+	return {
+		contributors: new Promise((resolve, reject) => {
+			if (error) reject(error);
+			else resolve(getContributors(data));
+		})
+	};
 };

@@ -1,7 +1,7 @@
-import type { DownloadDataOutput, TransferProgressEvent } from "aws-amplify/storage";
 import type {
 	Track,
 	TracklistVersion,
+	Contributors,
 	Contributor,
 	ContributorTier,
 	ContributorReward,
@@ -9,20 +9,7 @@ import type {
 	ContirbutorRewardFiles
 } from "./ambient";
 
-import { downloadData } from "aws-amplify/storage";
 import JSZip from "jszip";
-
-import { dev } from "$app/environment";
-import { PUBLIC_TARGET_ENV } from "$env/static/public";
-
-// Server URL
-export const serverUrl = `${
-	dev
-		? "http://localhost:8000"
-		: PUBLIC_TARGET_ENV === "staging"
-			? "https://server-test.mos.davykamanzi.com"
-			: "https://server.mos.davykamanzi.com"
-}/api`;
 
 // TRACKS
 export const getTracklistPart = (tracklist: Track[], ver: TracklistVersion, n: 1 | 2 | 3) => {
@@ -113,13 +100,28 @@ export const formatResponseMessage = (message: string): string => {
 };
 
 // CONTRIBUTORS
+const contributorTiers: { name: ContributorTier; min: number; max: number }[] = [
+	{ name: "supporter", min: 0, max: 999 },
+	{ name: "bronze", min: 1000, max: 1999 },
+	{ name: "silver", min: 2000, max: 3499 },
+	{ name: "gold", min: 3500, max: 4999 },
+	{ name: "platinum", min: 5000, max: 49999 },
+	{ name: "executive", min: 50000, max: Infinity }
+];
+
+export const getContributors = (data: { name: string; amount: number }[]) => {
+	const contributors: Contributors = {};
+	contributorTiers.forEach((tier) => {
+		contributors[tier.name] = data.filter(
+			(contributor) => contributor.amount >= tier.min && contributor.amount <= tier.max
+		);
+	});
+	return contributors;
+};
+
 export const getContributorTier = ({ amount }: Contributor): ContributorTier => {
-	if (amount >= 50000) return "executive";
-	if (amount >= 5000) return "platinum";
-	if (amount >= 3500) return "gold";
-	if (amount >= 2000) return "silver";
-	if (amount >= 1000) return "bronze";
-	return "supporter";
+	const tier = contributorTiers.find(({ min, max }) => amount >= min && amount <= max);
+	return tier?.name as ContributorTier;
 };
 
 export const getMaxTracksForTier = (tier: ContributorTier): number => {
@@ -175,20 +177,6 @@ export const contributorRewards: ContributorReward[] = [
 export const getTrackFormat = (tier: ContributorTier): string =>
 	`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`;
 
-export const createDownloadTask = (
-	key: string,
-	progressCallback?: (event: TransferProgressEvent) => any
-): DownloadDataOutput =>
-	downloadData({
-		key,
-		options: {
-			accessLevel: "guest",
-			onProgress: (event: TransferProgressEvent) => {
-				if (progressCallback) progressCallback(event);
-			}
-		}
-	});
-
 export const createZip = async (files: ContirbutorRewardFiles): Promise<Blob> => {
 	try {
 		let zip = new JSZip();
@@ -197,9 +185,10 @@ export const createZip = async (files: ContirbutorRewardFiles): Promise<Blob> =>
 			let folder = zip.folder(type);
 
 			for (let { filename, key } of files[type] as ContributorRewardFile[]) {
-				let { body } = await createDownloadTask(key).result;
-				let file = await body.blob();
-				folder?.file(filename, file);
+				console.log(filename, key, folder);
+				// let { body } = await createDownloadTask(key).result;
+				// let file = await body.blob();
+				// folder?.file(filename, file);
 			}
 		}
 
