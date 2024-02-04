@@ -11,12 +11,12 @@ export const actions: Actions = {
 			return { success: false };
 		}
 
-		cookies.set("passcode", "true", { path: "/" });
+		cookies.set("passcode", "confirmed", { path: "/" });
 		return { success: true };
 	},
 
 	skip: ({ cookies }) => {
-		cookies.set("passcode", "false", { path: "/" });
+		cookies.set("passcode", "", { path: "/" });
 		return { success: true };
 	}
 };
