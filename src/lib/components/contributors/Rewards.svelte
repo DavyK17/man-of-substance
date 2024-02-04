@@ -10,7 +10,7 @@
 	export let videoUrl: string | undefined;
 
 	$: tier = getContributorTier(contributor as Contributor);
-	$: rewards = contributorRewards.filter((reward) => reward.tiers.includes(tier));
+	$: rewards = contributorRewards.filter(({ tiers }) => tiers.includes(tier));
 </script>
 
 <header>

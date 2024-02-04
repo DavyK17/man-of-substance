@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { PageData } from "./$types";
+
 	import { page } from "$app/stores";
 	import { Layout } from "$lib";
-	import type { PageData } from "./$types";
 
 	export let data: PageData;
 </script>
