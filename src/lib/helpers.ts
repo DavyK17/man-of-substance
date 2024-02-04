@@ -1,19 +1,85 @@
 import type {
-	Track,
-	TracklistVersion,
-	Contributors,
 	Contributor,
 	ContributorTier,
+	ContributorTierInfo,
+	ContributorsByTier,
 	ContributorReward,
 	ContributorRewardFile,
-	ContributorRewardFiles
+	ContributorRewardFiles,
+	Track,
+	TracklistVersion
 } from "./ambient";
 
 import JSZip from "jszip";
 import { supabase } from "./supabaseClient";
 
+/* HELPERS */
+//-- Yes, the helpers have helpers.
+
+/**
+ * An array of objects with information on the album's crowdfunding contributor tiers, each with the following properties:
+ * - `name` — A `ContributorTier` string
+ * - `min` — A number; the given tier's minimum contribution amount
+ * - `max` — A number; the given tier's maximum contribution amount
+ */
+const contributorTiers: ContributorTierInfo[] = [
+	{ name: "supporter", min: 0, max: 999 },
+	{ name: "bronze", min: 1000, max: 1999 },
+	{ name: "silver", min: 2000, max: 3499 },
+	{ name: "gold", min: 3500, max: 4999 },
+	{ name: "platinum", min: 5000, max: 49999 },
+	{ name: "executive", min: 50000, max: Infinity }
+];
+
+/**
+ * Formats a duration of time in its given unit as a string.
+ * @param {string} unit - A unit of time, i.e. `"min"` | `"sec"`
+ * @param {number} duration - A duration of time as an integer
+ * @returns {string} A formatted string with the given duration of time and its unit, e.g. `"3 seconds"`
+ */
+const formatRuntimeUnit = (unit: "min" | "sec", duration: number): string =>
+	duration === 0
+		? ""
+		: `${duration} ${unit === "min" ? "minute" : "second"}${duration > 1 ? "s" : ""}`;
+
+/* EXPORTS */
+
 // TRACKS
-export const getTracklistPart = (tracklist: Track[], ver: TracklistVersion, n: 1 | 2 | 3) => {
+/**
+ * Returns an array of `Track` objects representing a given version of the album's tracklist.
+ * @param {Track[]} tracks - An array of `Track` objects
+ * @param {TracklistVersion} ver - A `TracklistVersion` string
+ * @returns {Track[]} An array of `Track` objects representing the given version of the album's tracklist
+ */
+export const buildTracklist = (tracks: Track[], ver: TracklistVersion): Track[] => {
+	let filtered = tracks;
+
+	if (ver === "expanded")
+		filtered = tracks.filter(
+			(track) =>
+				!track.missingFrom || (track.missingFrom && !track.missingFrom.includes("expanded"))
+		);
+	else if (ver === "mixtape")
+		filtered = tracks.filter(
+			(track) => !track.missingFrom || (track.missingFrom && !track.missingFrom.includes("mixtape"))
+		);
+	else if (ver === "base") filtered = tracks.filter((track) => !track.missingFrom);
+
+	return filtered.map((item, i) => ({ ...item, id: i + 1 }));
+};
+
+/**
+ * Returns an array of `Track` objects representing a given section of the album's tracklist.
+ * @param {Track[]} tracklist - An array of `Track` objects
+ * @param {TracklistVersion} ver - A `TracklistVersion` string
+ * @param {number} n - A tracklist part number, i.e. `1` | `2` | `3`
+ * @returns {Track[]} An array of `Track` objects representing part `n` of the album's tracklist
+ */
+export const getTracklistPart = (
+	tracklist: Track[],
+	ver: TracklistVersion,
+	n: 1 | 2 | 3
+): Track[] => {
 	let first = -1;
 	let last = -1;
 
@@ -45,92 +111,80 @@ export const getTracklistPart = (tracklist: Track[], ver: TracklistVersion, n: 1
 	return [];
 };
 
-export const displayWriters = (current: Track): string => {
-	if (current.credits.writers.length === 1) return current.credits.writers.join("");
-	if (current.credits.writers.length === 2) return current.credits.writers.join(" and ");
+/**
+ * Formats a list of the current track's writers as a string.
+ * @param {Track} current - A `Track` object
+ * @returns {string} A formatted string with the names of the current track's writers
+ */
+export const displayWriters = ({ credits: { writers } }: Track): string => {
+	if (writers.length === 1) return writers.join("");
+	if (writers.length === 2) return writers.join(" and ");
 
-	const arr = current.credits.writers.slice();
+	const arr = writers.slice();
 	const last = arr.pop();
 	return arr.join(", ") + " and " + last;
 };
 
-export const displayRuntime = (time: number): string => {
-	const min = Math.floor(time / 60);
-	const sec = time % 60;
+/**
+ * Formats the current track's runtime in minutes and seconds as a string.
+ * @param {Track} current - A `Track` object
+ * @returns {string} A formatted string with the names of the current track's writers
+ */
+export const displayRuntime = ({ runtime }: Track): string => {
+	const min = Math.floor(runtime / 60);
+	const sec = runtime % 60;
 	const and = min === 0 || sec === 0 ? "" : " and ";
 
-	const display = (unit: "min" | "sec", time: number) => {
-		if (time === 0) return "";
-
-		const pluraliser = () => {
-			let label;
-			switch (unit) {
-				case "min":
-					label = time > 1 ? "minutes" : "minute";
-					break;
-				case "sec":
-					label = time > 1 ? "seconds" : "second";
-					break;
-				default:
-					label = undefined;
-			}
-
-			return label;
-		};
-
-		return `${time} ${pluraliser()}`;
-	};
-
-	return `${display("min", min)}${and}${display("sec", sec)}`;
-};
-
-// CHALLENGE
-export const formatResponseMessage = (message: string): string => {
-	if (message.includes("undefined") || message === "An unknown error occurred. Kindly try again.") {
-		// Display generic error message
-		return "An unknown error occurred. Kindly try again.";
-	} else if (message.includes("Error: ")) {
-		// Remove "Error: " from error message
-		let arr = message.split(" ");
-		arr.shift();
-		message = arr.join(" ");
-	}
-
-	// Return message
-	return message;
+	return formatRuntimeUnit("min", min) + and + formatRuntimeUnit("sec", sec);
 };
 
 // CONTRIBUTORS
-const contributorTiers: { name: ContributorTier; min: number; max: number }[] = [
-	{ name: "supporter", min: 0, max: 999 },
-	{ name: "bronze", min: 1000, max: 1999 },
-	{ name: "silver", min: 2000, max: 3499 },
-	{ name: "gold", min: 3500, max: 4999 },
-	{ name: "platinum", min: 5000, max: 49999 },
-	{ name: "executive", min: 50000, max: Infinity }
-];
+/**
+ * Returns the given contributor's tier for rewards.
+ * @param {Contributor} contributor - A `contributor` object
+ * @returns {ContributorTier} The given contributor's tier as a string
+ */
+export const getContributorTier = ({ amount }: Contributor): ContributorTier => {
+	const { name } = contributorTiers.find(
+		({ min, max }) => amount >= min && amount <= max
+	) as ContributorTierInfo;
 
-export const getContributors = (data: { name: string; amount: number }[]) => {
-	const contributors: Contributors = {};
-	contributorTiers.forEach((tier) => {
-		contributors[tier.name] = data.filter(
-			(contributor) => contributor.amount >= tier.min && contributor.amount <= tier.max
-		);
+	return name;
+};
+
+/**
+ * Returns a formatted object containing lists of the album's crowdfunding contributors by tier.
+ * @param {Object} data - An array of objects, each containing the contributor's `name` and `amount`
+ * @returns {ContributorsByTier} A formatted string with the names of the current track's writers
+ */
+export const getContributorsByTier = (
+	data: { name: string; amount: number }[]
+): ContributorsByTier => {
+	const contributors: ContributorsByTier = {};
+	contributorTiers.forEach(({ name: tier, min, max }) => {
+		contributors[tier] = data.filter(({ amount }) => amount >= min && amount <= max);
 	});
+
 	return contributors;
 };
 
-export const getContributorTier = ({ amount }: Contributor): ContributorTier => {
-	const tier = contributorTiers.find(({ min, max }) => amount >= min && amount <= max);
-	return tier?.name as ContributorTier;
-};
-
+/**
+ * Returns the maximum number of tracks that a **bronze** or **silver** contributor can download.
+ * @param {ContributorTier} tier - A valid `ContributorTier` string, i.e. `"bronze"` | `"silver"`
+ * @returns {number} The maximum number of downloadable tracks, or `-1` with invalid input
+ */
 export const getMaxTracksForTier = (tier: ContributorTier): number => {
 	if (tier === "bronze") return 3;
 	if (tier === "silver") return 5;
 	return -1;
 };
 
+/**
+ * An array of objects with information on the album's crowdfunding contributor rewards, each with the following properties:
+ * - `name` — A string; the reward's name
+ * - `perks` — An array of strings; a list of available perks
+ * - `tiers` — An array of `ContributorTier` strings; the tiers for which the reward is available
+ */
 export const contributorRewards: ContributorReward[] = [
 	{
 		name: "Single track",
@@ -175,20 +229,40 @@ export const contributorRewards: ContributorReward[] = [
 	}
 ];
 
+/**
+ * Returns the appropriate downloadable track format(s) for the album's crowdfunding contributors.
+ * @param {ContributorTier} tier - A `ContributorTier` string
+ * @returns {string} The given tier's downloadable track format(s)
+ */
 export const getTrackFormat = (tier: ContributorTier): string =>
 	`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`;
 
+/**
+ * Returns a limited-time signed URL for a given file in the **rewards** bucket.
+ * @param {string} filePath - The file's path relative to the bucket's root with no leading slash
+ * @returns {Promise<string | undefined>} A Promise that resolves to the file's signed URL or `undefined` if the file does not exist
+ */
 export const getFileUrl = async (filePath: string): Promise<string | undefined> => {
 	const { data } = await supabase.storage.from("rewards").createSignedUrl(filePath, 3600);
 	return data?.signedUrl;
 };
 
-export const downloadFile = async (filePath: string): Promise<Blob | null> => {
+/**
+ * Returns a `Blob` for a given file in the **rewards** bucket.
+ * @param {string} filePath - The file's path relative to the bucket's root with no leading slash
+ * @returns {Promise<Blob | undefined>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
+ */
+export const getFileBlob = async (filePath: string): Promise<Blob | null> => {
 	const { data, error } = await supabase.storage.from("rewards").download(filePath);
 	if (error) throw new Error(error.message);
 	return data;
 };
 
+/**
+ * Creates a ZIP file with a crowdfunding contributor's rewards.
+ * @param {ContributorRewardFiles} files - A `ContributorRewardFiles` object
+ * @returns {Promise<Blob>} A Promise that resolves to the ZIP file's `Blob`
+ */
 export const createZip = async (files: ContributorRewardFiles): Promise<Blob> => {
 	try {
 		let zip = new JSZip();
@@ -198,7 +272,7 @@ export const createZip = async (files: ContributorRewardFiles): Promise<Blob> =>
 			let folder = zip.folder(type);
 
 			for (let { name, path } of files[type] as ContributorRewardFile[]) {
-				let file = await downloadFile(path);
+				let file = await getFileBlob(path);
 				if (file) folder?.file(name, file);
 			}
 		}
@@ -209,16 +283,23 @@ export const createZip = async (files: ContributorRewardFiles): Promise<Blob> =>
 	}
 };
 
+/**
+ * Downloads a crowdfunding contributor's rewards as a ZIP file. Only one of the two parameters must be provided.
+ * @param {string} [file] - A `ContributorRewardFile` object
+ * @param {string} [files] - A `ContributorRewardFiles` object
+ */
 export const downloadRewards = async (
 	file?: ContributorRewardFile,
 	files?: ContributorRewardFiles
 ): Promise<void> => {
+	if (!file && !files) throw new Error("No file(s) to download");
+
 	let toDownload: Blob | undefined;
 	let filename: string | undefined;
 
 	if (file) {
 		const { name, path } = file;
-		toDownload = (await downloadFile(path)) as Blob;
+		toDownload = (await getFileBlob(path)) as Blob;
 		filename = name;
 	} else if (files) {
 		toDownload = await createZip(files);

@@ -108,7 +108,7 @@
 		<p class="writers">Written by {displayWriters(current)}</p>
 		<div class="info">
 			<p class="style">{current.style.join(" / ")}</p>
-			<p><strong>Runtime:</strong><span id="break"></span>{displayRuntime(current.runtime)}</p>
+			<p><strong>Runtime:</strong><span id="break"></span>{displayRuntime(current)}</p>
 		</div>
 		<div class="track-links">
 			<div class="link-buttons">

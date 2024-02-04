@@ -1,10 +1,5 @@
 import type { PageServerLoad, Actions } from "./$types";
-import type {
-	Contributor,
-	ContributorTier,
-	ContributorRewardFile,
-	ContributorRewardFiles
-} from "$lib/ambient";
+import type { Contributor, ContributorTier, ContributorRewardDownload } from "$lib/ambient";
 
 import { error, fail } from "@sveltejs/kit";
 import moment from "moment";
@@ -125,10 +120,7 @@ export const actions: Actions = {
 			const tier = formData.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
-			let download: {
-				file?: ContributorRewardFile;
-				files?: ContributorRewardFiles;
-			};
+			let download: ContributorRewardDownload;
 
 			if (tier === "supporter") {
 				//-// SUPPORTER

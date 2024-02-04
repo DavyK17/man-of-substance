@@ -1,16 +1,16 @@
 import type { PageServerLoad } from "./$types";
-import type { Contributors } from "$lib/ambient";
+import type { ContributorsByTier } from "$lib/ambient";
 
-import { getContributors } from "$lib/helpers";
+import { getContributorsByTier } from "$lib/helpers";
 import { supabase } from "$lib/supabaseClient";
 
 export const load: PageServerLoad = async (): Promise<{
-	contributors: Promise<Contributors | null>;
+	contributors: Promise<ContributorsByTier | null>;
 }> => {
 	const { data, error } = await supabase.from("contributors").select("name, amount");
 	return {
 		contributors: new Promise((resolve, reject) =>
-			error ? reject(error) : resolve(getContributors(data))
+			error ? reject(error) : resolve(getContributorsByTier(data))
 		)
 	};
 };
