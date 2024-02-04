@@ -1,22 +1,17 @@
 <script lang="ts">
-	import type { DownloadDataOutput } from "aws-amplify/storage";
 	import type { Contributor } from "$lib/ambient";
 
 	import { onDestroy } from "svelte";
-	import { isCancelError } from "aws-amplify/storage";
+	import TrackDownload from "./TrackDownload.svelte";
 
 	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
-	import { beforeNavigate } from "$app/navigation";
 
 	import { getContributorTier, contributorRewards } from "$lib/helpers";
-	import { PUBLIC_AWS_CLOUDFRONT } from "$env/static/public";
-
-	import TrackDownload from "./TrackDownload.svelte";
+	import { supabase } from "$lib/supabaseClient";
 
 	export let contributor: Contributor | undefined;
 	export let message: string | undefined;
-	let request: DownloadDataOutput | null;
 
 	$: tier = getContributorTier(contributor as Contributor);
 	$: rewards = contributorRewards.filter((reward) => reward.tiers.includes(tier));
@@ -29,24 +24,6 @@
 
 		onDestroy(() => clearTimeout(timeout));
 	}
-
-	$: request = null;
-	const cancelRequest = async (request: DownloadDataOutput | null, e: { cancel: () => void }) => {
-		if (request) {
-			request.cancel();
-			try {
-				await request.result;
-			} catch (err) {
-				console.error(err);
-				if (isCancelError(err)) {
-					status = err.message;
-					e.cancel();
-				}
-			}
-		}
-	};
-
-	beforeNavigate(async (navigation) => cancelRequest(request, navigation));
 </script>
 
 <header class="rewards-head">
@@ -59,7 +36,10 @@
 {#if contributor?.amount && contributor?.amount >= 2000}
 	<div class="video">
 		<video controls>
-			<source src={`${PUBLIC_AWS_CLOUDFRONT}/public/mp4/${contributor?.id}.mp4`} type="video/mp4" />
+			<source
+				src={`${supabase.storage.from("rewards").getPublicUrl(`mp4/${contributor?.id}.mp4`)}`}
+				type="video/mp4"
+			/>
 			<track kind="captions" />
 		</video>
 	</div>
@@ -81,9 +61,8 @@
 	class="rewards-claim"
 	method="POST"
 	action="?/claim"
-	use:enhance={(e) => {
+	use:enhance={() => {
 		status = "Preparing download…";
-		cancelRequest(request, e);
 	}}
 >
 	<TrackDownload {tier} />

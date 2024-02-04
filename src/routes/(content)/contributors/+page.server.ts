@@ -9,9 +9,8 @@ export const load: PageServerLoad = async (): Promise<{
 }> => {
 	const { data, error } = await supabase.from("contributors").select("name, amount");
 	return {
-		contributors: new Promise((resolve, reject) => {
-			if (error) reject(error);
-			else resolve(getContributors(data));
-		})
+		contributors: new Promise((resolve, reject) =>
+			error ? reject(error) : resolve(getContributors(data))
+		)
 	};
 };

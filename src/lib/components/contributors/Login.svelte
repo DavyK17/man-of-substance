@@ -20,8 +20,9 @@
 	method="POST"
 	action="?/login"
 	autocomplete="off"
-	use:enhance
-	on:submit|preventDefault={() => (status = "Tulia kiambatasi…")}
+	use:enhance={() => {
+		status = "Tulia kiambatasi…";
+	}}
 >
 	<h1>Contributor Rewards</h1>
 	<p>Enter the email address you provided after making your contribution:</p>
