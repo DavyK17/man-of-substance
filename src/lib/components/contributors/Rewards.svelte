@@ -24,6 +24,7 @@
 	<div class="video">
 		<video controls>
 			<source src={`${videoUrl}`} type="video/mp4" />
+			<source src={`${videoUrl}`} type="video/mp4" />
 			<track kind="captions" />
 		</video>
 	</div>
@@ -45,8 +46,8 @@
 	class="claim"
 	method="POST"
 	action="?/claim"
-	use:enhance={() => {
-		status = "Preparing rewards…";
+	use:enhance={({ action }) => {
+		status = action.pathname.includes("logout") ? "Ndio kutoka sasa? Haya…" : "Preparing rewards…";
 	}}
 >
 	<TrackDownload {tier} />
@@ -55,14 +56,7 @@
 		<input type="hidden" name="tier" value={tier} />
 
 		<button type="submit">Claim rewards</button>
-		<button
-			formaction="?/logout"
-			on:click={() => {
-				status = "Ndio kutoka sasa? Haya…";
-			}}
-		>
-			Logout
-		</button>
+		<button formaction="?/logout">Logout</button>
 		<p id="status">{status}</p>
 	</footer>
 </form>

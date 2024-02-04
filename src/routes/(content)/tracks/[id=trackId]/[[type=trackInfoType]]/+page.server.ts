@@ -1,7 +1,8 @@
 import type { Actions } from "./$types";
 
 import { fail } from "@sveltejs/kit";
-import { serverUrl, formatResponseMessage } from "$lib/helpers";
+import { formatResponseMessage } from "$lib/helpers";
+import { supabase } from "$lib/supabaseClient";
 
 export const actions: Actions = {
 	start: async ({ request }) => {

@@ -228,11 +228,11 @@ export const downloadRewards = async (
 	if (toDownload && filename) {
 		const url = URL.createObjectURL(toDownload);
 		const link = document.createElement("a");
-	
+
 		link.download = filename;
 		link.href = url;
+
 		link.click();
-	
 		URL.revokeObjectURL(url);
 	}
 };
