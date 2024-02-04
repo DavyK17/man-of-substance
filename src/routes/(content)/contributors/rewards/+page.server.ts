@@ -204,7 +204,7 @@ export const actions: Actions = {
 			}
 
 			// Return data
-			return { download, message: "Your download will begin shortly. Please wait." };
+			return { download, message: "Your download should begin in a few moments. Please wait." };
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: "An unknown error occurred. Kindly try again." });
