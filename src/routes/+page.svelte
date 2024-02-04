@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from "./$types";
-	import { Home, Countdown, ListeningParty } from "$lib";
+	import { Home, Countdown, ListeningParty } from "$lib/components";
 
 	export let data: PageData;
 	export let form: ActionData;

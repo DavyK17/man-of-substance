@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { ContributorTier } from "$lib/ambient";
-	import { getMaxTracksForTier, getTrackFormat } from "$lib/helpers";
-	import { tracks } from "$lib/data.json";
+	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
+	import { tracks } from "$lib";
 
 	export let tier: ContributorTier;
-	$: maxTracks = getMaxTracksForTier(tier);
-	$: trackFormat = getTrackFormat(tier);
+	$: maxTracks = Tiers.maxTracks(tier);
+	$: trackFormat = Rewards.getTrackFormat(tier);
 
 	let parts = [
 		{ start: 1, filter: (id: number) => id <= 7 },

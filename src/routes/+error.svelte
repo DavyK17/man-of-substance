@@ -2,7 +2,7 @@
 	import type { PageData } from "./$types";
 
 	import { page } from "$app/stores";
-	import { Layout } from "$lib";
+	import { Layout } from "$lib/components";
 
 	export let data: PageData;
 </script>

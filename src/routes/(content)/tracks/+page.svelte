@@ -2,14 +2,15 @@
 	import type { PageData } from "./$types";
 
 	import { version, tracklist } from "$lib/stores";
-	import { getTracklistPart } from "$lib/helpers";
+	import { TrackList } from "$lib/helpers";
 
 	let selectedVer = $version;
 	$: version.set(selectedVer);
 
-	$: partOne = getTracklistPart($tracklist, selectedVer, 1);
-	$: partTwo = getTracklistPart($tracklist, selectedVer, 2);
-	$: bonus = getTracklistPart($tracklist, selectedVer, 3);
+	const { getPart } = TrackList;
+	$: partOne = getPart($tracklist, selectedVer, 1);
+	$: partTwo = getPart($tracklist, selectedVer, 2);
+	$: bonus = getPart($tracklist, selectedVer, 3);
 
 	export let data: PageData;
 </script>

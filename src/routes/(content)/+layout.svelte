@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Layout } from "$lib";
 	import type { LayoutData } from "./$types";
+	import { Layout } from "$lib/components";
 
 	export let data: LayoutData;
 </script>

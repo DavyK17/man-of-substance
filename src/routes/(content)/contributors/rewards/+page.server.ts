@@ -4,10 +4,10 @@ import type { Contributor, ContributorTier, ContributorRewardDownload } from "$l
 import { error, fail } from "@sveltejs/kit";
 import moment from "moment";
 
-import { getMaxTracksForTier, getFileUrl } from "$lib/helpers";
+import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
 import { supabase } from "$lib/supabaseClient";
 
-import { tracks } from "$lib/data.json";
+import { tracks } from "$lib";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
@@ -28,7 +28,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
 			let videoUrl: string | undefined;
 			if (contributor.amount && contributor.amount >= 2000)
-				videoUrl = await getFileUrl(`mp4/${contributor?.id}.mp4`);
+				videoUrl = await Rewards.getFileUrl(`mp4/${contributor?.id}.mp4`);
 
 			return { loggedIn: true, contributor, videoUrl };
 		}
@@ -137,7 +137,7 @@ export const actions: Actions = {
 					for (let value of formData.values())
 						if (!isNaN(Number(value))) checked.push(Number(value));
 
-					let remaining = getMaxTracksForTier(tier) - checked.length;
+					let remaining = Tiers.maxTracks(tier) - checked.length;
 					if (remaining > 0)
 						return fail(400, {
 							message: `Kindly select ${remaining} ${remaining === 5 ? " " : "more "}${

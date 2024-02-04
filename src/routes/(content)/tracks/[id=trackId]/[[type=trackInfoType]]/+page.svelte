@@ -10,11 +10,12 @@
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 
-	import { TrackCredits, ChallengeStart, ChallengeEnd } from "$lib";
+	import { TrackCredits, ChallengeStart, ChallengeEnd } from "$lib/components";
 	import { tracklist } from "$lib/stores";
-	import { displayWriters, displayRuntime } from "$lib/helpers";
+	import { TrackPage } from "$lib/helpers";
 
 	export let form: ActionData;
+	const { displayWriters, displayRuntime } = TrackPage;
 
 	$: id = Number($page.params.id);
 	$: type = $page.params.type as TrackInfoVersion;

@@ -3,14 +3,14 @@
 	import TrackDownload from "./TrackDownload.svelte";
 
 	import { enhance } from "$app/forms";
-	import { contributorRewards, getContributorTier } from "$lib/helpers";
+	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
 
 	export let status: string;
 	export let contributor: Contributor | undefined;
 	export let videoUrl: string | undefined;
 
-	$: tier = getContributorTier(contributor as Contributor);
-	$: rewards = contributorRewards.filter(({ tiers }) => tiers.includes(tier));
+	$: tier = Tiers.get(contributor as Contributor);
+	$: rewards = Rewards.list.filter(({ tiers }) => tiers.includes(tier));
 </script>
 
 <header>

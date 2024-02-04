@@ -4,8 +4,8 @@
 	import { onDestroy } from "svelte";
 	import { browser } from "$app/environment";
 
-	import { Login, Rewards } from "$lib";
-	import { downloadRewards } from "$lib/helpers";
+	import { Login, Rewards } from "$lib/components";
+	import { ContributorRewards } from "$lib/helpers";
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -22,9 +22,10 @@
 		onDestroy(() => clearTimeout(timeout));
 	}
 
+	const { download } = ContributorRewards;
 	$: if (browser && form?.download) {
 		const { file, files } = form?.download;
-		downloadRewards(file, files);
+		download(file, files);
 	}
 </script>
 
