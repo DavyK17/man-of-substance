@@ -1,10 +1,7 @@
 <script lang="ts">
-	type Cover = {
-		default: string;
-		fallback: string;
-	};
+	import type { AlbumCoverInfo } from "$lib/ambient";
 
-	export let cover: Cover;
+	export let cover: AlbumCoverInfo;
 	export let released: boolean;
 </script>
 

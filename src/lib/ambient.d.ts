@@ -1,3 +1,9 @@
+// Home
+export interface AlbumCoverInfo {
+	default: string;
+	fallback: string;
+};
+
 // Credits
 export interface Credits {
 	[key: string]: string[] | string;
@@ -44,43 +50,47 @@ export interface TrackCredits {
 }
 
 // Contributors
-export type Contributor = {
+export interface Contributor {
 	[key: string]: any;
 	id: number;
 	name: string;
 	email: string;
 	amount: number;
 	rewardsClaimed: boolean;
-};
+}
 
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
-export type ContributorTierInfo = { name: ContributorTier; min: number; max: number };
+export interface ContributorTierInfo {
+	name: ContributorTier;
+	min: number;
+	max: number;
+}
 
-export type ContributorsByTier = {
+export interface ContributorsByTier {
 	[key: string]: { name: string }[];
 	[key in ContributorTier]: { name: string }[];
 };
 
-export type ContributorReward = {
+export interface ContributorReward {
 	[key: string]: string | string[];
 	name: string;
 	perks: string[];
 	tiers: ContributorTier[];
 };
 
-export type ContributorRewardFile = {
+export interface ContributorRewardFile {
 	[key: string]: string;
 	name: string;
 	path: string;
 };
 
-export type ContributorRewardFiles = {
+export interface ContributorRewardFiles {
 	[key: string]: ContributorRewardFile[];
 	music: ContributorRewardFile[];
 	commentary: ContributorRewardFile[];
 };
 
-export type ContributorRewardDownload = {
+export interface ContributorRewardDownload {
 	file?: ContributorRewardFile;
 	files?: ContributorRewardFiles;
 };
