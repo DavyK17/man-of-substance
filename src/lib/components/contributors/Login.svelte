@@ -1,18 +1,6 @@
 <script lang="ts">
-	import { onDestroy } from "svelte";
-	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
-
-	export let message: string | undefined;
-
-	$: status = message ?? "";
-	$: if (browser && message) {
-		const timeout = setTimeout(() => {
-			status = "";
-		}, 3000);
-
-		onDestroy(() => clearTimeout(timeout));
-	}
+	export let status: string;
 </script>
 
 <form

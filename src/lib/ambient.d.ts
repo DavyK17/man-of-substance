@@ -70,12 +70,12 @@ export type ContributorReward = {
 
 export type ContributorRewardFile = {
 	[key: string]: string;
-	filename: string;
-	key: string;
+	name: string;
+	path: string;
 };
 
-export type ContirbutorRewardFiles = {
+export type ContributorRewardFiles = {
 	[key: string]: ContributorRewardFile[] | undefined;
 	music: ContributorRewardFile[];
-	commentary?: ContributorRewardFile[];
+	commentary: ContributorRewardFile[];
 };

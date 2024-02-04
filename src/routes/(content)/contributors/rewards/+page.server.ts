@@ -1,36 +1,41 @@
 import type { PageServerLoad, Actions } from "./$types";
-import type { Contributor, ContributorTier, ContirbutorRewardFiles } from "$lib/ambient";
+import type {
+	Contributor,
+	ContributorTier,
+	ContributorRewardFile,
+	ContributorRewardFiles
+} from "$lib/ambient";
 
 import { error, fail } from "@sveltejs/kit";
-import { signIn, signOut } from "aws-amplify/auth";
-import { isCancelError } from "aws-amplify/storage";
 import moment from "moment";
 
-import {
-	serverUrl,
-	formatResponseMessage,
-	getMaxTracksForTier,
-	createDownloadTask,
-	createZip
-} from "$lib/helpers";
-import { AWS_USERNAME, AWS_PASSWORD } from "$env/static/private";
+import { getMaxTracksForTier, getFileUrl } from "$lib/helpers";
+import { supabase } from "$lib/supabaseClient";
 
 import { tracks } from "$lib/data.json";
 
-export const load: PageServerLoad = async ({ cookies, fetch }) => {
+export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
+
 	if (email) {
-		try {
-			const contributor: Contributor = await (
-				await fetch(`${serverUrl}/contributor?email=${email}`)
-			).json();
-			return { loggedIn: true, contributor };
-		} catch (err) {
-			console.error(err);
+		const { data, error: err } = await supabase.from("contributors").select("*").eq("email", email);
+
+		if (err) {
+			console.error(err.message);
 			throw error(
 				500,
 				"An unexpected error occurred while loading the page. Kindly refresh and try again."
 			);
+		}
+
+		if (data.length > 0) {
+			const contributor = data[0] as Contributor;
+
+			let videoUrl: string | undefined;
+			if (contributor.amount && contributor.amount >= 2000)
+				videoUrl = await getFileUrl(`mp4/${contributor?.id}.mp4`);
+
+			return { loggedIn: true, contributor, videoUrl };
 		}
 	}
 
@@ -38,21 +43,28 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 };
 
 export const actions: Actions = {
-	login: async ({ request, fetch, cookies }) => {
+	login: async ({ request, cookies }) => {
 		try {
 			// Get form data
-			const data = await request.formData();
+			const formData = await request.formData();
 
 			// Validate existence of email
-			const email = data.get("email") as string;
+			const email = formData.get("email") as string;
 			if (!email) return fail(400, { message: "Please enter a valid email address" });
 
 			// Get contributor
-			const response = await fetch(`${serverUrl}/contributors?email=${email}`);
-			if (response.status !== 200)
-				return fail(response.status, { message: "This email does not exist in the database" });
+			const { data, error } = await supabase.from("contributors").select("*").eq("email", email);
 
-			const contributor: Contributor = await response.json();
+			if (error) {
+				const { code, message } = error;
+				console.error(message);
+				return fail(Number(code), { message: "An unknown error occurred. Kindly try again." });
+			}
+
+			if (data.length === 0)
+				return fail(404, { message: "This email does not exist in the database" });
+
+			const contributor = data[0] as Contributor;
 
 			// If rewards already claimed, return error
 			if (contributor.rewardsClaimed)
@@ -77,9 +89,6 @@ export const actions: Actions = {
 					message: `Your rewards will be available ${moment(1666904400000).fromNow()}`
 				});
 
-			// Attempt login
-			await signIn({ username: AWS_USERNAME, password: AWS_PASSWORD });
-
 			// Set cookie
 			cookies.set("mos-contributor", contributor.email, {
 				path: "/contributors",
@@ -96,9 +105,6 @@ export const actions: Actions = {
 
 	logout: async ({ cookies }) => {
 		try {
-			// Attempt logout
-			await signOut();
-
 			// Delete cookie
 			const cookie = cookies.get("mos-contributor");
 			if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
@@ -111,34 +117,33 @@ export const actions: Actions = {
 		}
 	},
 
-	claim: async ({ request, fetch }) => {
-		// Initialise responses
-		const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
-
+	claim: async ({ request }) => {
 		// Download rewards
 		try {
 			// Get form data
-			const data = await request.formData();
-			const tier = data.get("tier") as ContributorTier;
+			const formData = await request.formData();
+			const tier = formData.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
-			let download: Blob | undefined;
+			let download: {
+				file?: ContributorRewardFile;
+				files?: ContributorRewardFiles;
+			};
 
 			if (tier === "supporter") {
 				//-// SUPPORTER
-				let id = Number(data.get("track-select") as string);
-				let filename = tracks[id - 1].filename + ".mp3";
-				let key = "mp3/" + filename;
+				let id = Number(formData.get("track-select") as string);
+				let name = `${tracks[id - 1].filename}.mp3`;
 
-				let { body } = await createDownloadTask(key).result;
-				download = await body.blob();
+				download = { file: { name, path: `mp3/${name}` } };
 			} else {
-				let files: ContirbutorRewardFiles = { music: [] };
+				download = { files: { music: [], commentary: [] } };
 
 				if (tier === "bronze" || tier === "silver") {
 					//-// BRONZE AND SILVER
 					let checked: number[] = [];
-					for (let value of data.values()) if (!isNaN(Number(value))) checked.push(Number(value));
+					for (let value of formData.values())
+						if (!isNaN(Number(value))) checked.push(Number(value));
 
 					let remaining = getMaxTracksForTier(tier) - checked.length;
 					if (remaining > 0)
@@ -148,62 +153,61 @@ export const actions: Actions = {
 							} to download.`
 						});
 
-					let format = data.get("format-select") as string;
+					let format = formData.get("format-select") as string;
 					if (!format)
 						return fail(400, {
 							message: "Kindly select a file format"
 						});
 
 					checked.map((id) => {
-						let filename = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
-						let key = `${tier === "silver" ? format : "mp3"}/${filename}`;
-						files.music.push({ filename, key });
+						let name = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
+						let path = `${tier === "silver" ? format : "mp3"}/${name}`;
+						download.files?.music.push({ name, path });
 					});
 				} else if (tier === "gold") {
 					//-// GOLD
-					let format = data.get("format-select") as string;
+					let format = formData.get("format-select") as string;
 
 					tracks.map((track) => {
-						let filename = track.filename + `.${format}`;
-						let key = `${format}/` + filename;
-						files.music.push({ filename, key });
+						let name = `${track.filename}.${format}`;
+						let path = `${format}/${name}`;
+						download.files?.music.push({ name, path });
 					});
 				} else if (tier === "platinum" || tier === "executive") {
 					//-// PLATINUM AND EXECUTIVE
-					let format = data.get("format-select") as string;
+					let format = formData.get("format-select") as string;
 
-					files = { ...files, commentary: [] };
 					tracks.map((track) => {
-						let filename = track.filename + `.${format}`;
-						let key = `${format}/` + filename;
-						files.music.push({ filename, key });
+						let name = `${track.filename}.${format}`;
+						let path = `${format}/${name}`;
+						download.files?.music.push({ name, path });
 
-						filename = track.filename + ".m4a";
-						key = "m4a/" + filename;
-						files.commentary?.push({ filename, key });
+						name = `${track.filename}.m4a`;
+						path = `m4a/${name}`;
+						download.files?.commentary.push({ name, path });
 					});
 				}
-
-				download = await createZip(files);
 			}
 
 			// Claim rewards in database
-			const email = data.get("email") as string;
-			const response = await fetch(`${serverUrl}/contributors?email=${email}`, { method: "POST" });
+			const email = formData.get("email") as string;
+			const { error } = await supabase
+				.from("contributors")
+				.update({ rewards_claimed: true })
+				.eq("email", email);
 
-			// Return error if status code is not 200
-			if (response.status !== 200)
-				return fail(response.status, {
-					message: formatResponseMessage(await response.text())
-				});
+			// Return error if any
+			if (error) {
+				const { code, message } = error;
+				console.error(message);
+				return fail(Number(code), { message: "An unknown error occurred. Kindly try again." });
+			}
 
 			// Return data
-			return { download, message: responses[Math.floor(Math.random() * responses.length)] };
+			return { download, message: "Your download will begin shortly. Please wait." };
 		} catch (err) {
 			console.error(err);
-			return fail(500, {
-				message: isCancelError(err) ? err.message : "An unknown error occurred. Kindly try again."
-			});
+			return fail(500, { message: "An unknown error occurred. Kindly try again." });
 		}
 	}
 };

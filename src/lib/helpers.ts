@@ -6,10 +6,11 @@ import type {
 	ContributorTier,
 	ContributorReward,
 	ContributorRewardFile,
-	ContirbutorRewardFiles
+	ContributorRewardFiles
 } from "./ambient";
 
 import JSZip from "jszip";
+import { supabase } from "./supabaseClient";
 
 // TRACKS
 export const getTracklistPart = (tracklist: Track[], ver: TracklistVersion, n: 1 | 2 | 3) => {
@@ -177,23 +178,61 @@ export const contributorRewards: ContributorReward[] = [
 export const getTrackFormat = (tier: ContributorTier): string =>
 	`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`;
 
-export const createZip = async (files: ContirbutorRewardFiles): Promise<Blob> => {
+export const getFileUrl = async (filePath: string): Promise<string | undefined> => {
+	const { data } = await supabase.storage.from("rewards").createSignedUrl(filePath, 3600);
+	return data?.signedUrl;
+};
+
+export const downloadFile = async (filePath: string): Promise<Blob | null> => {
+	const { data, error } = await supabase.storage.from("rewards").download(filePath);
+	if (error) throw new Error(error.message);
+	return data;
+};
+
+export const createZip = async (files: ContributorRewardFiles): Promise<Blob> => {
 	try {
 		let zip = new JSZip();
 
 		for (let type in files) {
+			if (files[type]?.length === 0) continue;
 			let folder = zip.folder(type);
 
-			for (let { filename, key } of files[type] as ContributorRewardFile[]) {
-				console.log(filename, key, folder);
-				// let { body } = await createDownloadTask(key).result;
-				// let file = await body.blob();
-				// folder?.file(filename, file);
+			for (let { name, path } of files[type] as ContributorRewardFile[]) {
+				let file = await downloadFile(path);
+				if (file) folder?.file(name, file);
 			}
 		}
 
 		return await zip.generateAsync({ type: "blob" });
 	} catch (err) {
 		throw err;
+	}
+};
+
+export const downloadRewards = async (
+	file?: ContributorRewardFile,
+	files?: ContributorRewardFiles
+): Promise<void> => {
+	let toDownload: Blob | undefined;
+	let filename: string | undefined;
+
+	if (file) {
+		const { name, path } = file;
+		toDownload = (await downloadFile(path)) as Blob;
+		filename = name;
+	} else if (files) {
+		toDownload = await createZip(files);
+		filename = "mos-rewards.zip";
+	}
+
+	if (toDownload && filename) {
+		const url = URL.createObjectURL(toDownload);
+		const link = document.createElement("a");
+	
+		link.download = filename;
+		link.href = url;
+		link.click();
+	
+		URL.revokeObjectURL(url);
 	}
 };

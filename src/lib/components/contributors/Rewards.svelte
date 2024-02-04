@@ -1,50 +1,34 @@
 <script lang="ts">
 	import type { Contributor } from "$lib/ambient";
-
-	import { onDestroy } from "svelte";
 	import TrackDownload from "./TrackDownload.svelte";
 
-	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
+	import { contributorRewards, getContributorTier } from "$lib/helpers";
 
-	import { getContributorTier, contributorRewards } from "$lib/helpers";
-	import { supabase } from "$lib/supabaseClient";
-
+	export let status: string;
 	export let contributor: Contributor | undefined;
-	export let message: string | undefined;
+	export let videoUrl: string | undefined;
 
 	$: tier = getContributorTier(contributor as Contributor);
 	$: rewards = contributorRewards.filter((reward) => reward.tiers.includes(tier));
-
-	$: status = message ?? "";
-	$: if (browser && message) {
-		const timeout = setTimeout(() => {
-			status = "";
-		}, 3000);
-
-		onDestroy(() => clearTimeout(timeout));
-	}
 </script>
 
-<header class="rewards-head">
+<header>
 	<h1 class="name">{contributor?.name}</h1>
 	<div class="info">
 		<p class="tier">{tier.charAt(0).toUpperCase() + tier.slice(1)}</p>
 		<p class="email">{contributor?.email}</p>
 	</div>
 </header>
-{#if contributor?.amount && contributor?.amount >= 2000}
+{#if videoUrl}
 	<div class="video">
 		<video controls>
-			<source
-				src={`${supabase.storage.from("rewards").getPublicUrl(`mp4/${contributor?.id}.mp4`)}`}
-				type="video/mp4"
-			/>
+			<source src={`${videoUrl}`} type="video/mp4" />
 			<track kind="captions" />
 		</video>
 	</div>
 {/if}
-<div class="rewards-list">
+<div class="list">
 	<h2 class="sr-only">Your rewards</h2>
 	{#each rewards as { name, perks }}
 		<div class="reward">
@@ -58,11 +42,11 @@
 	{/each}
 </div>
 <form
-	class="rewards-claim"
+	class="claim"
 	method="POST"
 	action="?/claim"
 	use:enhance={() => {
-		status = "Preparing download…";
+		status = "Preparing rewards…";
 	}}
 >
 	<TrackDownload {tier} />
@@ -71,15 +55,20 @@
 		<input type="hidden" name="tier" value={tier} />
 
 		<button type="submit">Claim rewards</button>
-		<button formaction="?/logout" on:click={() => (status = "Ndio kutoka sasa? Haya…")}
-			>Logout</button
+		<button
+			formaction="?/logout"
+			on:click={() => {
+				status = "Ndio kutoka sasa? Haya…";
+			}}
 		>
+			Logout
+		</button>
 		<p id="status">{status}</p>
 	</footer>
 </form>
 
 <style lang="scss">
-	.rewards-head {
+	header {
 		text-align: center;
 		h1 {
 			font-family: $font-head;
@@ -110,7 +99,7 @@
 	}
 
 	@media only screen and (max-width: 768px) {
-		.rewards-head {
+		header {
 			h1 {
 				font-size: 1.5rem;
 			}
@@ -129,7 +118,7 @@
 		}
 	}
 
-	.rewards-list {
+	.list {
 		display: flex;
 		flex-direction: column;
 		align-content: center;
@@ -155,7 +144,7 @@
 		}
 	}
 
-	.rewards-claim {
+	.claim {
 		margin: auto;
 		border-top: 1px solid rgba(0, 0, 0, 0.5);
 		.link-buttons {
