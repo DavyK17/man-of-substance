@@ -4,10 +4,9 @@ import type { Contributor, ContributorTier, ContributorRewardDownload } from "$l
 import { error, fail } from "@sveltejs/kit";
 import moment from "moment";
 
+import { tracks } from "$lib";
 import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
 import { supabase } from "$lib/supabaseClient";
-
-import { tracks } from "$lib";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");

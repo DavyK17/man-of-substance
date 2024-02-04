@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { ContributorTier } from "$lib/ambient";
-	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
+	
 	import { tracks } from "$lib";
+	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
 
 	export let tier: ContributorTier;
 	$: maxTracks = Tiers.maxTracks(tier);
