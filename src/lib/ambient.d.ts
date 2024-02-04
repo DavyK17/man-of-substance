@@ -1,3 +1,5 @@
+import type { RewardFile, RewardsZipFile } from "./helpers/contributors";
+
 // Home
 export interface AlbumCoverInfo {
 	default: string;
@@ -60,37 +62,13 @@ export interface Contributor {
 }
 
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
-export interface ContributorTierInfo {
-	name: ContributorTier;
-	min: number;
-	max: number;
-}
 
 export interface ContributorsByTier {
 	[key: string]: { name: string }[];
 	[key in ContributorTier]: { name: string }[];
 };
 
-export interface ContributorReward {
-	[key: string]: string | string[];
-	name: string;
-	perks: string[];
-	tiers: ContributorTier[];
-};
-
-export interface ContributorRewardFile {
-	[key: string]: string;
-	name: string;
-	path: string;
-};
-
-export interface ContributorRewardFiles {
-	[key: string]: ContributorRewardFile[];
-	music: ContributorRewardFile[];
-	commentary: ContributorRewardFile[];
-};
-
 export interface ContributorRewardDownload {
-	file?: ContributorRewardFile;
-	files?: ContributorRewardFiles;
+	file?: RewardFile;
+	files?: RewardsZipFile;
 };
