@@ -40,3 +40,7 @@ AS PERMISSIVE FOR UPDATE
 TO public
 USING (true);
 
+CREATE POLICY "Give all users access to rewards bucket" ON "storage"."objects"
+AS PERMISSIVE FOR SELECT
+TO public
+USING ((bucket_id = 'rewards'::text));
