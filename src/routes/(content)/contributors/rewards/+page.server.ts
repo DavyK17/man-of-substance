@@ -23,11 +23,12 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		}
 
 		if (data.length > 0) {
-			const contributor = data[0] as Contributor;
+			const { id, name, email, amount, rewards_claimed } = data[0];
+			const contributor: Contributor = { id, name, email, amount, rewardsClaimed: rewards_claimed };
 
 			let videoUrl: string | undefined;
 			if (contributor.amount && contributor.amount >= 2000)
-				videoUrl = await Rewards.getFileUrl(`mp4/${contributor?.id}.mp4`);
+				videoUrl = await Rewards.getFileUrl(`mp4/${contributor.id}.mp4`);
 
 			return { loggedIn: true, contributor, videoUrl };
 		}
@@ -64,7 +65,8 @@ export const actions: Actions = {
 				return fail(403, { message: "Rewards have already been claimed for this user" });
 
 			// CONTENT LOCK CHECKS
-			const contributor = data[0] as Contributor;
+			const { id, name, amount, rewards_claimed } = data[0];
+			const contributor: Contributor = { id, name, email, amount, rewardsClaimed: rewards_claimed };
 
 			//-/ Supporter and bronze
 			if (contributor.amount >= 100 && contributor.amount <= 1999 && Date.now() < 1667509200000)
