@@ -1,6 +1,9 @@
+import type { PostgrestError } from "@supabase/supabase-js";
 import type { Contributor, ContributorTier, ContributorsByTier } from "$lib/ambient";
 
+import JsFileDownloader from "js-file-downloader";
 import JSZip from "jszip";
+
 import { supabase } from "../supabaseClient";
 
 /* TYPES */
@@ -27,6 +30,36 @@ export interface RewardsZipFile {
 	[key: string]: RewardFile[];
 	music: RewardFile[];
 	commentary: RewardFile[];
+}
+
+// Copied from js-file-downloader (https://github.com/AleeeKoi/js-file-downloader/blob/master/index.d.ts)
+interface OptionalParams {
+	timeout?: number;
+	headers?: { name: string; value: string }[];
+	forceDesktopMode?: boolean;
+	withCredentials?: boolean;
+	method?: "GET" | "POST";
+	process?: (event: ProgressEvent) => undefined;
+	nameCallback?: (name: string) => string;
+	autoStart?: boolean;
+	filename?: string;
+	contentType?: false | string;
+	body?: Document | BodyInit | null;
+	nativeFallbackOnError?: boolean;
+	onloadstart?: () => void;
+	contentTypeDetermination?: false | "header" | "signature" | "full";
+	customFileSignatures?: { [key: string]: string };
+}
+
+type Params = OptionalParams & { url: string };
+
+interface JsFileDownloaderBase {
+	start(): Promise<void>;
+	params: Params;
+	link: HTMLAnchorElement;
+	request: XMLHttpRequest;
+	downloadedFile: null | Blob | File;
+	abort(reason: any): void;
 }
 
 /* MODULES */
@@ -140,7 +173,7 @@ export const Rewards = {
 	getTrackFormat: (tier: ContributorTier): string =>
 		`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`,
 	/**
-	 * Returns a limited-time signed URL for a given file in the **rewards** bucket.
+	 * Returns a time-limited (one hour) signed URL for a given file in the **rewards** bucket.
 	 * @param {string} filePath - The file's path relative to the bucket's root with no leading slash
 	 * @returns {Promise<string | undefined>} A Promise that resolves to the file's signed URL or `undefined` if the file does not exist
 	 */
@@ -186,31 +219,66 @@ export const Rewards = {
 	 * Downloads a crowdfunding contributor's rewards. Only one of the two parameters must be provided.
 	 * @param {string} [file] - A `RewardFile` object
 	 * @param {string} [files] - A `RewardsZipFile` object
+	 * @param {function} [process] - A function that takes an `event` argument and runs when the download makes progress
+	 * @returns {Promise<Blob | null>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
 	 */
-	download: async (file?: RewardFile, files?: RewardsZipFile): Promise<void> => {
+	download: async (
+		file?: RewardFile,
+		files?: RewardsZipFile,
+		process?: (event: ProgressEvent<EventTarget>) => undefined
+	): Promise<Blob | null> => {
 		if (!file && !files) throw new Error("No file(s) to download");
 
-		let toDownload: Blob | undefined;
-		let filename: string | undefined;
+		let url: string;
+		let download: JsFileDownloaderBase | undefined;
 
-		if (file) {
-			const { name, path } = file;
-			toDownload = (await Rewards.getFileBlob(path)) as Blob;
-			filename = name;
-		} else if (files) {
-			toDownload = await Rewards.generateZipFile(files);
-			filename = "mos-rewards.zip";
+		try {
+			if (file) {
+				const { name, path } = file;
+				url = (await Rewards.getFileUrl(path)) as string;
+				download = new JsFileDownloader({ url, process, filename: name, autoStart: false });
+			} else if (files) {
+				const zipFile = await Rewards.generateZipFile(files);
+				url = URL.createObjectURL(zipFile);
+				download = new JsFileDownloader({
+					url,
+					process,
+					filename: "mos-rewards.zip",
+					autoStart: false
+				});
+			}
+
+			if (download) {
+				await download.start();
+				return download.downloadedFile;
+			}
+
+			return null;
+		} catch (err) {
+			if (download) download.abort(err);
+			throw err;
 		}
-
-		if (toDownload && filename) {
-			const url = URL.createObjectURL(toDownload);
-			const link = document.createElement("a");
-
-			link.download = filename;
-			link.href = url;
-
-			link.click();
-			URL.revokeObjectURL(url);
-		}
+	},
+	/**
+	 * Marks the crowdfunding contributor's rewards as claimed on the database.
+	 * @param {string} [email] - The contributor's email address
+	 * @returns {Promise<Object>} An object with a boolean `success` property and, if any, an `error` property with a `PostgrestError` object
+	 */
+	finishClaim: async (email: string): Promise<{ success: boolean; error?: PostgrestError }> => {
+		const { error } = await supabase
+			.from("contributors")
+			.update({ rewards_claimed: true })
+			.eq("email", email);
+		
+		return { success: !error, error: error ?? undefined };
 	}
 };
+
+export const Status = {
+	LOADING: "Tulia kiambatasi…",
+	DOWNLOAD_NOTICE: "Your download will begin shortly. Please wait.",
+	DOWNLOAD_STARTING: "Preparing rewards…",
+	CLAIMING_REWARDS: "Updating database…",
+	LOGGING_OUT: "Ndio kutoka sasa? Haya…",
+	ERROR: "An unknown error occurred. Kindly try again."
+}
