@@ -3,7 +3,7 @@
 	import TrackDownload from "./TrackDownload.svelte";
 
 	import { enhance } from "$app/forms";
-	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
+	import { Tiers, Rewards } from "$lib/helpers/contributors";
 
 	export let status: string;
 	export let contributor: Contributor | undefined;

@@ -5,7 +5,7 @@
 	import { browser } from "$app/environment";
 
 	import { Login, Rewards } from "$lib/components";
-	import { ContributorRewards } from "$lib/helpers";
+	import { Rewards as ContributorRewards } from "$lib/helpers/contributors";
 
 	export let data: PageData;
 	export let form: ActionData;

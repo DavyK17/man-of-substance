@@ -2,7 +2,7 @@
 	import type { ContributorTier } from "$lib/ambient";
 	
 	import { tracks } from "$lib";
-	import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
+	import { Tiers, Rewards } from "$lib/helpers/contributors";
 
 	export let tier: ContributorTier;
 	$: maxTracks = Tiers.maxTracks(tier);

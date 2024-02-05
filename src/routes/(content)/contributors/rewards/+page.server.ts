@@ -5,7 +5,7 @@ import { error, fail } from "@sveltejs/kit";
 import moment from "moment";
 
 import { tracks } from "$lib";
-import { ContributorTiers as Tiers, ContributorRewards as Rewards } from "$lib/helpers";
+import { Tiers, Rewards } from "$lib/helpers/contributors";
 import { supabase } from "$lib/supabaseClient";
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -111,7 +111,7 @@ export const actions: Actions = {
 		}
 	},
 
-	claim: async ({ request }) => {
+	download: async ({ request }) => {
 		// Download rewards
 		try {
 			// Get form data
@@ -119,16 +119,16 @@ export const actions: Actions = {
 			const tier = formData.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
-			let download: ContributorRewardDownload;
+			let downloadObject: ContributorRewardDownload;
 
 			if (tier === "supporter") {
 				//-// SUPPORTER
 				let id = Number(formData.get("track-select") as string);
 				let name = `${tracks[id - 1].filename}.mp3`;
 
-				download = { file: { name, path: `mp3/${name}` } };
+				downloadObject = { file: { name, path: `mp3/${name}` } };
 			} else {
-				download = { files: { music: [], commentary: [] } };
+				downloadObject = { files: { music: [], commentary: [] } };
 
 				if (tier === "bronze" || tier === "silver") {
 					//-// BRONZE AND SILVER
@@ -153,7 +153,7 @@ export const actions: Actions = {
 					checked.map((id) => {
 						let name = `${tracks[id - 1].filename}.${tier === "silver" ? format : "mp3"}`;
 						let path = `${tier === "silver" ? format : "mp3"}/${name}`;
-						download.files?.music.push({ name, path });
+						downloadObject.files?.music.push({ name, path });
 					});
 				} else if (tier === "gold") {
 					//-// GOLD
@@ -162,7 +162,7 @@ export const actions: Actions = {
 					tracks.map((track) => {
 						let name = `${track.filename}.${format}`;
 						let path = `${format}/${name}`;
-						download.files?.music.push({ name, path });
+						downloadObject.files?.music.push({ name, path });
 					});
 				} else if (tier === "platinum" || tier === "executive") {
 					//-// PLATINUM AND EXECUTIVE
@@ -171,31 +171,20 @@ export const actions: Actions = {
 					tracks.map((track) => {
 						let name = `${track.filename}.${format}`;
 						let path = `${format}/${name}`;
-						download.files?.music.push({ name, path });
+						downloadObject.files?.music.push({ name, path });
 
 						name = `${track.filename}.m4a`;
 						path = `m4a/${name}`;
-						download.files?.commentary.push({ name, path });
+						downloadObject.files?.commentary.push({ name, path });
 					});
 				}
 			}
 
-			// Claim rewards in database
-			const email = formData.get("email") as string;
-			const { error } = await supabase
-				.from("contributors")
-				.update({ rewards_claimed: true })
-				.eq("email", email);
-
-			// Return error if any
-			if (error) {
-				const { code, message } = error;
-				console.error(message);
-				return fail(Number(code), { message: "An unknown error occurred. Kindly try again." });
-			}
-
 			// Return data
-			return { download, message: "Your download should begin in a few moments. Please wait." };
+			return {
+				download: downloadObject,
+				message: "Your download should begin in a few moments. Please wait."
+			};
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: "An unknown error occurred. Kindly try again." });
