@@ -55,16 +55,17 @@ export const actions: Actions = {
 				return fail(Number(code), { message: "An unknown error occurred. Kindly try again." });
 			}
 
+			// If no data returned, return error
 			if (data.length === 0)
 				return fail(404, { message: "This email does not exist in the database" });
 
-			const contributor = data[0] as Contributor;
-
 			// If rewards already claimed, return error
-			if (contributor.rewardsClaimed)
+			if (data[0].rewards_claimed)
 				return fail(403, { message: "Rewards have already been claimed for this user" });
 
 			// CONTENT LOCK CHECKS
+			const contributor = data[0] as Contributor;
+
 			//-/ Supporter and bronze
 			if (contributor.amount >= 100 && contributor.amount <= 1999 && Date.now() < 1667509200000)
 				return fail(403, {
