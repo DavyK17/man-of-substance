@@ -3,7 +3,7 @@
 	import TrackDownload from "./TrackDownload.svelte";
 
 	import { enhance } from "$app/forms";
-	import { Tiers, Rewards } from "$lib/helpers/contributors";
+	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 
 	export let status: string;
 	export let contributor: Contributor | undefined;
@@ -45,9 +45,9 @@
 <form
 	class="claim"
 	method="POST"
-	action="?/claim"
-	use:enhance={({ action }) => {
-		status = action.pathname.includes("logout") ? "Ndio kutoka sasa? Haya…" : "Preparing rewards…";
+	action="?/download"
+	use:enhance={({ submitter }) => {
+		status = submitter?.innerHTML === "Logout" ? Status.LOGGING_OUT : Status.DOWNLOAD_STARTING;
 	}}
 >
 	<TrackDownload {tier} />
@@ -56,7 +56,7 @@
 		<input type="hidden" name="tier" value={tier} />
 
 		<button type="submit">Claim rewards</button>
-		<button formaction="?/logout">Logout</button>
+		<button formaction="?/logout" formnovalidate>Logout</button>
 		<p id="status">{status}</p>
 	</footer>
 </form>
