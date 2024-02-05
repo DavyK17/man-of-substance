@@ -269,6 +269,7 @@ export const Rewards = {
 
 export const Status = {
 	LOADING: "Tulia kiambatasi…",
+	HOME_LOADING_ERROR: "An error occurred loading the list of contributors. Kindly refresh the page and try again.",
 	DOWNLOAD_NOTICE: "Your download will begin shortly. Please wait.",
 	DOWNLOAD_STARTING: "Preparing rewards…",
 	CLAIMING_REWARDS: "Updating database…",
