@@ -43,6 +43,7 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.39.3",
+		"js-file-downloader": "^1.1.25",
 		"jszip": "^3.10.1",
 		"moment": "^2.30.1"
 	}
