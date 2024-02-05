@@ -7,10 +7,11 @@ import { supabase } from "$lib/supabaseClient";
 export const load: PageServerLoad = async (): Promise<{
 	contributors: Promise<ContributorsByTier | null>;
 }> => {
-	const { data, error } = await supabase.from("contributors").select("name, amount");
-	return {
-		contributors: new Promise((resolve, reject) =>
-			error ? reject(error) : resolve(List.getByTier(data))
-		)
-	};
+	try {
+		const { data, error } = await supabase.from("contributors").select("name, amount");
+		return { contributors: new Promise((resolve) => resolve(error ? null : List.getByTier(data))) };
+	} catch (error) {
+		console.error(error);
+		return { contributors: new Promise((resolve) => resolve(null)) };
+	}
 };
