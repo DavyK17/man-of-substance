@@ -5,7 +5,7 @@ import { error, fail } from "@sveltejs/kit";
 import moment from "moment";
 
 import { tracks } from "$lib";
-import { Tiers, Rewards } from "$lib/helpers/contributors";
+import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 import { supabase } from "$lib/supabaseClient";
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -94,7 +94,7 @@ export const actions: Actions = {
 			return { loggedIn: true, contributor };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: "An unknown error occurred. Kindly try again." });
+			return fail(500, { message: Status.ERROR });
 		}
 	},
 
@@ -108,7 +108,7 @@ export const actions: Actions = {
 			return { loggedIn: false };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: "An unknown error occurred. Kindly try again." });
+			return fail(500, { message: Status.ERROR });
 		}
 	},
 
@@ -184,11 +184,11 @@ export const actions: Actions = {
 			// Return data
 			return {
 				download: downloadObject,
-				message: "Your download should begin in a few moments. Please wait."
+				message: Status.DOWNLOAD_STARTING
 			};
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: "An unknown error occurred. Kindly try again." });
+			return fail(500, { message: Status.ERROR });
 		}
 	}
 };

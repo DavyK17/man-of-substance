@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import { Status } from "$lib/helpers/contributors";
+
 	export let status: string;
 </script>
 
@@ -9,7 +11,7 @@
 	action="?/login"
 	autocomplete="off"
 	use:enhance={() => {
-		status = "Tulia kiambatasi…";
+		status = Status.LOADING;
 	}}
 >
 	<h1>Contributor Rewards</h1>
