@@ -77,10 +77,4 @@
 			margin: unset;
 		}
 	}
-
-	@media only screen and (min-width: 1200px) {
-		.login {
-			width: 1000px;
-		}
-	}
 </style>
