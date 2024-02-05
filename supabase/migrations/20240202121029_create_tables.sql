@@ -35,3 +35,8 @@ AS PERMISSIVE FOR SELECT
 TO public
 USING (true);
 
+CREATE POLICY "Enable update access for all users" ON contributors
+AS PERMISSIVE FOR UPDATE
+TO public
+USING (true);
+
