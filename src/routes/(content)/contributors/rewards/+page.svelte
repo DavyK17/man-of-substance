@@ -5,27 +5,46 @@
 	import { browser } from "$app/environment";
 
 	import { Login, Rewards } from "$lib/components";
-	import { Rewards as ContributorRewards } from "$lib/helpers/contributors";
+	import { Rewards as ContributorRewards, Status } from "$lib/helpers/contributors";
 
 	export let data: PageData;
 	export let form: ActionData;
 
 	$: status = form?.message ?? "";
-	$: if (browser && form?.message) {
+	$: if (browser && form?.message !== Status.DOWNLOAD_STARTING) {
 		const timeout = setTimeout(
 			() => {
 				status = "";
 			},
-			form?.message === "Your download will begin shortly. Please wait." ? 5000 : 3000
+			form?.message === Status.DOWNLOAD_NOTICE ? 5000 : 3000
 		);
 
 		onDestroy(() => clearTimeout(timeout));
 	}
 
-	const { download } = ContributorRewards;
+	const { download, finishClaim } = ContributorRewards;
+	const downloadProcess = (e: ProgressEvent<EventTarget>) => {
+		if (e.lengthComputable) {
+			let downloadedPercentage = Math.floor((e.loaded / e.total) * 100);
+			status = `Downloading: ${downloadedPercentage}%…`;
+		}
+
+		return undefined;
+	};
+
 	$: if (browser && form?.download) {
 		const { file, files } = form?.download;
-		download(file, files);
+
+		status = Status.DOWNLOAD_STARTING;
+		download(file, files, downloadProcess).then(() => {
+			status = Status.CLAIMING_REWARDS;
+			finishClaim(data.contributor?.email as string).then(({ error }) => {
+				if (!error) {
+					const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
+					status = responses[Math.floor(Math.random() * responses.length)];
+				} else status = Status.ERROR;
+			});
+		});
 	}
 </script>
 
@@ -43,11 +62,5 @@
 	footer {
 		margin: auto;
 		text-align: center;
-	}
-
-	@media only screen and (min-width: 1200px) {
-		footer {
-			width: 1000px;
-		}
 	}
 </style>
