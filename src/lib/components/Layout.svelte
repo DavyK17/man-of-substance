@@ -1,86 +1,70 @@
 <script lang="ts">
+	import type { LayoutData } from "../../routes/$types";
+
+	import { fly } from "svelte/transition";
 	import { page } from "$app/stores";
-	import type { PageData } from "../../routes/$types";
 
-	const menuToggle = (dir = 0) => {
-		const body = document.querySelector("body") as HTMLElement;
-		const menu = document.querySelector(".menu") as HTMLElement;
-		const isOpen = menu.classList.contains("open") && body.classList.contains("menu-open");
+	export let data: LayoutData;
+	const menuItems = [
+		{ title: "Contributors", path: "/contributors" },
+		{ title: "Tracklist", path: "/tracks" },
+		{ title: "Credits", path: "/credits" }
+	];
 
-		const open = () => {
-			menu.classList.add("open");
-			body.classList.add("menu-open");
-		};
-
-		const close = () => {
-			menu.classList.remove("open");
-			body.classList.remove("menu-open");
-		};
-
-		if (dir === 1 && !isOpen) return open();
-		if (dir === -1 && isOpen) return close();
-		return isOpen ? close() : open();
+	let outerWidth: number;
+	$: menuVisible = outerWidth > 575;
+	$: menuToggle = (visible?: boolean) => {
+		if (outerWidth > 575) return;
+		if (visible === true) menuVisible = true;
+		if (visible === false) menuVisible = false;
+		menuVisible = !menuVisible;
 	};
-
-	export let data: PageData;
 </script>
 
+<svelte:window bind:outerWidth />
+
 <nav>
-	<button id="mobile-menu-open" on:click={() => menuToggle()}>
-		<svg>
-			<path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z" />
-		</svg>
-	</button>
-	<div class="menu">
-		<button id="mobile-menu-close" on:click={() => menuToggle()}>
-			<svg>
+	<button on:click={() => menuToggle()}>
+		<svg class:active={menuVisible}>
+			{#if menuVisible}
 				<path
 					d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"
 				/>
-			</svg>
-		</button>
-		<ul>
-			<li>
-				<a href="/" class:active={$page.url.pathname == "/"} on:click={() => menuToggle(-1)}>
-					Home
-				</a>
-			</li>
-			<li>
-				<a
-					href="/contributors"
-					class:active={$page.url.pathname.includes("/contributors")}
-					on:click={() => menuToggle(-1)}
-					data-sveltekit-preload-code
-				>
-					Contributors
-				</a>
-			</li>
-			<li>
-				<a
-					href="/tracks"
-					class:active={$page.url.pathname.includes("/tracks")}
-					on:click={() => menuToggle(-1)}
-					data-sveltekit-preload-data
-				>
-					Tracklist
-				</a>
-			</li>
-			<li>
-				<a
-					href="/credits"
-					class:active={$page.url.pathname == "/credits"}
-					on:click={() => menuToggle(-1)}
-				>
-					Credits
-				</a>
-			</li>
-			{#if data.released}
-				<li>
-					<a href="https://ditto.fm/man-of-substance-dvk" target="_blank" rel="noreferrer">Stream</a>
-				</li>
+			{:else}
+				<path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z" />
 			{/if}
-		</ul>
-	</div>
+		</svg>
+	</button>
+	{#if menuVisible}
+		<div class="menu" transition:fly={{ x: "-100%" }}>
+			<ul>
+				<li>
+					<a href="/" class:active={$page.url.pathname == "/"} on:click={() => menuToggle(false)}>
+						Home
+					</a>
+				</li>
+				{#each menuItems as { title, path }}
+					<li>
+						<a
+							href={path}
+							class:active={$page.url.pathname.includes(path)}
+							on:click={() => menuToggle(false)}
+							data-sveltekit-preload-code={path === "/contributors" ? "hover" : "off"}
+						>
+							{title}
+						</a>
+					</li>
+				{/each}
+				{#if data.released}
+					<li>
+						<a href="https://ditto.fm/man-of-substance-dvk" target="_blank" rel="noreferrer"
+							>Stream</a
+						>
+					</li>
+				{/if}
+			</ul>
+		</div>
+	{/if}
 </nav>
 
 <slot />
@@ -117,18 +101,21 @@
 				}
 			}
 		}
-		#mobile-menu-open,
-		#mobile-menu-close {
+		button {
 			display: none;
-			svg {
+			background: unset;
+			border: unset;
+			:global(svg) {
+				position: relative;
 				width: 24px;
 				height: 24px;
 				fill: white;
-			}
-			&:hover svg,
-			&:focus svg,
-			&:active svg {
-				fill: $red;
+				transition: fill 0.2s ease-in-out;
+				z-index: 500;
+				&.active {
+					fill: $red;
+					transition: fill 0.2s ease-in-out;
+				}
 			}
 		}
 	}
@@ -136,40 +123,26 @@
 	@media only screen and (max-width: 575px) {
 		nav {
 			.menu {
-				display: flex;
 				position: fixed;
-				width: 100%;
+				min-width: 100%;
 				top: 0;
 				bottom: 0;
-				left: -100%;
-				background-color: rgba(0, 0, 0, 0.9);
+				background-color: rgba(0, 0, 0, 0.95);
+				padding: 2rem;
 				z-index: 100;
-				padding: unset;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				transition: left 0.2s;
-				&.open {
-					left: 0;
-					transition: left 0.2s;
-				}
 				ul {
+					margin-top: 5rem;
+					padding: unset;
 					li {
 						display: block;
+						font-size: 1.5rem;
 						margin: 1rem 0;
 					}
 				}
 			}
-			#mobile-menu-open,
-			#mobile-menu-close {
+			button {
 				display: block;
 				padding: 0.75rem;
-			}
-			#mobile-menu-close {
-				position: absolute;
-				top: 0;
-				left: 0;
-				text-align: right;
 			}
 		}
 	}
