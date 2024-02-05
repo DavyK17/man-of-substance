@@ -1,16 +1,58 @@
 <script lang="ts">
+	import type { PageData, ActionData } from "./$types";
 	import type { Contributor } from "$lib/ambient";
-	import TrackDownload from "./TrackDownload.svelte";
 
+	import { onDestroy } from "svelte";
+	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
+	import { goto } from "$app/navigation";
+
+	import { TrackDownload } from "$lib/components";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 
-	export let status: string;
-	export let contributor: Contributor | undefined;
-	export let videoUrl: string | undefined;
+	export let data: PageData;
+	const { contributor, videoUrl } = data;
 
 	$: tier = Tiers.get(contributor as Contributor);
 	$: rewards = Rewards.list.filter(({ tiers }) => tiers.includes(tier));
+
+	export let form: ActionData;
+	$: if (browser && form?.logout) goto("/contributors/login");
+
+	$: status = form?.message ?? "";
+	$: if (browser && status !== Status.DOWNLOAD_STARTING) {
+		const timeout = setTimeout(
+			() => {
+				status = "";
+			},
+			form?.message === Status.DOWNLOAD_NOTICE ? 5000 : 3000
+		);
+
+		onDestroy(() => clearTimeout(timeout));
+	}
+
+	const { download, finishClaim } = Rewards;
+	$: if (browser && form?.download && !form?.logout) {
+		const { file, files } = form?.download;
+		if (files) status = "Generating ZIP file. This may take a while…";
+
+		download(file, files, (e) => {
+			if (e.lengthComputable) {
+				let downloadedPercentage = Math.floor((e.loaded / e.total) * 100);
+				status = `Downloading: ${downloadedPercentage}%…`;
+			}
+
+			return undefined;
+		}).then(() => {
+			status = Status.CLAIMING_REWARDS;
+			finishClaim(data.contributor?.email as string).then(({ error }) => {
+				if (!error) {
+					const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
+					status = responses[Math.floor(Math.random() * responses.length)];
+				} else status = Status.ERROR;
+			});
+		});
+	}
 </script>
 
 <header>
@@ -20,7 +62,7 @@
 		<p class="email">{contributor?.email}</p>
 	</div>
 </header>
-{#if videoUrl}
+{#if data?.videoUrl}
 	<div class="video">
 		<video controls>
 			<source src={`${videoUrl}`} type="video/mp4" />
@@ -51,14 +93,14 @@
 	}}
 >
 	<TrackDownload {tier} />
-	<footer class="link-buttons">
+	<div class="link-buttons">
 		<input type="hidden" name="email" value={contributor?.email} />
 		<input type="hidden" name="tier" value={tier} />
 
 		<button type="submit">Claim rewards</button>
 		<button formaction="?/logout" formnovalidate>Logout</button>
 		<p id="status">{status}</p>
-	</footer>
+	</div>
 </form>
 
 <style lang="scss">

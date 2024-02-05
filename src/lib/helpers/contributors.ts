@@ -216,42 +216,35 @@ export const Rewards = {
 		}
 	},
 	/**
-	 * Downloads a crowdfunding contributor's rewards. Only one of the two parameters must be provided.
-	 * @param {string} [file] - A `RewardFile` object
-	 * @param {string} [files] - A `RewardsZipFile` object
+	 * Downloads a crowdfunding contributor's rewards.
+	 * @param {string} [file] - A `RewardFile` object; required if `files` is `undefined`.
+	 * @param {string} [files] - A `RewardsZipFile` object; required if `file` is `undefined`
 	 * @param {function} [process] - A function that takes an `event` argument and runs when the download makes progress
 	 * @returns {Promise<Blob | null>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
 	 */
 	download: async (
 		file?: RewardFile,
 		files?: RewardsZipFile,
-		process?: (event: ProgressEvent<EventTarget>) => undefined
+		process?: (e: ProgressEvent<EventTarget>) => undefined
 	): Promise<Blob | null> => {
 		if (!file && !files) throw new Error("No file(s) to download");
 
-		let url: string;
+		let url: string = "";
+		let filename: string = "";
 		let download: JsFileDownloaderBase | undefined;
 
 		try {
 			if (file) {
 				const { name, path } = file;
 				url = (await Rewards.getFileUrl(path)) as string;
-				download = new JsFileDownloader({ url, process, filename: name, autoStart: false });
+				filename = name;
 			} else if (files) {
-				const zipFile = await Rewards.generateZipFile(files);
-				url = URL.createObjectURL(zipFile);
-				download = new JsFileDownloader({
-					url,
-					process,
-					filename: "mos-rewards.zip",
-					autoStart: false
-				});
+				url = URL.createObjectURL(await Rewards.generateZipFile(files));
+				filename = "mos-rewards.zip";
 			}
 
-			if (download) {
-				await download.start();
-				return download.downloadedFile;
-			}
+			download = new JsFileDownloader({ url, process, filename, autoStart: false });
+			if (download) await download.start();
 
 			return null;
 		} catch (err) {
@@ -269,7 +262,7 @@ export const Rewards = {
 			.from("contributors")
 			.update({ rewards_claimed: true })
 			.eq("email", email);
-		
+
 		return { success: !error, error: error ?? undefined };
 	}
 };
@@ -281,4 +274,4 @@ export const Status = {
 	CLAIMING_REWARDS: "Updating database…",
 	LOGGING_OUT: "Ndio kutoka sasa? Haya…",
 	ERROR: "An unknown error occurred. Kindly try again."
-}
+};

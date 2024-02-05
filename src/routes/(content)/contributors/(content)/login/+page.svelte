@@ -1,14 +1,29 @@
 <script lang="ts">
+	import type { ActionData } from "./$types";
+
+	import { onDestroy } from "svelte";
+	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
+	import { goto } from "$app/navigation";
+
 	import { Status } from "$lib/helpers/contributors";
 
-	export let status: string;
+	export let form: ActionData;
+	$: if (browser && form?.success) goto("/contributors/rewards");
+
+	$: status = form?.message ?? "";
+	$: if (browser && status !== Status.LOADING) {
+		const timeout = setTimeout(() => {
+			status = "";
+		}, 3000);
+
+		onDestroy(() => clearTimeout(timeout));
+	}
 </script>
 
 <form
 	class="login"
 	method="POST"
-	action="?/login"
 	autocomplete="off"
 	use:enhance={() => {
 		status = Status.LOADING;

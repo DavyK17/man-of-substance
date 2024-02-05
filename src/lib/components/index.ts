@@ -8,8 +8,7 @@ import TrackCredits from "./track/TrackCredits.svelte";
 import ChallengeStart from "./track/ChallengeStart.svelte";
 import ChallengeEnd from "./track/ChallengeEnd.svelte";
 
-import Login from "./contributors/Login.svelte";
-import Rewards from "./contributors/Rewards.svelte";
+import TrackDownload from "./contributors/TrackDownload.svelte";
 
 // Layout
 export { Layout };
@@ -21,4 +20,4 @@ export { Countdown, Home, ListeningParty };
 export { TrackCredits, ChallengeStart, ChallengeEnd };
 
 // Contributors
-export { Login, Rewards };
+export { TrackDownload };
