@@ -69,6 +69,7 @@ export interface ContributorsByTier {
 };
 
 export interface ContributorRewardDownload {
+	[key: string]: any;
 	file?: RewardFile;
 	files?: RewardsZipFile;
 };
