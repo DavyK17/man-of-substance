@@ -55,16 +55,16 @@ export const actions: Actions = {
 			const tier = formData.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
-			let downloadObject: ContributorRewardDownload;
+			let downloadObject: ContributorRewardDownload = {};
 
 			if (tier === "supporter") {
 				//-// SUPPORTER
 				let id = Number(formData.get("track-select") as string);
 				let name = `${tracks[id - 1].filename}.mp3`;
 
-				downloadObject = { file: { name, path: `mp3/${name}` } };
+				downloadObject.file = { name, path: `mp3/${name}` };
 			} else {
-				downloadObject = { files: { music: [], commentary: [] } };
+				downloadObject.files = { music: [], commentary: [] };
 
 				if (tier === "bronze" || tier === "silver") {
 					//-// BRONZE AND SILVER
