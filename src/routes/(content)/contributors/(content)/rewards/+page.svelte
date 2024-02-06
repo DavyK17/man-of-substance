@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData, ActionData } from "./$types";
-	import type { Contributor } from "$lib/ambient";
+	import type { Contributor, ContributorRewardDownload } from "$lib/ambient";
 
 	import { onDestroy } from "svelte";
 	import { browser } from "$app/environment";
@@ -17,8 +17,6 @@
 	$: rewards = Rewards.list.filter(({ tiers }) => tiers.includes(tier));
 
 	export let form: ActionData;
-	$: if (browser && form?.logout) goto("/contributors/login");
-
 	$: status = form?.message ?? "";
 	$: if (browser && status !== Status.DOWNLOAD_STARTING) {
 		const timeout = setTimeout(
@@ -32,8 +30,9 @@
 	}
 
 	const { download, finishClaim } = Rewards;
-	$: if (browser && form?.download && !form?.logout) {
-		const { file, files } = form?.download;
+	$: downloadTimedOut = !form?.download;
+	$: if (browser && !downloadTimedOut) {
+		const { file, files } = form?.download as ContributorRewardDownload;
 		if (files) status = "Generating ZIP file. This may take a while…";
 
 		download(file, files, (e) => {
@@ -53,6 +52,8 @@
 			});
 		});
 	}
+
+	$: if (browser && form?.logout) goto("/contributors/login");
 </script>
 
 <header>
@@ -89,6 +90,7 @@
 	method="POST"
 	action="?/download"
 	use:enhance={({ submitter }) => {
+		if (submitter?.innerHTML === "Logout") downloadTimedOut = true;
 		status = submitter?.innerHTML === "Logout" ? Status.LOGGING_OUT : Status.DOWNLOAD_STARTING;
 	}}
 >
