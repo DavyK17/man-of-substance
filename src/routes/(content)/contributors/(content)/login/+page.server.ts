@@ -62,7 +62,7 @@ export const actions: Actions = {
 
 			// Set cookie
 			cookies.set("mos-contributor", email, {
-				path: "/contributors/rewards",
+				path: "/contributors",
 				expires: new Date(Date.now() + 86400) // next day
 			});
 
