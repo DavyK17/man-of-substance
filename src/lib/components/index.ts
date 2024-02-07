@@ -4,7 +4,7 @@ import Countdown from "./landing/Countdown.svelte";
 import Home from "./landing/Home.svelte";
 import ListeningParty from "./landing/ListeningParty.svelte";
 
-import TrackCredits from "./track/TrackCredits.svelte";
+import Credits from "./track/Credits.svelte";
 import ChallengeStart from "./track/ChallengeStart.svelte";
 import ChallengeEnd from "./track/ChallengeEnd.svelte";
 
@@ -17,7 +17,7 @@ export { Layout };
 export { Countdown, Home, ListeningParty };
 
 // Track
-export { TrackCredits, ChallengeStart, ChallengeEnd };
+export { Credits, ChallengeStart, ChallengeEnd };
 
 // Contributors
 export { TrackDownload };

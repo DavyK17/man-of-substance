@@ -1,33 +1,15 @@
 <script lang="ts">
-	import type { Track, TrackCreditTitles } from "$lib/ambient";
+	import type { Track } from "$lib/ambient";
+	import { Page } from "$lib/helpers/tracks";
 
 	export let current: Track;
-	$: credits = current.credits;
-
-	const titles: TrackCreditTitles = {
-		featuring: "Featuring",
-		producers: "Producer",
-		arrangement: "Arrangement",
-		guitar: "Guitar",
-		additionalProducers: "Additional producer",
-		additionalVocals: "Additional vocals",
-		mixMaster: "Mixing and mastering",
-		recorded: "Recorded at",
-		interpolates: "Interpolates",
-		samples: "Samples"
-	};
+	$: credits = Object.entries(current.credits).filter(([key]) => key !== "writers");
 </script>
 
 <div class="track-credits">
-	{#each Object.entries(credits) as [key, credit]}
+	{#each credits as [key, credit]}
 		<section class="credit">
-			<h2>
-				{#if key === "producers" || key === "additionalProducers"}
-					{credit.length > 1 ? `${titles[key]}s` : titles[key]}
-				{:else}
-					{titles[key]}
-				{/if}
-			</h2>
+			<h2>{Page.renderCreditTitle(key, credit)}</h2>
 			{#each credit as data, i}
 				{#if key === "featuring"}
 					{#if Array.isArray(credit[i + 1])}

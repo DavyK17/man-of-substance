@@ -10,7 +10,7 @@
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
 
-	import { TrackCredits, ChallengeStart, ChallengeEnd } from "$lib/components";
+	import { Credits, ChallengeStart, ChallengeEnd } from "$lib/components";
 	import { tracklist } from "$lib/stores";
 	import { Page } from "$lib/helpers/tracks";
 
@@ -138,7 +138,7 @@
 		</div>
 	</header>
 	{#if type === "credits"}
-		<TrackCredits {current} />
+		<Credits {current} />
 	{:else}
 		<div class={`track-${type}`}>{@html content}</div>
 	{/if}
