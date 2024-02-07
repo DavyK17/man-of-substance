@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Track } from "$lib/ambient";
+	import type { Track, TrackCreditTitles } from "$lib/ambient";
 
 	export let current: Track;
 	$: credits = current.credits;
 
-	const titles = {
+	const titles: TrackCreditTitles = {
 		featuring: "Featuring",
 		producers: "Producer",
 		arrangement: "Arrangement",
@@ -19,38 +19,38 @@
 </script>
 
 <div class="track-credits">
-	{#each Object.entries(titles) as [credit, title]}
+	{#each Object.entries(credits) as [key, credit]}
 		<section class="credit">
 			<h2>
-				{#if credit === "producers" || credit === "additionalProducers"}
-					{credits[credit].length > 1 ? `${title}s` : title}
+				{#if key === "producers" || key === "additionalProducers"}
+					{credit.length > 1 ? `${titles[key]}s` : titles[key]}
 				{:else}
-					{title}
+					{titles[key]}
 				{/if}
 			</h2>
-			{#each credits[credit] as name, i}
-				{#if credit === "featuring"}
-					{#if Array.isArray(credits[credit][i + 1])}
-						<p class="group-name">{name}</p>
-					{:else if Array.isArray(credits[credit][i])}
-						{#each name as member}
+			{#each credit as data, i}
+				{#if key === "featuring"}
+					{#if Array.isArray(credit[i + 1])}
+						<p class="group-name">{data}</p>
+					{:else if Array.isArray(data)}
+						{#each data as member}
 							<p class="group-member">{member}</p>
 						{/each}
 					{:else}
-						<p>{name}</p>
+						<p>{data}</p>
 					{/if}
-				{:else if credit === "recorded"}
+				{:else if key === "recorded"}
 					<p class="location">
-						<span class="studio">{name.studio}</span>
-						<span class="city">{name.city}</span>
+						<span class="studio">{data.studio}</span>
+						<span class="city">{data.city}</span>
 					</p>
-				{:else if credit === "samples" || credit === "interpolates"}
+				{:else if key === "samples" || key === "interpolates"}
 					<p class="location">
-						<span class="studio">{name.title}</span>
-						<span class="city">{name.info}</span>
+						<span class="studio">{data.title}</span>
+						<span class="city">{data.info}</span>
 					</p>
 				{:else}
-					<p>{name}</p>
+					<p>{data}</p>
 				{/if}
 			{/each}
 		</section>
