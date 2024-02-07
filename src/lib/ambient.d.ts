@@ -93,7 +93,7 @@ export interface TrackCreditTitles {
 }
 
 /* CREDITS */
-export interface Credits {
+export interface AlbumCredits {
 	[key: string]: string[] | string;
 	execProducers: string[];
 	photography: string[];
@@ -103,4 +103,11 @@ export interface Credits {
 	visualiser: string[];
 	website: string[];
 	copyright: string;
+}
+
+export type AlbumCreditKey = keyof AlbumCredits;
+
+export interface AlbumCreditTitles {
+	[key: string]: string;
+	[key in AlbumCreditKey]: string;
 }

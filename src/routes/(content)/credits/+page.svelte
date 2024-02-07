@@ -1,18 +1,14 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import type { Credits } from "$lib/ambient";
 
-	const titles = {
-		execProducers: "Executive producer",
-		photography: "Photography",
-		styling: "Styling",
-		artwork: "Artwork",
-		trailer: "Trailer",
-		visualiser: "Visualiser",
-		website: "Website"
-	};
+	import { credits as fullCredits } from "$lib";
+	import { Page } from "$lib/helpers/credits";
 
-	export let data: PageData & Credits;
+	export let data: PageData;
+	const credits = Object.entries(fullCredits).filter(([key]) => key !== "copyright") as [
+		string,
+		string[]
+	][];
 </script>
 
 <svelte:head>
@@ -25,22 +21,16 @@
 			<h1>Album credits</h1>
 		</header>
 		<div class="album-credits">
-			{#each Object.entries(titles) as [credit, title]}
+			{#each credits as [key, credit]}
 				<div class="credit">
-					<h2>
-						{#if credit === "execProducers"}
-							{data[credit].length > 1 ? `${title}s` : title}
-						{:else}
-							{title}
-						{/if}
-					</h2>
-					{#each data[credit] as name}
+					<h2>{Page.renderCreditTitle(key, credit)}</h2>
+					{#each credit as name}
 						<p>{name}</p>
 					{/each}
 				</div>
 			{/each}
 		</div>
-		<p role="note" class="copyright">&copy; &#8471; {data.copyright}</p>
+		<p role="note" class="copyright">&copy; &#8471; {fullCredits.copyright}</p>
 	{:else}
 		<p class="locked">This content will be available on release day.</p>
 	{/if}
