@@ -101,3 +101,13 @@ export const Page = {
 		return Page.formatRuntimeUnit("min", min) + and + Page.formatRuntimeUnit("sec", sec);
 	}
 };
+
+export const Status = {
+	LOADING: "Tulia kiambatasi…",
+	ERROR: "An unknown error occurred. Kindly try again.",
+	CHALLENGE_COMPLETED: "The challenge has already been completed.",
+	CHALLENGE_DAILY_LIMIT_REACHED:
+		"You've tried the challenge enough times today. Come back tomorrow.",
+	CHALLENGE_SUCCESSFUL: "Congratulations! You will receive your prize money shortly.",
+	CHALLENGE_FAILED: "Your answer was wrong. Try again."
+};
