@@ -89,7 +89,7 @@ export type TrackCreditKey = keyof TrackCredits;
 
 export interface TrackCreditTitles {
 	[key: string]: string;
-	[key in TrackCreditKeys]: string;
+	[key in TrackCreditKey]: string;
 }
 
 /* CREDITS */
@@ -103,17 +103,4 @@ export interface Credits {
 	visualiser: string[];
 	website: string[];
 	copyright: string;
-}
-
-export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
-
-export interface ContributorsByTier {
-	[key: string]: { name: string }[];
-	[key in ContributorTier]: { name: string }[];
-}
-
-export interface ContributorRewardDownload {
-	[key: string]: any;
-	file?: RewardFile;
-	files?: RewardsZipFile;
 }
