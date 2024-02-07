@@ -1,7 +1,9 @@
 import type { Actions } from "./$types";
 
 import { fail } from "@sveltejs/kit";
-import { formatResponseMessage } from "$lib/helpers/helpers";
+import { CHALLENGE_ANSWER } from "$env/static/private";
+
+import { Status } from "$lib/helpers/tracks";
 import { supabase } from "$lib/supabaseClient";
 
 export const actions: Actions = {
@@ -13,7 +15,7 @@ export const actions: Actions = {
 		return { data: { answer: answer as string }, started: true };
 	},
 
-	attempt: async ({ fetch, request }) => {
+	attempt: async ({ request }) => {
 		const data = await request.formData();
 
 		const answer = data.get("answer") as string;
@@ -21,29 +23,25 @@ export const actions: Actions = {
 		const phone = data.get("phone") as string;
 
 		try {
-			const ip: string = await (await fetch("https://api.ipify.org")).text();
-			const url = `${serverUrl}/challenge`;
-			const body = new URLSearchParams({ name, phone, ip, answer });
-
-			const response = await fetch(url, { method: "POST", body });
-			let message = formatResponseMessage(await response.text());
-
-			if (response.status !== 200 && response.status !== 201)
-				return fail(response.status, {
+			const { error } = await supabase.from("challenge_attempts").insert({ name, phone, answer });
+			if (error) {
+				// Database triggers: Check for challenge completed and daily attempt limit errors
+				console.log(error.message);
+				return fail(Number(error.code), {
 					data: { answer, name, phone },
 					started: true,
-					success: response.status === 403,
-					message
+					success: false,
+					message: Status.ERROR
 				});
+			}
+
+			// Edge Function: Add payment for successful attempt
 
 			return {
-				data: response.status === 200 ? undefined : { name, phone },
+				data: answer === CHALLENGE_ANSWER ? undefined : { name, phone },
 				started: false,
-				success: response.status === 200,
-				message:
-					response.status === 200
-						? "Congratulations! You will receive your prize money shortly."
-						: "Your answer was wrong. Try again."
+				success: answer === CHALLENGE_ANSWER,
+				message: answer === CHALLENGE_ANSWER ? Status.CHALLENGE_SUCCESSFUL : Status.CHALLENGE_FAILED
 			};
 		} catch (err) {
 			console.error(err);
@@ -51,7 +49,7 @@ export const actions: Actions = {
 				data: { answer, name, phone },
 				started: true,
 				success: false,
-				message: "An error occurred. Kindly try again."
+				message: Status.ERROR
 			});
 		}
 	}
