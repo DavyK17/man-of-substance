@@ -23,7 +23,7 @@
 	<p>How many lines on the album (in total) explicitly reference a fighting game?</p>
 	<div class="input">
 		<label class="sr-only" for="challenge-answer">Answer</label>
-		<input type="number" id="challenge-answer" name="answer" min="1" required />
+		<input type="number" id="challenge-answer" name="answer" min="0" required />
 		<button type="submit" id="challenge-submit">Enter</button>
 	</div>
 	<p id="status">
