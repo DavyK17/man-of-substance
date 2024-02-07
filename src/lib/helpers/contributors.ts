@@ -1,5 +1,13 @@
 import type { PostgrestError } from "@supabase/supabase-js";
-import type { Contributor, ContributorTier, ContributorsByTier } from "$lib/ambient";
+import type {
+	Contributor,
+	ContributorTier,
+	ContributorTierInfo,
+	ContributorsByTier,
+	ContributorRewardInfo,
+	ContributorRewardFile,
+	ContributorRewardsZipFile
+} from "$lib/ambient";
 
 import JsFileDownloader from "js-file-downloader";
 import JSZip from "jszip";
@@ -7,31 +15,6 @@ import JSZip from "jszip";
 import { supabase } from "../supabaseClient";
 
 /* TYPES */
-export interface TierInfo {
-	name: ContributorTier;
-	min: number;
-	max: number;
-}
-
-export interface Reward {
-	[key: string]: string | string[];
-	name: string;
-	perks: string[];
-	tiers: ContributorTier[];
-}
-
-export interface RewardFile {
-	[key: string]: string;
-	name: string;
-	path: string;
-}
-
-export interface RewardsZipFile {
-	[key: string]: RewardFile[];
-	music: RewardFile[];
-	commentary: RewardFile[];
-}
-
 // Copied from js-file-downloader (https://github.com/AleeeKoi/js-file-downloader/blob/master/index.d.ts)
 interface OptionalParams {
 	timeout?: number;
@@ -77,14 +60,16 @@ export const Tiers = {
 		{ name: "gold", min: 3500, max: 4999 },
 		{ name: "platinum", min: 5000, max: 49999 },
 		{ name: "executive", min: 50000, max: Infinity }
-	] as TierInfo[],
+	] as ContributorTierInfo[],
 	/**
 	 * Returns the given contributor's tier for rewards.
 	 * @param {Contributor} contributor - A `contributor` object
 	 * @returns {ContributorTier} The given contributor's tier as a string
 	 */
 	get: ({ amount }: Contributor): ContributorTier => {
-		const { name } = Tiers.list.find(({ min, max }) => amount >= min && amount <= max) as TierInfo;
+		const { name } = Tiers.list.find(
+			({ min, max }) => amount >= min && amount <= max
+		) as ContributorTierInfo;
 		return name;
 	},
 	/**
@@ -164,7 +149,7 @@ export const Rewards = {
 			],
 			tiers: ["executive"]
 		}
-	] as Reward[],
+	] as ContributorRewardInfo[],
 	/**
 	 * Returns the appropriate downloadable track format(s) for the album's crowdfunding contributors.
 	 * @param {ContributorTier} tier - A `ContributorTier` string
@@ -193,10 +178,10 @@ export const Rewards = {
 	},
 	/**
 	 * Generates a ZIP file with a given crowdfunding contributor's rewards.
-	 * @param {RewardsZipFile} files - A `RewardsZipFile` object
+	 * @param {ContributorRewardsZipFile} files - A `RewardsZipFile` object
 	 * @returns {Promise<Blob>} A Promise that resolves to the ZIP file's `Blob`
 	 */
-	generateZipFile: async (files: RewardsZipFile): Promise<Blob> => {
+	generateZipFile: async (files: ContributorRewardsZipFile): Promise<Blob> => {
 		try {
 			let zip = new JSZip();
 
@@ -204,7 +189,7 @@ export const Rewards = {
 				if (files[type]?.length === 0) continue;
 				let folder = zip.folder(type);
 
-				for (let { name, path } of files[type] as RewardFile[]) {
+				for (let { name, path } of files[type] as ContributorRewardFile[]) {
 					let file = await Rewards.getFileBlob(path);
 					if (file) folder?.file(name, file);
 				}
@@ -223,8 +208,8 @@ export const Rewards = {
 	 * @returns {Promise<Blob | null>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
 	 */
 	download: async (
-		file?: RewardFile,
-		files?: RewardsZipFile,
+		file?: ContributorRewardFile,
+		files?: ContributorRewardsZipFile,
 		process?: (e: ProgressEvent<EventTarget>) => undefined
 	): Promise<Blob | null> => {
 		if (!file && !files) throw new Error("No file(s) to download");
@@ -268,11 +253,10 @@ export const Rewards = {
 };
 
 export const Status = {
-	LOADING: "Tulia kiambatasi…",
-	HOME_LOADING_ERROR: "An error occurred loading the list of contributors. Kindly refresh the page and try again.",
+	CLAIMING_REWARDS: "Updating database…",
 	DOWNLOAD_NOTICE: "Your download will begin shortly. Please wait.",
 	DOWNLOAD_STARTING: "Preparing rewards…",
-	CLAIMING_REWARDS: "Updating database…",
-	LOGGING_OUT: "Ndio kutoka sasa? Haya…",
-	ERROR: "An unknown error occurred. Kindly try again."
+	HOME_LOADING_ERROR:
+		"An error occurred loading the list of contributors. Kindly refresh the page and try again.",
+	LOGGING_OUT: "Ndio kutoka sasa? Haya…"
 };

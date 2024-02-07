@@ -1,26 +1,60 @@
-import type { RewardFile, RewardsZipFile } from "./helpers/contributors";
-
-// Home
+/* HOME */
 export interface AlbumCoverInfo {
 	default: string;
 	fallback: string;
 }
 
-// Credits
-export interface Credits {
-	[key: string]: string[] | string;
-	execProducers: string[];
-	photography: string[];
-	styling: string[];
-	artwork: string[];
-	trailer: string[];
-	visualiser: string[];
-	website: string[];
-	copyright: string;
+/* CONTRIBUTORS */
+export interface Contributor {
+	[key: string]: any;
+	id: number;
+	name: string;
+	email: string;
+	amount: number;
+	rewardsClaimed: boolean;
 }
 
-// Tracks
+export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";
+
+export interface ContributorTierInfo {
+	name: ContributorTier;
+	min: number;
+	max: number;
+}
+
+export interface ContributorsByTier {
+	[key: string]: { name: string }[];
+	[key in ContributorTier]: { name: string }[];
+}
+
+export interface ContributorRewardInfo {
+	[key: string]: string | string[];
+	name: string;
+	perks: string[];
+	tiers: ContributorTier[];
+}
+
+export interface ContributorRewardFile {
+	[key: string]: string;
+	name: string;
+	path: string;
+}
+
+export interface ContributorRewardsZipFile {
+	[key: string]: ContributorRewardFile[];
+	music: ContributorRewardFile[];
+	commentary: ContributorRewardFile[];
+}
+
+export interface ContributorRewardDownload {
+	[key: string]: any;
+	file?: ContributorRewardFile;
+	files?: ContributorRewardsZipFile;
+}
+
+/* TRACKS */
 export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
+
 export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
 
 export interface Track {
@@ -51,20 +85,24 @@ export interface TrackCredits {
 	interpolates?: { title: string; info: string }[];
 }
 
-type TrackCreditKeys = keyof TrackCredits;
+export type TrackCreditKey = keyof TrackCredits;
+
 export interface TrackCreditTitles {
 	[key: string]: string;
 	[key in TrackCreditKeys]: string;
 }
 
-// Contributors
-export interface Contributor {
-	[key: string]: any;
-	id: number;
-	name: string;
-	email: string;
-	amount: number;
-	rewardsClaimed: boolean;
+/* CREDITS */
+export interface Credits {
+	[key: string]: string[] | string;
+	execProducers: string[];
+	photography: string[];
+	styling: string[];
+	artwork: string[];
+	trailer: string[];
+	visualiser: string[];
+	website: string[];
+	copyright: string;
 }
 
 export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "platinum" | "executive";

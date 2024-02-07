@@ -4,8 +4,10 @@ import type { Contributor, ContributorTier, ContributorRewardDownload } from "$l
 import { error, fail, redirect } from "@sveltejs/kit";
 
 import { tracks } from "$lib";
-import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 import { supabase } from "$lib/supabaseClient";
+
+import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
+import { Generic } from "$lib/helpers/status";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
@@ -43,7 +45,7 @@ export const actions: Actions = {
 			return { logout: true };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: Status.ERROR });
+			return fail(500, { message: Generic.ERROR });
 		}
 	},
 
@@ -123,7 +125,7 @@ export const actions: Actions = {
 			};
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: Status.ERROR });
+			return fail(500, { message: Generic.ERROR });
 		}
 	}
 };

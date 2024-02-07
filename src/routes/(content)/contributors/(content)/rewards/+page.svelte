@@ -9,6 +9,7 @@
 
 	import { TrackDownload } from "$lib/components";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
+	import { Generic } from "$lib/helpers/status";
 
 	export let data: PageData;
 	const { contributor, videoUrl } = data;
@@ -48,7 +49,7 @@
 				if (!error) {
 					const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
 					status = responses[Math.floor(Math.random() * responses.length)];
-				} else status = Status.ERROR;
+				} else status = Generic.ERROR;
 			});
 		});
 	}

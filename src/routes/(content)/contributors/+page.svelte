@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { Status } from "$lib/helpers/contributors";
+	import { Generic } from "$lib/helpers/status";
 
 	export let data: PageData;
 </script>
@@ -12,7 +13,7 @@
 		<a href="/contributors/rewards">clicking here</a>.
 	</p>
 	{#await data.contributors}
-		<p id="status">{Status.LOADING}</p>
+		<p id="status">{Generic.LOADING}</p>
 	{:then contributors}
 		{#if contributors}
 			<p>

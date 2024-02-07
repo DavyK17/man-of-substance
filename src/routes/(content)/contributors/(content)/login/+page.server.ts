@@ -4,8 +4,8 @@ import type { Contributor } from "$lib/ambient";
 import moment from "moment";
 import { fail, redirect } from "@sveltejs/kit";
 
-import { Status } from "$lib/helpers/contributors";
 import { supabase } from "$lib/supabaseClient";
+import { Generic } from "$lib/helpers/status";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
@@ -70,7 +70,7 @@ export const actions: Actions = {
             return { success: true };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: Status.ERROR });
+			return fail(500, { message: Generic.ERROR });
 		}
 	}
 };

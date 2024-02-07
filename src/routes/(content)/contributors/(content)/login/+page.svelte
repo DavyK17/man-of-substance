@@ -6,13 +6,13 @@
 	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
 
-	import { Status } from "$lib/helpers/contributors";
+	import { Generic } from "$lib/helpers/status";
 
 	export let form: ActionData;
 	$: if (browser && form?.success) goto("/contributors/rewards");
 
 	$: status = form?.message ?? "";
-	$: if (browser && status !== Status.LOADING) {
+	$: if (browser && status !== Generic.LOADING) {
 		const timeout = setTimeout(() => {
 			status = "";
 		}, 3000);
@@ -26,7 +26,7 @@
 	method="POST"
 	autocomplete="off"
 	use:enhance={() => {
-		status = Status.LOADING;
+		status = Generic.LOADING;
 	}}
 >
 	<h1>Contributor Rewards</h1>

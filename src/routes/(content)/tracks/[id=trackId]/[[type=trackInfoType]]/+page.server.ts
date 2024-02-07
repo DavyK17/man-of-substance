@@ -3,8 +3,10 @@ import type { Actions } from "./$types";
 import { fail } from "@sveltejs/kit";
 import { CHALLENGE_ANSWER } from "$env/static/private";
 
-import { Status } from "$lib/helpers/tracks";
 import { supabase } from "$lib/supabaseClient";
+
+import { Status } from "$lib/helpers/tracks";
+import { Generic } from "$lib/helpers/status";
 
 export const actions: Actions = {
 	start: async ({ request }) => {
@@ -31,7 +33,7 @@ export const actions: Actions = {
 					data: { answer, name, phone },
 					started: true,
 					success: false,
-					message: Status.ERROR
+					message: Generic.ERROR
 				});
 			}
 
@@ -49,7 +51,7 @@ export const actions: Actions = {
 				data: { answer, name, phone },
 				started: true,
 				success: false,
-				message: Status.ERROR
+				message: Generic.ERROR
 			});
 		}
 	}

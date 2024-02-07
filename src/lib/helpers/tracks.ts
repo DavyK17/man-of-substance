@@ -1,4 +1,4 @@
-import type { Track, TracklistVersion } from "$lib/ambient";
+import type { Track, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/ambient";
 
 export const List = {
 	/**
@@ -99,15 +99,39 @@ export const Page = {
 		const and = min === 0 || sec === 0 ? "" : " and ";
 
 		return Page.formatRuntimeUnit("min", min) + and + Page.formatRuntimeUnit("sec", sec);
+	},
+	/**
+	 * An object with credit titles as values for each corresponding key in `TrackCredits`.
+	 */
+	creditTitles: {
+		featuring: "Featuring",
+		producers: "Producer",
+		arrangement: "Arrangement",
+		guitar: "Guitar",
+		additionalProducers: "Additional producer",
+		additionalVocals: "Additional vocals",
+		mixMaster: "Mixing and mastering",
+		recorded: "Recorded at",
+		interpolates: "Interpolates",
+		samples: "Samples"
+	} as TrackCreditTitles,
+	/**
+	 * Renders a credit title in singular or plural as appropriate.
+	 * @param {TrackCreditKey} key - A `TrackCreditKey` string
+	 * @param {any[]} data - An array of credit data
+	 * @returns {string} A formatted string with the credit title
+	 */
+	renderCreditTitle: (key: TrackCreditKey, data: any[]): string => {
+		return key === "producers" || key === "additionalProducers"
+			? `${Page.creditTitles[key]}${data.length > 1 ? "s" : ""}`
+			: Page.creditTitles[key];
 	}
 };
 
 export const Status = {
-	LOADING: "Tulia kiambatasi…",
-	ERROR: "An unknown error occurred. Kindly try again.",
 	CHALLENGE_COMPLETED: "The challenge has already been completed.",
 	CHALLENGE_DAILY_LIMIT_REACHED:
 		"You've tried the challenge enough times today. Come back tomorrow.",
-	CHALLENGE_SUCCESSFUL: "Congratulations! You will receive your prize money shortly.",
-	CHALLENGE_FAILED: "Your answer was wrong. Try again."
+	CHALLENGE_FAILED: "Your answer was wrong. Try again.",
+	CHALLENGE_SUCCESSFUL: "Congratulations! You will receive your prize money shortly."
 };
