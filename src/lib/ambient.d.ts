@@ -4,7 +4,7 @@ import type { RewardFile, RewardsZipFile } from "./helpers/contributors";
 export interface AlbumCoverInfo {
 	default: string;
 	fallback: string;
-};
+}
 
 // Credits
 export interface Credits {
@@ -51,6 +51,12 @@ export interface TrackCredits {
 	interpolates?: { title: string; info: string }[];
 }
 
+type TrackCreditKeys = keyof TrackCredits;
+export interface TrackCreditTitles {
+	[key: string]: string;
+	[key in TrackCreditKeys]: string;
+}
+
 // Contributors
 export interface Contributor {
 	[key: string]: any;
@@ -66,10 +72,10 @@ export type ContributorTier = "supporter" | "bronze" | "silver" | "gold" | "plat
 export interface ContributorsByTier {
 	[key: string]: { name: string }[];
 	[key in ContributorTier]: { name: string }[];
-};
+}
 
 export interface ContributorRewardDownload {
 	[key: string]: any;
 	file?: RewardFile;
 	files?: RewardsZipFile;
-};
+}
