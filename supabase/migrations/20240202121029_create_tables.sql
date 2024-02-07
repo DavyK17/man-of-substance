@@ -4,7 +4,8 @@ CREATE TABLE challenge_attempts (
     phone text not null,
     ip inet not null default inet_client_addr(),
     answer integer not null,
-    created_at timestamp default current_timestamp not null
+    created_at timestamp with time zone not null default now(),
+    constraint challenge_attempts_answer_check check ((answer >= 0))
 );
 
 
@@ -26,7 +27,7 @@ WITH CHECK (true);
 CREATE POLICY "Enable read access for users based on their IP" ON challenge_attempts
 AS PERMISSIVE FOR SELECT
 TO public
-USING (inet_client_addr() = ip AND inet_client_addr()::TEXT <> '127.0.0.1');
+USING (inet_client_addr()::TEXT = ip::TEXT);
 
 ALTER TABLE contributors ENABLE ROW LEVEL SECURITY;
 
