@@ -2,14 +2,12 @@
 	import type { LayoutData } from "../../routes/$types";
 
 	import { fly } from "svelte/transition";
+
 	import { page } from "$app/stores";
+	import { Items } from "$lib/helpers/nav";
 
 	export let data: LayoutData;
-	const menuItems = [
-		{ title: "Contributors", path: "/contributors" },
-		{ title: "Tracklist", path: "/tracks" },
-		{ title: "Credits", path: "/credits" }
-	];
+	const { list: menuItems, getPathRegex } = Items;
 
 	let outerWidth: number;
 	$: menuVisible = outerWidth > 575;
@@ -43,13 +41,13 @@
 						Home
 					</a>
 				</li>
-				{#each menuItems as { title, path }}
+				{#each menuItems as { title, slug }}
 					<li>
 						<a
-							href={path}
-							class:active={$page.url.pathname.includes(path)}
+							href={`/${slug}`}
+							class:active={$page.url.pathname.match(getPathRegex(slug))}
 							on:click={() => menuToggle(false)}
-							data-sveltekit-preload-code={path === "/contributors" ? "hover" : "off"}
+							data-sveltekit-preload-code={slug === "contributors" ? "hover" : "off"}
 						>
 							{title}
 						</a>
