@@ -1,7 +1,12 @@
-/* HOME */
+/* GENERAL */
 export interface AlbumCoverInfo {
 	default: string;
 	fallback: string;
+}
+
+export interface NavMenuItem {
+	title: string;
+	slug: string;
 }
 
 /* CONTRIBUTORS */
