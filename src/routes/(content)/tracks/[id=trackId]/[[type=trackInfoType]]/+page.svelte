@@ -104,14 +104,14 @@
 		<ChallengeStart message={form?.message} />
 	{/if}
 {:else}
-	<header class="track-head">
+	<header>
 		<h1 class="title">{current.title}</h1>
 		<p class="writers">Written by {displayWriters(current)}</p>
 		<div class="info">
 			<p class="style">{current.style.join(" / ")}</p>
 			<p><strong>Runtime:</strong><span id="break"></span>{displayRuntime(current)}</p>
 		</div>
-		<div class="track-links">
+		<div class="links">
 			<div class="link-buttons">
 				<a
 					role="button"
@@ -142,7 +142,7 @@
 	{:else}
 		<div class={`track-${type}`}>{@html content}</div>
 	{/if}
-	<footer class="track-footer">
+	<footer>
 		<div class="previous">
 			{#if previous}
 				<h2>Previous</h2>
@@ -170,7 +170,7 @@
 {/if}
 
 <style lang="scss">
-	.track-head {
+	header {
 		text-align: center;
 		h1 {
 			font-family: $font-head;
@@ -204,7 +204,7 @@
 	}
 
 	@media only screen and (max-width: 575px) {
-		.track-head {
+		header {
 			.info {
 				#break::before {
 					content: "\A";
@@ -215,14 +215,14 @@
 	}
 
 	@media only screen and (max-width: 768px) {
-		.track-head {
+		header {
 			h1 {
 				font-size: 1.5rem;
 			}
 		}
 	}
 
-	.track-links {
+	.links {
 		text-align: center;
 		margin: auto;
 		.link-buttons {
@@ -244,7 +244,7 @@
 	}
 
 	@media only screen and (max-width: 340px) {
-		.track-links {
+		.links {
 			.link-buttons {
 				width: inherit;
 				a {
@@ -255,7 +255,7 @@
 	}
 
 	@media only screen and (max-width: 700px) {
-		.track-links {
+		.links {
 			width: 100%;
 			.link-buttons {
 				flex-direction: column;
@@ -265,12 +265,12 @@
 	}
 
 	@media only screen and (min-width: 701px) {
-		.track-links {
+		.links {
 			width: 700px;
 		}
 	}
 
-	.track-footer {
+	footer {
 		display: flex;
 		font-size: 0.875rem;
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -325,7 +325,7 @@
 	}
 
 	@media only screen and (max-width: 767px) {
-		.track-footer {
+		footer {
 			flex-direction: column;
 			justify-content: space-evenly;
 			align-items: center;
@@ -346,7 +346,7 @@
 	}
 
 	@media only screen and (min-width: 768px) {
-		.track-footer {
+		footer {
 			& > div {
 				flex: 1 1 300px;
 			}

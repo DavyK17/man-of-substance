@@ -21,7 +21,7 @@
 
 <main>
 	{#if data.unlocked}
-		<div class="tracklist-lead">
+		<div class="lead">
 			<p class="head">Select a track to view details.</p>
 			<p>Use the dropdown below to follow the evolution of the tracklist.</p>
 			<div class="version-select">
@@ -75,23 +75,7 @@
 </main>
 
 <style lang="scss">
-	.tracklist {
-		@extend %tracklist-contributors;
-		ol {
-			@extend %tracklist-contributors-list;
-		}
-		a {
-			text-decoration: none;
-			transition: color 0.1s ease-in-out;
-			&:hover,
-			&:focus {
-				color: $red;
-				transition: color 0.1s ease-in-out;
-			}
-		}
-	}
-
-	.tracklist-lead {
+	.lead {
 		margin-bottom: 2rem;
 		p {
 			margin: unset;
@@ -120,6 +104,22 @@
 				text-align: center;
 				text-transform: uppercase;
 				margin-top: 0.75rem;
+			}
+		}
+	}
+
+	.tracklist {
+		@extend %tracklist-contributors;
+		ol {
+			@extend %tracklist-contributors-list;
+		}
+		a {
+			text-decoration: none;
+			transition: color 0.1s ease-in-out;
+			&:hover,
+			&:focus {
+				color: $red;
+				transition: color 0.1s ease-in-out;
 			}
 		}
 	}

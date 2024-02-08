@@ -46,6 +46,7 @@
 		margin: auto auto 2rem auto;
 		.list {
 			@extend %tracklist-contributors;
+			margin-top: 2rem;
 			ul {
 				@extend %tracklist-contributors-list;
 			}
