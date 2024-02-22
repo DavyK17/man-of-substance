@@ -242,6 +242,8 @@ export const Rewards = {
 		} catch (err) {
 			if (download) download.abort(err);
 			throw err;
+		} finally {
+			if (files && url) URL.revokeObjectURL(url);
 		}
 	},
 	/**
