@@ -52,7 +52,7 @@ export interface ContributorRewardsZipFile {
 }
 
 export interface ContributorRewardDownload {
-	[key: string]: any;
+	[key: string]: ContributorRewardFile | ContributorRewardsZipFile | undefined;
 	file?: ContributorRewardFile;
 	files?: ContributorRewardsZipFile;
 }
