@@ -34,7 +34,7 @@
 	$: downloadTimedOut = !form?.download;
 	$: if (browser && !downloadTimedOut) {
 		const { file, files } = form?.download as ContributorRewardDownload;
-		if (files) status = "Generating ZIP file. This may take a while…";
+		status = files ? Status.DOWNLOAD_GETTING_ZIP : Status.DOWNLOAD_GETTING_FILE;
 
 		download(file, files, (e) => {
 			if (e.lengthComputable) {

@@ -263,8 +263,10 @@ export const Rewards = {
 
 export const Status = {
 	CLAIMING_REWARDS: "Updating database…",
-	DOWNLOAD_NOTICE: "Your download will begin shortly. Please wait.",
-	DOWNLOAD_STARTING: "Preparing rewards…",
+	DOWNLOAD_NOTICE: "Download inaanza saa hii. Kiasi tu.",
+	DOWNLOAD_STARTING: "Ndio hii download imekam…",
+	DOWNLOAD_GETTING_FILE: "Getting file…",
+	DOWNLOAD_GETTING_ZIP: "Generating ZIP file. This may take a while…",
 	HOME_LOADING_ERROR:
 		"An error occurred loading the list of contributors. Kindly refresh the page and try again.",
 	LOGGING_OUT: "Ndio kutoka sasa? Haya…"
