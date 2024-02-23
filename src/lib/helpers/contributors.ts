@@ -9,41 +9,8 @@ import type {
 	ContributorRewardsZipFile
 } from "$lib/ambient";
 
-import JsFileDownloader from "js-file-downloader";
 import JSZip from "jszip";
-
 import { supabase } from "../supabaseClient";
-
-/* TYPES */
-// Copied from js-file-downloader (https://github.com/AleeeKoi/js-file-downloader/blob/master/index.d.ts)
-interface OptionalParams {
-	timeout?: number;
-	headers?: { name: string; value: string }[];
-	forceDesktopMode?: boolean;
-	withCredentials?: boolean;
-	method?: "GET" | "POST";
-	process?: (event: ProgressEvent) => undefined;
-	nameCallback?: (name: string) => string;
-	autoStart?: boolean;
-	filename?: string;
-	contentType?: false | string;
-	body?: Document | BodyInit | null;
-	nativeFallbackOnError?: boolean;
-	onloadstart?: () => void;
-	contentTypeDetermination?: false | "header" | "signature" | "full";
-	customFileSignatures?: { [key: string]: string };
-}
-
-type Params = OptionalParams & { url: string };
-
-interface JsFileDownloaderBase {
-	start(): Promise<void>;
-	params: Params;
-	link: HTMLAnchorElement;
-	request: XMLHttpRequest;
-	downloadedFile: null | Blob | File;
-	abort(reason: any): void;
-}
 
 /* MODULES */
 export const Tiers = {
@@ -205,45 +172,6 @@ export const Rewards = {
 			return await zip.generateAsync({ type: "blob" });
 		} catch (err) {
 			throw err;
-		}
-	},
-	/**
-	 * Downloads a crowdfunding contributor's rewards.
-	 * @param {string} [file] - A `RewardFile` object; required if `files` is `undefined`.
-	 * @param {string} [files] - A `RewardsZipFile` object; required if `file` is `undefined`
-	 * @param {function} [process] - A function that takes an `event` argument and runs when the download makes progress
-	 * @returns {Promise<Blob | null>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
-	 */
-	download: async (
-		file?: ContributorRewardFile,
-		files?: ContributorRewardsZipFile,
-		process?: (e: ProgressEvent<EventTarget>) => undefined
-	): Promise<Blob | null> => {
-		if (!file && !files) throw new Error("No file(s) to download");
-
-		let url: string = "";
-		let filename: string = "";
-		let download: JsFileDownloaderBase | undefined;
-
-		try {
-			if (file) {
-				const { name, path } = file;
-				url = (await Rewards.getFileUrl(path)) as string;
-				filename = name;
-			} else if (files) {
-				url = URL.createObjectURL(await Rewards.generateZipFile(files));
-				filename = "mos-rewards.zip";
-			}
-
-			download = new JsFileDownloader({ url, process, filename, autoStart: false });
-			if (download) await download.start();
-
-			return null;
-		} catch (err) {
-			if (download) download.abort(err);
-			throw err;
-		} finally {
-			if (files && url) URL.revokeObjectURL(url);
 		}
 	},
 	/**
