@@ -79,7 +79,7 @@ export const Rewards = {
 	 * An array of objects with information on the album's crowdfunding contributor rewards, each with the following properties:
 	 * - `name` — A string; the reward's name
 	 * - `perks` — An array of strings; a list of available perks
-	 * - `tiers` — An array of `ContributorTier` strings; the tiers for which the reward is available
+	 * - `tiers` — An array of `ContributorTier` strings; tiers for which the reward is available
 	 */
 	list: [
 		{
