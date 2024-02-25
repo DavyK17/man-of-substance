@@ -48,6 +48,7 @@
 							class:active={$page.url.pathname.match(getPathRegex(slug))}
 							on:click={() => menuToggle(false)}
 							data-sveltekit-preload-code={slug === "contributors" ? "hover" : "off"}
+							data-sveltekit-preload-data={slug === "tracks" ? "hover" : "off"}
 						>
 							{title}
 						</a>
