@@ -71,8 +71,10 @@ export const actions: Actions = {
 				if (tier === "bronze" || tier === "silver") {
 					//-// BRONZE AND SILVER
 					let checked: number[] = [];
-					for (let value of formData.values())
-						if (!isNaN(Number(value))) checked.push(Number(value));
+					for (let value of formData.values()) {
+						const trackId = Number(value);
+						if (!isNaN(trackId)) checked.push(trackId);
+					}
 
 					let remaining = Tiers.maxTracks(tier) - checked.length;
 					if (remaining > 0)
