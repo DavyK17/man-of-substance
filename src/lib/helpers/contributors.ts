@@ -97,8 +97,7 @@ export const List = {
 	): ContributorsByTier => {
 		const contributors: ContributorsByTier = {};
 		Tiers.list.forEach(({ name: tier, min, max }) => {
-			if (forPage) if (tier === "supporter") return;
-
+			if (forPage && tier === "supporter") return;
 			const list = data.filter(({ amount }) => amount >= min && amount <= max);
 			if (list.length > 0) contributors[tier] = list;
 		});
