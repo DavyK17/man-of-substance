@@ -3,8 +3,8 @@
 	import type { Contributor, ContributorRewardDownload } from "$lib/ambient";
 
 	import { onDestroy } from "svelte";
+
 	import { browser } from "$app/environment";
-	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
 
 	import { TrackDownload } from "$lib/components";
@@ -19,7 +19,9 @@
 
 	export let form: ActionData;
 	$: status = form?.message ?? "";
-	$: if (browser && status !== Status.DOWNLOAD_STARTING) {
+
+	const messagesToFreeze = [Status.DOWNLOAD_STARTING, Status.DOWNLOAD_GETTING_ZIP];
+	$: if (browser && !messagesToFreeze.includes(status)) {
 		const timeout = setTimeout(
 			() => {
 				status = "";
@@ -30,29 +32,28 @@
 		onDestroy(() => clearTimeout(timeout));
 	}
 
-	const { download, finishClaim } = Rewards;
-	$: downloadTimedOut = !form?.download;
-	$: if (browser && !downloadTimedOut) {
+	const completeDownload = async () => {
 		const { file, files } = form?.download as ContributorRewardDownload;
 		status = files ? Status.DOWNLOAD_GETTING_ZIP : Status.DOWNLOAD_GETTING_FILE;
 
-		download(file, files, (e) => {
+		await Rewards.download(file, files, (e) => {
 			if (e.lengthComputable) {
 				let downloadedPercentage = Math.floor((e.loaded / e.total) * 100);
 				status = `Downloading: ${downloadedPercentage}%…`;
 			}
 
 			return undefined;
-		}).then(() => {
-			status = Status.CLAIMING_REWARDS;
-			finishClaim(data.contributor?.email as string).then(({ error }) => {
-				if (!error) {
-					const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
-					status = responses[Math.floor(Math.random() * responses.length)];
-				} else status = Generic.ERROR;
-			});
 		});
-	}
+
+		status = Status.CLAIMING_REWARDS;
+		const { error } = await Rewards.finishClaim(data.contributor?.email as string);
+
+		if (error) status = Generic.ERROR;
+		else {
+			const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
+			status = responses[Math.floor(Math.random() * responses.length)];
+		}
+	};
 
 	$: if (browser && form?.logout) goto("/contributors/login");
 </script>
@@ -86,25 +87,13 @@
 		</div>
 	{/each}
 </div>
-<form
-	class="claim"
-	method="POST"
-	action="?/download"
-	use:enhance={({ submitter }) => {
-		if (submitter?.innerHTML === "Logout") downloadTimedOut = true;
-		status = submitter?.innerHTML === "Logout" ? Status.LOGGING_OUT : Status.DOWNLOAD_STARTING;
-	}}
->
-	<TrackDownload {tier} />
-	<div class="link-buttons">
-		<input type="hidden" name="email" value={contributor?.email} />
-		<input type="hidden" name="tier" value={tier} />
-
-		<button type="submit">Claim rewards</button>
-		<button formaction="?/logout" formnovalidate>Logout</button>
-		<p id="status">{status}</p>
-	</div>
-</form>
+<TrackDownload
+	email={contributor?.email}
+	{tier}
+	{status}
+	downloadObject={form?.download}
+	on:download={completeDownload}
+/>
 
 <style lang="scss">
 	header {
@@ -179,29 +168,6 @@
 				margin: unset;
 				margin-top: 1rem;
 				padding: unset;
-			}
-		}
-	}
-
-	.claim {
-		margin: auto;
-		border-top: 1px solid rgba(0, 0, 0, 0.5);
-		.link-buttons {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			button {
-				font-size: 1rem;
-				width: 300px;
-				@extend %link-buttons;
-				&:hover,
-				&:focus {
-					@extend %link-buttons-hover;
-				}
-				&:active {
-					color: $red;
-				}
 			}
 		}
 	}
