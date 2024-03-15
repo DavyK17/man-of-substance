@@ -16,5 +16,5 @@ export const Items = {
 	 * @param {string} slug - The item's URL slug
 	 * @returns {RegExp} A regular expression
 	 */
-	getPathRegex: (slug: string): RegExp => new RegExp(`^\/${slug}(?:\/.*)?$`, "g")
+	getPathRegex: (slug: string): RegExp => new RegExp(`^\/${slug}(?:\/.*)?$`)
 };
