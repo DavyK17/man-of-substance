@@ -11,7 +11,6 @@
 
 	export let email: string;
 	export let tier: ContributorTier;
-	export let status: string;
 	export let downloadObject: ContributorRewardDownload | undefined;
 
 	const dispatch = createEventDispatcher();
@@ -38,7 +37,9 @@
 	method="POST"
 	action="?/download"
 	use:enhance={({ submitter }) => {
-		status = submitter?.innerHTML === "Logout" ? Status.LOGGING_OUT : Status.DOWNLOAD_STARTING;
+		dispatch("statusChange", {
+			message: submitter?.innerHTML === "Logout" ? Status.LOGGING_OUT : Status.DOWNLOAD_STARTING
+		});
 	}}
 >
 	<div class={"track-select " + (tier === "supporter" ? "dropdown" : "checklist")}>
@@ -91,71 +92,65 @@
 
 		<button type="submit">Claim rewards</button>
 		<button formaction="?/logout" formnovalidate>Logout</button>
-
-		<p id="status">{status}</p>
 	</div>
 </form>
 
 <style lang="scss">
-	.claim {
-		margin: auto;
-		border-top: 1px solid rgba(0, 0, 0, 0.5);
-		.track-select {
+	.track-select {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 1rem 0;
+		.checklist-wrapper {
 			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin: 1rem 0;
-			.checklist-wrapper {
-				display: flex;
-				width: 100%;
-				flex-wrap: wrap;
-				justify-content: space-between;
-				text-align: center;
-				border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-				ol {
-					@extend %tracklist-contributors-list;
-					li {
-						justify-content: flex-start !important;
-						label {
-							margin-left: 0.5rem;
-						}
+			width: 100%;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			text-align: center;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+			ol {
+				@extend %tracklist-contributors-list;
+				li {
+					justify-content: flex-start !important;
+					label {
+						margin-left: 0.5rem;
 					}
 				}
 			}
-			.track-dropdown {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				&.with-margin {
-					margin-top: 1rem;
-				}
-				label {
-					margin-bottom: 1rem;
-				}
-				select {
-					width: 300px;
-					font-family: $font-body;
-					font-size: 0.875rem;
-					padding: 0.25rem;
-				}
-			}
 		}
-		.link-buttons {
+		.track-dropdown {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			justify-content: center;
-			button {
-				font-size: 1rem;
+			&.with-margin {
+				margin-top: 1rem;
+			}
+			label {
+				margin-bottom: 1rem;
+			}
+			select {
 				width: 300px;
-				@extend %link-buttons;
-				&:hover,
-				&:focus {
-					@extend %link-buttons-hover;
-				}
-				&:active {
-					color: $red;
-				}
+				font-family: $font-body;
+				font-size: 0.875rem;
+				padding: 0.25rem;
+			}
+		}
+	}
+	.link-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		button {
+			font-size: 1rem;
+			width: 300px;
+			@extend %link-buttons;
+			&:hover,
+			&:focus {
+				@extend %link-buttons-hover;
+			}
+			&:active {
+				color: $red;
 			}
 		}
 	}

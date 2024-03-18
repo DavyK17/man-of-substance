@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ComponentEvents } from "svelte";
 	import type { PageData, ActionData } from "./$types";
 	import type { Contributor, ContributorRewardDownload } from "$lib/ambient";
 
@@ -55,6 +56,10 @@
 		}
 	};
 
+	const handleStatusChange = ({ detail }: ComponentEvents<TrackDownload>["statusChange"]) => {
+		status = detail.message;
+	};
+
 	$: if (browser && form?.logout) goto("/contributors/login");
 </script>
 
@@ -87,13 +92,16 @@
 		</div>
 	{/each}
 </div>
-<TrackDownload
-	email={contributor?.email}
-	{tier}
-	{status}
-	downloadObject={form?.download}
-	on:download={completeDownload}
-/>
+<div class="track-download">
+	<TrackDownload
+		email={contributor?.email}
+		{tier}
+		downloadObject={form?.download}
+		on:download={completeDownload}
+		on:statusChange={handleStatusChange}
+	/>
+	<p id="status">{status}</p>
+</div>
 
 <style lang="scss">
 	header {
@@ -170,5 +178,10 @@
 				padding: unset;
 			}
 		}
+	}
+
+	.track-download {
+		margin: auto;
+		border-top: 1px solid rgba(0, 0, 0, 0.5);
 	}
 </style>
