@@ -133,5 +133,7 @@ export const Status = {
 	CHALLENGE_DAILY_LIMIT_REACHED:
 		"You've tried the challenge enough times today. Come back tomorrow.",
 	CHALLENGE_FAILED: "Your answer was wrong. Try again.",
+	CHALLENGE_NOTICE: `NOTICE: By clicking "Enter", you are consenting to the collection and use of your IP address by Ginton Entertainment to keep track of your challenge attempts. If you do not agree to this condition, please do not click "Enter".`,
+	CHALLENGE_PROCESSING: "Drum roll, please…",
 	CHALLENGE_SUCCESSFUL: "Congratulations! You will receive your prize money shortly."
 };

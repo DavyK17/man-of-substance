@@ -2,6 +2,7 @@
 	import "$lib/styles/track-lyrics.scss";
 	import { PUBLIC_CHALLENGE_LYRIC } from "$env/static/public";
 
+	import type { ComponentEvents } from "svelte";
 	import type { ActionData } from "./$types";
 	import type { Track, TrackInfoVersion } from "$lib/ambient";
 
@@ -12,7 +13,9 @@
 
 	import { Credits, ChallengeStart, ChallengeEnd } from "$lib/components";
 	import { tracklist } from "$lib/stores";
-	import { Page } from "$lib/helpers/tracks";
+
+	import { Page, Status } from "$lib/helpers/tracks";
+	import { Generic } from "$lib/helpers/status";
 
 	export let form: ActionData;
 	const { displayWriters, displayRuntime } = Page;
@@ -55,8 +58,22 @@
 	};
 
 	$: challengeFound = false;
-	$: if (challengeFound && form?.success) {
-		let timeout = setTimeout(() => (challengeFound = false), 3000);
+	$: status = form?.message ?? (challengeFound && !form?.started) ? Status.CHALLENGE_NOTICE : "";
+	$: if (browser && challengeFound) {
+		let timeout = setTimeout(() => {
+			if (!form?.started && status !== Status.CHALLENGE_NOTICE) status = Status.CHALLENGE_NOTICE;
+			else if (
+				form?.started &&
+				status !== "" &&
+				status !== Status.CHALLENGE_NOTICE &&
+				status !== Status.CHALLENGE_SUCCESSFUL &&
+				status !== Status.CHALLENGE_COMPLETED &&
+				status !== Generic.ERROR
+			)
+				status = "";
+			else if (form?.success) challengeFound = false;
+		}, 3000);
+
 		onDestroy(() => clearTimeout(timeout));
 	}
 
@@ -88,6 +105,10 @@
 			};
 		}
 	};
+
+	const handleStatusChange = ({ detail }: ComponentEvents<ChallengeEnd>["statusChange"]) => {
+		status = detail.message;
+	};
 </script>
 
 <svelte:head>
@@ -98,11 +119,14 @@
 <svelte:body on:mouseenter={setChallenge} />
 
 {#if challengeFound}
-	{#if form?.started}
-		<ChallengeEnd data={form?.data} message={form?.message} />
-	{:else}
-		<ChallengeStart message={form?.message} />
-	{/if}
+	<div class="challenge">
+		{#if form?.started}
+			<ChallengeEnd data={form?.data} on:statusChange={handleStatusChange} />
+		{:else}
+			<ChallengeStart />
+		{/if}
+		<p id="status">{status}</p>
+	</div>
 {:else}
 	<header>
 		<h1 class="title">{current.title}</h1>
@@ -267,6 +291,23 @@
 	@media only screen and (min-width: 701px) {
 		.links {
 			width: 700px;
+		}
+	}
+
+	.challenge {
+		text-align: center;
+		margin: auto;
+	}
+
+	@media only screen and (max-width: 991px) {
+		.challenge {
+			flex-direction: column;
+		}
+	}
+
+	@media only screen and (min-width: 1200px) {
+		.challenge {
+			width: 1000px;
 		}
 	}
 
