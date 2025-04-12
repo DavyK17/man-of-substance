@@ -4,7 +4,7 @@
 
 	import type { ComponentEvents } from "svelte";
 	import type { ActionData } from "./$types";
-	import type { Track, TrackInfoVersion } from "$lib/ambient";
+	import type { Track, TrackInfoVersion } from "$lib/types/general";
 
 	import { onDestroy } from "svelte";
 	import { browser } from "$app/environment";
@@ -28,20 +28,12 @@
 	$: next = $tracklist.find((track) => track.id === id + 1);
 	$: content = current[type];
 
-	const handleTrackKeyDown = ({
-		code,
-		altKey,
-		ctrlKey,
-		metaKey,
-		shiftKey
-	}: KeyboardEvent): Promise<void> | null => {
+	const handleTrackKeyDown = ({ code, altKey, ctrlKey, metaKey, shiftKey }: KeyboardEvent): Promise<void> | null => {
 		if ($page.url.pathname !== "/tracks" && $page.url.pathname.includes("/tracks")) {
 			if (altKey || ctrlKey || metaKey || shiftKey) return null;
 
-			if (id === $tracklist.length || id - 1 >= 1)
-				if (code === "ArrowLeft") return goto(`/tracks/${id - 1}/${type}`);
-			if (id === 1 || id + 1 <= $tracklist.length)
-				if (code === "ArrowRight") return goto(`/tracks/${id + 1}/${type}`);
+			if (id === $tracklist.length || id - 1 >= 1) if (code === "ArrowLeft") return goto(`/tracks/${id - 1}/${type}`);
+			if (id === 1 || id + 1 <= $tracklist.length) if (code === "ArrowRight") return goto(`/tracks/${id + 1}/${type}`);
 
 			if (code === "KeyC") return goto(`/tracks/${id}/credits`);
 			if (code === "KeyL") return goto(`/tracks/${id}/lyrics`);
@@ -81,8 +73,8 @@
 		if (!browser || challengeFound) return null;
 
 		let easterEgg: HTMLParagraphElement[] = [];
-		(document.querySelectorAll(".track-lyrics p") as NodeListOf<HTMLParagraphElement>).forEach(
-			(line) => easterEgg.push(line)
+		(document.querySelectorAll(".track-lyrics p") as NodeListOf<HTMLParagraphElement>).forEach((line) =>
+			easterEgg.push(line)
 		);
 		easterEgg = easterEgg.filter((line) => line.innerHTML.includes(PUBLIC_CHALLENGE_LYRIC));
 
@@ -137,25 +129,11 @@
 		</div>
 		<div class="links">
 			<div class="link-buttons">
-				<a
-					role="button"
-					class:active={$page.url.pathname.includes("synopsis")}
-					href={`/tracks/${id}/synopsis`}
-				>
+				<a role="button" class:active={$page.url.pathname.includes("synopsis")} href={`/tracks/${id}/synopsis`}>
 					Synopsis
 				</a>
-				<a
-					role="button"
-					class:active={$page.url.pathname.includes("lyrics")}
-					href={`/tracks/${id}/lyrics`}
-				>
-					Lyrics
-				</a>
-				<a
-					role="button"
-					class:active={$page.url.pathname.includes("credits")}
-					href={`/tracks/${id}/credits`}
-				>
+				<a role="button" class:active={$page.url.pathname.includes("lyrics")} href={`/tracks/${id}/lyrics`}> Lyrics </a>
+				<a role="button" class:active={$page.url.pathname.includes("credits")} href={`/tracks/${id}/credits`}>
 					Credits
 				</a>
 			</div>

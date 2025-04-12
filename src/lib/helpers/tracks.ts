@@ -1,4 +1,4 @@
-import type { Track, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/ambient";
+import type { Track, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/types/general";
 
 export const List = {
 	/**
@@ -12,13 +12,11 @@ export const List = {
 
 		if (ver === "expanded")
 			filtered = tracks.filter(
-				(track) =>
-					!track.missingFrom || (track.missingFrom && !track.missingFrom.includes("expanded"))
+				(track) => !track.missingFrom || (track.missingFrom && !track.missingFrom.includes("expanded"))
 			);
 		else if (ver === "mixtape")
 			filtered = tracks.filter(
-				(track) =>
-					!track.missingFrom || (track.missingFrom && !track.missingFrom.includes("mixtape"))
+				(track) => !track.missingFrom || (track.missingFrom && !track.missingFrom.includes("mixtape"))
 			);
 		else if (ver === "base") filtered = tracks.filter((track) => !track.missingFrom);
 
@@ -72,9 +70,7 @@ export const Page = {
 	 * @returns {string} A formatted string with the given duration of time and its unit, e.g. `"3 seconds"`
 	 */
 	formatRuntimeUnit: (unit: "min" | "sec", duration: number): string =>
-		duration === 0
-			? ""
-			: `${duration} ${unit === "min" ? "minute" : "second"}${duration > 1 ? "s" : ""}`,
+		duration === 0 ? "" : `${duration} ${unit === "min" ? "minute" : "second"}${duration > 1 ? "s" : ""}`,
 	/**
 	 * Formats a list of the current track's writers as a string.
 	 * @param {Track} current - A `Track` object
@@ -130,8 +126,7 @@ export const Page = {
 
 export const Status = {
 	CHALLENGE_COMPLETED: "The challenge has already been completed.",
-	CHALLENGE_DAILY_LIMIT_REACHED:
-		"You've tried the challenge enough times today. Come back tomorrow.",
+	CHALLENGE_DAILY_LIMIT_REACHED: "You've tried the challenge enough times today. Come back tomorrow.",
 	CHALLENGE_FAILED: "Your answer was wrong. Try again.",
 	CHALLENGE_NOTICE: `NOTICE: By clicking "Enter", you are consenting to the collection and use of your IP address by Ginton Entertainment to keep track of your challenge attempts. If you do not agree to this condition, please do not click "Enter".`,
 	CHALLENGE_PROCESSING: "Drum roll, please…",

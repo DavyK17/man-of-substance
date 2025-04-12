@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Track } from "$lib/ambient";
+	import type { Track } from "$lib/types/general";
 	import { Page } from "$lib/helpers/tracks";
 
 	export let current: Track;

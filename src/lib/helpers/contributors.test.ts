@@ -1,4 +1,4 @@
-import type { Contributor } from "$lib/ambient";
+import type { Contributor } from "$lib/types/general";
 import { Tiers } from "./contributors";
 
 it("get tier", () => {

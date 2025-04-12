@@ -1,4 +1,6 @@
-import type { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
+
+import type { Database } from "$lib/types/database";
 import type {
 	Contributor,
 	ContributorTier,
@@ -7,12 +9,10 @@ import type {
 	ContributorRewardInfo,
 	ContributorRewardFile,
 	ContributorRewardsZipFile
-} from "$lib/ambient";
+} from "$lib/types/general";
 
 import JsFileDownloader from "js-file-downloader";
 import JSZip from "jszip";
-
-import { supabase } from "../supabaseClient";
 
 /* TYPES */
 // Copied from js-file-downloader (https://github.com/AleeeKoi/js-file-downloader/blob/master/index.d.ts)
@@ -67,9 +67,7 @@ export const Tiers = {
 	 * @returns {ContributorTier} The given contributor's tier as a string
 	 */
 	get: ({ amount }: Contributor): ContributorTier => {
-		const { name } = Tiers.list.find(
-			({ min, max }) => amount >= min && amount <= max
-		) as ContributorTierInfo;
+		const { name } = Tiers.list.find(({ min, max }) => amount >= min && amount <= max) as ContributorTierInfo;
 		return name;
 	},
 	/**
@@ -91,10 +89,7 @@ export const List = {
 	 * @param {boolean} [forPage=true] - A boolean indicating whether the data is for the Contributors intro page
 	 * @returns {ContributorsByTier} A formatted string with the names of the current track's writers
 	 */
-	getByTier: (
-		data: { name: string; amount: number }[],
-		forPage: boolean = true
-	): ContributorsByTier => {
+	getByTier: (data: { name: string; amount: number }[], forPage: boolean = true): ContributorsByTier => {
 		const contributors: ContributorsByTier = {};
 		Tiers.list.forEach(({ name: tier, min, max }) => {
 			if (forPage && tier === "supporter") return;
@@ -161,59 +156,63 @@ export const Rewards = {
 	 * @param {ContributorTier} tier - A `ContributorTier` string
 	 * @returns {string} The given tier's downloadable track format(s)
 	 */
-	getTrackFormat: (tier: ContributorTier): string =>
-		`MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`,
+	getTrackFormat: (tier: ContributorTier): string => `MP3${tier !== "supporter" && tier !== "bronze" ? " or WAV" : ""}`,
 	/**
 	 * Returns a time-limited (one hour) signed URL for a given file in the **rewards** bucket.
+	 * @param {SupabaseClient<Database>} supabase - The Supabase client
 	 * @param {string} filePath - The file's path relative to the bucket's root with no leading slash
 	 * @returns {Promise<string | undefined>} A Promise that resolves to the file's signed URL or `undefined` if the file does not exist
 	 */
-	getFileUrl: async (filePath: string): Promise<string | undefined> => {
+	getFileUrl: async (supabase: SupabaseClient<Database>, filePath: string): Promise<string | undefined> => {
 		const { data } = await supabase.storage.from("rewards").createSignedUrl(filePath, 3600);
 		return data?.signedUrl;
 	},
 	/**
 	 * Returns a `Blob` for a given file in the **rewards** bucket.
+	 * @param {SupabaseClient<Database>} supabase - The Supabase client
 	 * @param {string} filePath - The file's path relative to the bucket's root with no leading slash
 	 * @returns {Promise<Blob | undefined>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
 	 */
-	getFileBlob: async (filePath: string): Promise<Blob | null> => {
+	getFileBlob: async (supabase: SupabaseClient<Database>, filePath: string): Promise<Blob | null> => {
 		const { data, error } = await supabase.storage.from("rewards").download(filePath);
 		if (error) throw new Error(error.message);
 		return data;
 	},
 	/**
 	 * Generates a ZIP file with a given crowdfunding contributor's rewards.
+	 * @param {SupabaseClient<Database>} supabase - The Supabase client
 	 * @param {ContributorRewardsZipFile} files - A `RewardsZipFile` object
 	 * @returns {Promise<Blob>} A Promise that resolves to the ZIP file's `Blob`
 	 */
-	generateZipFile: async (files: ContributorRewardsZipFile): Promise<Blob> => {
+	generateZipFile: async (supabase: SupabaseClient<Database>, files: ContributorRewardsZipFile): Promise<Blob> => {
 		try {
-			let zip = new JSZip();
-
-			for (let type in files) {
+			const zip = new JSZip();
+			for (const type in files) {
 				if (files[type]?.length === 0) continue;
-				let folder = zip.folder(type);
+				const folder = zip.folder(type);
 
-				for (let { name, path } of files[type] as ContributorRewardFile[]) {
-					let file = await Rewards.getFileBlob(path);
+				for (const { name, path } of files[type] as ContributorRewardFile[]) {
+					const file = await Rewards.getFileBlob(supabase, path);
 					if (file) folder?.file(name, file);
 				}
 			}
 
 			return await zip.generateAsync({ type: "blob" });
 		} catch (err) {
+			console.error(err);
 			throw err;
 		}
 	},
 	/**
 	 * Downloads a crowdfunding contributor's rewards.
+	 * @param {SupabaseClient<Database>} supabase - The Supabase client
 	 * @param {string} [file] - A `RewardFile` object; required if `files` is `undefined`.
 	 * @param {string} [files] - A `RewardsZipFile` object; required if `file` is `undefined`
 	 * @param {function} [process] - A function that takes an `event` argument and runs when the download makes progress
 	 * @returns {Promise<Blob | null>} A Promise that resolves to the file's `Blob` or `null` if the file does not exist
 	 */
 	download: async (
+		supabase: SupabaseClient<Database>,
 		file?: ContributorRewardFile,
 		files?: ContributorRewardsZipFile,
 		process?: (e: ProgressEvent<EventTarget>) => undefined
@@ -227,10 +226,10 @@ export const Rewards = {
 		try {
 			if (file) {
 				const { name, path } = file;
-				url = (await Rewards.getFileUrl(path)) as string;
+				url = (await Rewards.getFileUrl(supabase, path)) as string;
 				filename = name;
 			} else if (files) {
-				url = URL.createObjectURL(await Rewards.generateZipFile(files));
+				url = URL.createObjectURL(await Rewards.generateZipFile(supabase, files));
 				filename = "mos-rewards.zip";
 			}
 
@@ -247,14 +246,15 @@ export const Rewards = {
 	},
 	/**
 	 * Marks the crowdfunding contributor's rewards as claimed on the database.
+	 * @param {SupabaseClient<Database>} supabase - The Supabase client
 	 * @param {string} [email] - The contributor's email address
 	 * @returns {Promise<Object>} An object with a boolean `success` property and, if any, an `error` property with a `PostgrestError` object
 	 */
-	finishClaim: async (email: string): Promise<{ success: boolean; error?: PostgrestError }> => {
-		const { error } = await supabase
-			.from("contributors")
-			.update({ rewards_claimed: true })
-			.eq("email", email);
+	finishClaim: async (
+		supabase: SupabaseClient<Database>,
+		email: string
+	): Promise<{ success: boolean; error?: PostgrestError }> => {
+		const { error } = await supabase.from("contributors").update({ rewards_claimed: true }).eq("email", email);
 
 		return { success: !error, error: error ?? undefined };
 	}
@@ -266,7 +266,6 @@ export const Status = {
 	DOWNLOAD_STARTING: "Ndio hii download imekam…",
 	DOWNLOAD_GETTING_FILE: "Getting file…",
 	DOWNLOAD_GETTING_ZIP: "Generating ZIP file. This may take a while…",
-	HOME_LOADING_ERROR:
-		"An error occurred loading the list of contributors. Kindly refresh the page and try again.",
+	HOME_LOADING_ERROR: "An error occurred loading the list of contributors. Kindly refresh the page and try again.",
 	LOGGING_OUT: "Ndio kutoka sasa? Haya…"
 };

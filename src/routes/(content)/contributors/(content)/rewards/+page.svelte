@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentEvents } from "svelte";
 	import type { PageData, ActionData } from "./$types";
-	import type { Contributor, ContributorRewardDownload } from "$lib/ambient";
+	import type { Contributor, ContributorRewardDownload } from "$lib/types/general";
 
 	import { onDestroy } from "svelte";
 

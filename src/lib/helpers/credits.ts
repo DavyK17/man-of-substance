@@ -1,4 +1,4 @@
-import type { AlbumCreditKey, AlbumCreditTitles } from "$lib/ambient";
+import type { AlbumCreditKey, AlbumCreditTitles } from "$lib/types/general";
 
 export const Page = {
 	/**
@@ -20,8 +20,6 @@ export const Page = {
 	 * @returns {string} A formatted string with the credit title
 	 */
 	renderCreditTitle: (key: AlbumCreditKey, data: string[]): string => {
-		return key === "execProducers"
-			? `${Page.creditTitles[key]}${data.length > 1 ? "s" : ""}`
-			: Page.creditTitles[key];
+		return key === "execProducers" ? `${Page.creditTitles[key]}${data.length > 1 ? "s" : ""}` : Page.creditTitles[key];
 	}
 };

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ContributorTier, ContributorRewardDownload } from "$lib/ambient";
+	import type { ContributorTier, ContributorRewardDownload } from "$lib/types/general";
 
 	import { createEventDispatcher } from "svelte";
 

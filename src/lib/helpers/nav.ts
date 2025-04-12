@@ -1,4 +1,4 @@
-import type { NavMenuItem } from "$lib/ambient";
+import type { NavMenuItem } from "$lib/types/general";
 
 export const Items = {
 	/**
@@ -16,5 +16,5 @@ export const Items = {
 	 * @param {string} slug - The item's URL slug
 	 * @returns {RegExp} A regular expression
 	 */
-	getPathRegex: (slug: string): RegExp => new RegExp(`^\/${slug}(?:\/.*)?$`)
+	getPathRegex: (slug: string): RegExp => new RegExp(`^/${slug}(?:/.*)?$`)
 };

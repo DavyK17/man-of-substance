@@ -1,4 +1,4 @@
-import type { Track, TrackCredits } from "$lib/ambient";
+import type { Track, TrackCredits } from "$lib/types/general";
 
 import { render, screen } from "@testing-library/svelte";
 import Credits from "./Credits.svelte";

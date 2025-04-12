@@ -1,4 +1,4 @@
-import type { Track } from "$lib/ambient";
+import type { Track } from "$lib/types/general";
 import { tracks } from "$lib";
 import { List, Page } from "./tracks";
 
@@ -10,17 +10,16 @@ it("builds tracklist correctly", () => {
 });
 
 it("gets tracklist parts correctly", () => {
-    const tracklist = List.build(mockTracks, "full");
-    
+	const tracklist = List.build(mockTracks, "full");
+
 	const one = List.getPart(tracklist, "full", 1);
-    expect(one).toHaveLength(7);
-    
+	expect(one).toHaveLength(7);
+
 	const two = List.getPart(tracklist, "full", 2);
-    expect(two).toHaveLength(7);
-    
-    const three = List.getPart(tracklist, "full", 3);
+	expect(two).toHaveLength(7);
+
+	const three = List.getPart(tracklist, "full", 3);
 	expect(three).toHaveLength(3);
-    
 });
 
 it("formats runtime unit correctly", () => {
