@@ -1,19 +1,18 @@
 import type { PageServerLoad, Actions } from "./$types";
-import type { Contributor } from "$lib/ambient";
+import type { Contributor } from "$lib/types/general";
 
-import moment from "moment";
 import { fail, redirect } from "@sveltejs/kit";
+import moment from "moment";
 
-import { supabase } from "$lib/supabaseClient";
 import { Generic } from "$lib/helpers/status";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
-    if (email) throw redirect(307, "/contributors/rewards");
+	if (email) throw redirect(307, "/contributors/rewards");
 };
 
 export const actions: Actions = {
-	default: async ({ request, cookies }) => {
+	default: async ({ request, cookies, locals: { supabase } }) => {
 		try {
 			// Get form data
 			const formData = await request.formData();
@@ -32,12 +31,10 @@ export const actions: Actions = {
 			}
 
 			// If no data returned, return error
-			if (data.length === 0)
-				return fail(404, { message: "This email does not exist in the database" });
+			if (data.length === 0) return fail(404, { message: "This email does not exist in the database" });
 
 			// If rewards already claimed, return error
-			if (data[0].rewards_claimed)
-				return fail(403, { message: "Rewards have already been claimed for this user" });
+			if (data[0].rewards_claimed) return fail(403, { message: "Rewards have already been claimed for this user" });
 
 			// CONTENT LOCK CHECKS
 			const { amount } = data[0] as Contributor;
@@ -66,8 +63,8 @@ export const actions: Actions = {
 				expires: new Date(Date.now() + 86400) // next day
 			});
 
-            // Redirect to rewards
-            return { success: true };
+			// Redirect to rewards
+			return { success: true };
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: Generic.ERROR });

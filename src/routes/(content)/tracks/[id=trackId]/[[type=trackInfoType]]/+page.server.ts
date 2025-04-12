@@ -3,8 +3,6 @@ import type { Actions } from "./$types";
 import { fail } from "@sveltejs/kit";
 import { CHALLENGE_ANSWER } from "$env/static/private";
 
-import { supabase } from "$lib/supabaseClient";
-
 import { Status } from "$lib/helpers/tracks";
 import { Generic } from "$lib/helpers/status";
 
@@ -16,8 +14,7 @@ export const actions: Actions = {
 		if (!answer) return fail(400, { started: false, message: "No answer provided!" });
 		return { data: { answer: answer as string }, started: true };
 	},
-
-	attempt: async ({ request }) => {
+	attempt: async ({ request, locals: { supabase } }) => {
 		const data = await request.formData();
 
 		const answer = data.get("answer") as string;

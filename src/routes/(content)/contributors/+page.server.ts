@@ -1,10 +1,11 @@
 import type { PageServerLoad } from "./$types";
-import type { ContributorsByTier } from "$lib/ambient";
+import type { ContributorsByTier } from "$lib/types/general";
 
 import { List } from "$lib/helpers/contributors";
-import { supabase } from "$lib/supabaseClient";
 
-export const load: PageServerLoad = async (): Promise<{
+export const load: PageServerLoad = async ({
+	locals: { supabase }
+}): Promise<{
 	contributors: Promise<ContributorsByTier | null>;
 }> => {
 	try {
