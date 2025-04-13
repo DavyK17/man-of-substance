@@ -23,9 +23,16 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+.env.keys
+.env.local
+.env.*.local
 
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 .dev.vars*
+
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
