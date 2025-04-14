@@ -70,34 +70,6 @@ CREATE TYPE "public"."tracklist_version" AS ENUM('full', 'expanded', 'mixtape', 
 
 ALTER TYPE "public"."tracklist_version" OWNER TO "postgres";
 
-CREATE OR REPLACE FUNCTION "public"."custom_access_token" ("event" "jsonb") RETURNS "jsonb" LANGUAGE "plpgsql"
-SET
-	"search_path" TO '' AS $$
-DECLARE
-    claims jsonb := event -> 'claims';
-    v_user_id uuid := (event ->> 'user_id')::uuid;
-    v_rewards_claimed boolean;
-BEGIN
-    IF jsonb_typeof(claims -> 'app_metadata') IS NULL THEN
-        claims := jsonb_set(claims, '{app_metadata}', '{}');
-    END IF;
-    
-    SELECT rewards_claimed INTO v_rewards_claimed
-    FROM public.contributors
-    WHERE user_id = v_user_id;
-
-    IF v_rewards_claimed THEN
-        RAISE EXCEPTION 'Rewards have already been claimed for this user' USING HINT = '403';
-    END IF;
-
-	claims := jsonb_set(claims, '{app_metadata, rewards_claimed}', to_jsonb(v_rewards_claimed));
-    event := jsonb_set(event, '{claims}', claims);
-    RETURN event;
-END;
-$$;
-
-ALTER FUNCTION "public"."custom_access_token" ("event" "jsonb") OWNER TO "postgres";
-
 SET
 	default_tablespace = '';
 
@@ -250,12 +222,6 @@ GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 
 GRANT USAGE ON SCHEMA "public" TO "service_role";
-
-GRANT ALL ON FUNCTION "public"."custom_access_token" ("event" "jsonb") TO "anon";
-
-GRANT ALL ON FUNCTION "public"."custom_access_token" ("event" "jsonb") TO "authenticated";
-
-GRANT ALL ON FUNCTION "public"."custom_access_token" ("event" "jsonb") TO "service_role";
 
 GRANT ALL ON TABLE "public"."challenge_attempts" TO "anon";
 
