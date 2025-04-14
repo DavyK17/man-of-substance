@@ -110,6 +110,14 @@ export interface TrackCreditTitles {
 	[key in TrackCreditKey]: string;
 }
 
+export interface MockTrack {
+	[key: string]: any;
+	id: number;
+	runtime: number;
+	credits: { writers: string[] };
+	missingFrom?: TracklistVersion[];
+}
+
 /* CREDITS */
 export interface AlbumCredits {
 	[key: string]: string[] | string;
