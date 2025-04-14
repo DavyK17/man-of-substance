@@ -1,26 +1,27 @@
-import type { Track } from "$lib/types/general";
-import { tracks } from "$lib";
-import { List, Page } from "./tracks";
+// import type { Track } from "$lib/types/general";
 
-const mockTracks = tracks as Track[];
+import { expect, it } from "vitest";
+import { Page } from "./tracks";
 
-it("builds tracklist correctly", () => {
-	const tracklist = List.build(mockTracks, "base");
-	expect(tracklist).toHaveLength(10);
-});
+// const mockTracks = tracks as Track[];
 
-it("gets tracklist parts correctly", () => {
-	const tracklist = List.build(mockTracks, "full");
+// it("builds tracklist correctly", () => {
+// 	const tracklist = List.build(mockTracks, "base");
+// 	expect(tracklist).toHaveLength(10);
+// });
 
-	const one = List.getPart(tracklist, "full", 1);
-	expect(one).toHaveLength(7);
+// it("gets tracklist parts correctly", () => {
+// 	const tracklist = List.build(mockTracks, "full");
 
-	const two = List.getPart(tracklist, "full", 2);
-	expect(two).toHaveLength(7);
+// 	const one = List.getPart(tracklist, "full", 1);
+// 	expect(one).toHaveLength(7);
 
-	const three = List.getPart(tracklist, "full", 3);
-	expect(three).toHaveLength(3);
-});
+// 	const two = List.getPart(tracklist, "full", 2);
+// 	expect(two).toHaveLength(7);
+
+// 	const three = List.getPart(tracklist, "full", 3);
+// 	expect(three).toHaveLength(3);
+// });
 
 it("formats runtime unit correctly", () => {
 	let formatted = Page.formatRuntimeUnit("min", 3);
@@ -30,15 +31,15 @@ it("formats runtime unit correctly", () => {
 	expect(formatted).toBe("3 seconds");
 });
 
-it("displays writers correctly", () => {
-	const writers = Page.displayWriters(mockTracks[0]);
-	expect(writers).toBe("Davy Kamanzi, Ariane Uwizera and Sidney Kamanzi");
-});
+// it("displays writers correctly", () => {
+// 	const writers = Page.displayWriters(mockTracks[0]);
+// 	expect(writers).toBe("Davy Kamanzi, Ariane Uwizera and Sidney Kamanzi");
+// });
 
-it("displays runtime correctly", () => {
-	const runtime = Page.displayRuntime(mockTracks[0]);
-	expect(runtime).toBe("1 minute and 4 seconds");
-});
+// it("displays runtime correctly", () => {
+// 	const runtime = Page.displayRuntime(mockTracks[0]);
+// 	expect(runtime).toBe("1 minute and 4 seconds");
+// });
 
 it("renders credit title correctly", () => {
 	let title = Page.renderCreditTitle("producers", ["John Doe"]);

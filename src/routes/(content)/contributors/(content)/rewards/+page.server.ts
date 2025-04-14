@@ -3,9 +3,8 @@ import type { Contributor, ContributorTier, ContributorRewardDownload } from "$l
 
 import { error, fail, redirect } from "@sveltejs/kit";
 
-import { tracks } from "$lib";
 import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
-import { Status as Generic } from "$lib/helpers/general";
+import { Status as Generic, Utility } from "$lib/helpers/general";
 
 export const load: PageServerLoad = async ({ cookies, locals: { supabase } }) => {
 	const email = cookies.get("mos-contributor");
@@ -43,9 +42,16 @@ export const actions: Actions = {
 			return fail(500, { message: Generic.ERROR });
 		}
 	},
-	download: async ({ request }) => {
+	download: async ({ request, locals: { supabase } }) => {
 		// Download rewards
 		try {
+			// Get tracks from database
+			const { data: tracks, error: tracksError } = await supabase.from("tracks").select();
+			if (tracksError) {
+				const { error } = Utility.parsePostgrestError(tracksError);
+				return fail(error!.code, { message: error!.message });
+			}
+
 			// Get form data
 			const formData = await request.formData();
 			const tier = formData.get("tier") as ContributorTier;

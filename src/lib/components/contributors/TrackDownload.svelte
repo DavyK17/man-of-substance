@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { ContributorTier, ContributorRewardDownload } from "$lib/types/general";
+	import type { ContributorTier, ContributorRewardDownload, Track } from "$lib/types/general";
 
 	import { createEventDispatcher } from "svelte";
 
 	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
 
-	import { tracks } from "$lib";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 
 	export let email: string;
 	export let tier: ContributorTier;
+	export let tracks: Track[];
 	export let downloadObject: ContributorRewardDownload | undefined;
 
 	const dispatch = createEventDispatcher();
