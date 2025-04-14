@@ -1,12 +1,10 @@
 import type { Handle } from "@sveltejs/kit";
 import type { Database } from "$lib/types/database";
-import type { AuthenticationJWT } from "$lib/types/general";
 
 import { env } from "$env/dynamic/public";
 
 import { sequence } from "@sveltejs/kit/hooks";
 import { createServerClient } from "@supabase/ssr";
-import { jwtDecode } from "jwt-decode";
 
 // Supabase SSR
 export const supabaseHandle: Handle = async ({ event, resolve }) => {
@@ -43,9 +41,6 @@ export const supabaseHandle: Handle = async ({ event, resolve }) => {
 			error
 		} = await event.locals.supabase.auth.getUser();
 		if (error) return { session: null, user: null };
-
-		const jwt = jwtDecode(session.access_token) as AuthenticationJWT;
-		if (user) user.app_metadata = jwt.app_metadata;
 
 		return { session, user };
 	};
