@@ -1,6 +1,9 @@
 import type { Database } from "$lib/types/database";
+import type { AuthenticationJWT } from "$lib/types/general";
 
 import { createBrowserClient, createServerClient, isBrowser } from "@supabase/ssr";
+import { jwtDecode } from "jwt-decode";
+
 import { env } from "$env/dynamic/public";
 
 import cover from "$lib/img/cover.webp";
@@ -45,6 +48,11 @@ export const load = async ({ data: { cookies }, depends, fetch }) => {
 	const {
 		data: { user }
 	} = await supabase.auth.getUser();
+
+	if (session) {
+		const jwt = jwtDecode(session.access_token) as AuthenticationJWT;
+		if (user) user.app_metadata = jwt.app_metadata;
+	}
 
 	// Listening party logic
 	const passcode = Boolean(cookies.find(({ name }) => name === "passcode"));
