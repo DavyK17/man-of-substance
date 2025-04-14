@@ -65,6 +65,7 @@ export const load = async ({ data: { cookies }, depends, fetch }) => {
 			default: passcode || released ? cover : placeholder,
 			fallback: passcode || released ? cover_fallback : placeholder_fallback
 		},
+		passcode,
 		released,
 		session,
 		supabase,
