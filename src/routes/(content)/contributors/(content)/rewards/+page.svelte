@@ -10,7 +10,7 @@
 
 	import { TrackDownload } from "$lib/components";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
-	import { Generic } from "$lib/helpers/status";
+	import { Status as Generic } from "$lib/helpers/general";
 
 	export let data: PageData;
 	const { contributor, videoUrl } = data;

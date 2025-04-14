@@ -4,7 +4,7 @@ import { fail } from "@sveltejs/kit";
 import { CHALLENGE_ANSWER } from "$env/static/private";
 
 import { Status } from "$lib/helpers/tracks";
-import { Generic } from "$lib/helpers/status";
+import { Status as Generic } from "$lib/helpers/general";
 
 export const actions: Actions = {
 	start: async ({ request }) => {

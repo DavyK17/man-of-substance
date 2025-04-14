@@ -4,7 +4,7 @@ import type { Contributor } from "$lib/types/general";
 import { fail, redirect } from "@sveltejs/kit";
 import moment from "moment";
 
-import { Generic } from "$lib/helpers/status";
+import { Status } from "$lib/helpers/general";
 
 export const load: PageServerLoad = async ({ cookies }) => {
 	const email = cookies.get("mos-contributor");
@@ -67,7 +67,7 @@ export const actions: Actions = {
 			return { success: true };
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: Generic.ERROR });
+			return fail(500, { message: Status.ERROR });
 		}
 	}
 };

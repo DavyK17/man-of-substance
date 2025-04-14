@@ -5,7 +5,7 @@ import { error, fail, redirect } from "@sveltejs/kit";
 
 import { tracks } from "$lib";
 import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
-import { Generic } from "$lib/helpers/status";
+import { Status as Generic } from "$lib/helpers/general";
 
 export const load: PageServerLoad = async ({ cookies, locals: { supabase } }) => {
 	const email = cookies.get("mos-contributor");

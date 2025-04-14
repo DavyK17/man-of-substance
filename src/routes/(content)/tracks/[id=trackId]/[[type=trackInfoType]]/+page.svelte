@@ -15,7 +15,7 @@
 	import { tracklist } from "$lib/stores";
 
 	import { Page, Status } from "$lib/helpers/tracks";
-	import { Generic } from "$lib/helpers/status";
+	import { Status as Generic } from "$lib/helpers/general";
 
 	export let form: ActionData;
 	const { displayWriters, displayRuntime } = Page;
