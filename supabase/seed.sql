@@ -128,7 +128,7 @@ VALUES
 		'Askari Ako Jaba',
 		'10. Askari Ako Jaba',
 		'168',
-		ARRAY['Kapuka rap', 'Comedy rap'],
+		ARRAY['Kapuka', 'Comedy rap'],
 		null
 	),
 	(

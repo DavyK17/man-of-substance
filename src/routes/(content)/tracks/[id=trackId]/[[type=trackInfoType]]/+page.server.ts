@@ -8,21 +8,21 @@ import { Status as Generic } from "$lib/helpers/general";
 
 export const actions: Actions = {
 	start: async ({ request }) => {
-		const data = await request.formData();
-		const answer = data.get("answer");
+		const formData = await request.formData();
+		const answer = formData.get("answer");
 
 		if (!answer) return fail(400, { started: false, message: "No answer provided!" });
 		return { data: { answer: answer as string }, started: true };
 	},
 	attempt: async ({ request, locals: { supabase } }) => {
-		const data = await request.formData();
+		const formData = await request.formData();
 
-		const answer = data.get("answer") as string;
-		const name = data.get("name") as string;
-		const phone = data.get("phone") as string;
+		const answer = formData.get("answer") as string;
+		const name = formData.get("name") as string;
+		const phone = formData.get("phone") as string;
 
 		try {
-			const { error } = await supabase.from("challenge_attempts").insert({ name, phone, answer });
+			const { error } = await supabase.from("challenge_attempts").insert({ name, phone, answer: Number(answer) });
 			if (error) {
 				// Database triggers: Check for challenge completed and daily attempt limit errors
 				console.log(error.message);
