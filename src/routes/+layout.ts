@@ -1,9 +1,15 @@
 import type { Database } from "$lib/types/database";
 
-import { env } from "$env/dynamic/public";
 import { createBrowserClient, createServerClient, isBrowser } from "@supabase/ssr";
+import { env } from "$env/dynamic/public";
 
-export const load = async ({ data, depends, fetch }) => {
+import cover from "$lib/img/cover.webp";
+import cover_fallback from "$lib/img/cover.jpg";
+import placeholder from "$lib/img/placeholder.webp";
+import placeholder_fallback from "$lib/img/placeholder.png";
+
+/* LOAD FUNCTION */
+export const load = async ({ data: { cookies }, depends, fetch }) => {
 	/**
 	 * Declare a dependency so the layout can be invalidated, for example, on
 	 * session refresh.
@@ -22,7 +28,7 @@ export const load = async ({ data, depends, fetch }) => {
 				},
 				cookies: {
 					getAll() {
-						return data.cookies;
+						return cookies;
 					}
 				}
 			});
@@ -40,5 +46,28 @@ export const load = async ({ data, depends, fetch }) => {
 		data: { user }
 	} = await supabase.auth.getUser();
 
-	return { session, supabase, user };
+	// Listening party logic
+	const passcode = Boolean(cookies.find(({ name }) => name === "passcode"));
+
+	const locked = Date.now() < 1666904400000;
+	const listeningParty = Date.now() > 1667059200000 && Date.now() < 1667070000000;
+	const released = Date.now() > 1667509200000;
+
+	let componentType: "countdown" | "listeningParty" | "home";
+	if (locked) componentType = "countdown";
+	else if (!passcode && listeningParty) componentType = "listeningParty";
+	else componentType = "home";
+
+	// Return data
+	return {
+		componentType,
+		cover: {
+			default: passcode || released ? cover : placeholder,
+			fallback: passcode || released ? cover_fallback : placeholder_fallback
+		},
+		released,
+		session,
+		supabase,
+		user
+	};
 };
