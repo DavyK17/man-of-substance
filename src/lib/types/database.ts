@@ -21,6 +21,14 @@ export type Database = MergeDeep<
 					};
 				};
 			};
+			Views: {
+				contributor_names: {
+					Row: {
+						name: string;
+						tier: string;
+					};
+				};
+			};
 		};
 	}
 >;

@@ -126,7 +126,21 @@ export type Database = {
 			};
 		};
 		Views: {
-			[_ in never]: never;
+			contributor_names: {
+				Row: {
+					name: string | null;
+					tier: string | null;
+				};
+				Insert: {
+					name?: string | null;
+					tier?: never;
+				};
+				Update: {
+					name?: string | null;
+					tier?: never;
+				};
+				Relationships: [];
+			};
 		};
 		Functions: {
 			[_ in never]: never;
