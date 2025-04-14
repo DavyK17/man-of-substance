@@ -1,12 +1,6 @@
-import type { Writable, Readable } from "svelte/store";
-import type { Track, TracklistVersion } from "$lib/types/general";
+import type { Writable } from "svelte/store";
+import type { TracklistVersion } from "$lib/types/general";
 
-import { writable, derived } from "svelte/store";
-
-import { tracks } from "$lib";
-import { List } from "$lib/helpers/tracks";
+import { writable } from "svelte/store";
 
 export const version: Writable<TracklistVersion> = writable("full");
-export const tracklist: Readable<Track[]> = derived(version, ($version: TracklistVersion) =>
-	List.build(tracks as Track[], $version)
-);

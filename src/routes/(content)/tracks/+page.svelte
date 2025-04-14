@@ -1,22 +1,41 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
+	import type { Track } from "$lib/types/general";
 
-	import { version, tracklist } from "$lib/stores";
 	import { List } from "$lib/helpers/tracks";
+	import { version } from "$lib/stores";
+
+	export let data: PageData;
+	const fullTracklist: Track[] = data.tracks.map((track) => {
+		const { synopsis, lyrics, credits } = List.data.find(({ id }) => id === track.id)!;
+		return {
+			id: track.id,
+			title: track.title,
+			filename: track.filename,
+			runtime: track.runtime,
+			style: track.style,
+			synopsis,
+			lyrics,
+			credits,
+			missingFrom: track.missingFrom ?? undefined
+		};
+	});
 
 	let selectedVer = $version;
 	$: version.set(selectedVer);
 
-	const { getPart } = List;
-	$: partOne = getPart($tracklist, selectedVer, 1);
-	$: partTwo = getPart($tracklist, selectedVer, 2);
-	$: bonus = getPart($tracklist, selectedVer, 3);
+	let tracklist: Track[];
+	$: if (data.tracks) tracklist = List.build(fullTracklist, $version);
 
-	export let data: PageData;
+	const { getPart } = List;
+	$: partOne = getPart(tracklist, selectedVer, 1);
+	$: partTwo = getPart(tracklist, selectedVer, 2);
+	$: bonus = getPart(tracklist, selectedVer, 3);
 </script>
 
 <svelte:head>
 	<title>Man of Substance - Tracks</title>
+	<meta name="description" content="Check out all the tracks from DVK's debut studio album." />
 </svelte:head>
 
 <main>
