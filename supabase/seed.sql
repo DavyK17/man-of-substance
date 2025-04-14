@@ -25,7 +25,6 @@ INSERT INTO
 	"public"."credits" ("key", "name")
 VALUES
 	('artwork', 'Brian Bett'),
-	('copyright', '2022 Ginton Entertainment'),
 	('execProducers', 'DVK'),
 	('photography', 'Tilu the Creator'),
 	('styling', 'Amusavi Senaji'),
