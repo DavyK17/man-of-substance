@@ -4,6 +4,11 @@ export interface AlbumCoverInfo {
 	fallback: string;
 }
 
+export interface CustomError {
+	code: number;
+	message: string;
+}
+
 export interface NavMenuItem {
 	title: string;
 	slug: string;
