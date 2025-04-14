@@ -81,7 +81,7 @@ export interface Track {
 }
 
 export interface TrackCredits {
-	[key: string]: any[];
+	[key: string]: any[] | any;
 	writers: string[];
 	featuring?: Array<string[] | string>;
 	producers: string[];

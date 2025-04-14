@@ -11,13 +11,13 @@ export type Database = MergeDeep<
 			Tables: {
 				tracks: {
 					Row: {
-						missing_from: TracklistVersion | null;
+						missing_from: TracklistVersion[] | null;
 					};
 					Insert: {
-						missing_from?: TracklistVersion | null;
+						missing_from?: TracklistVersion[] | null;
 					};
 					Update: {
-						missing_from?: TracklistVersion | null;
+						missing_from?: TracklistVersion[] | null;
 					};
 				};
 			};
