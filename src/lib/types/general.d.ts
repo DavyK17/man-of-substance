@@ -4,6 +4,28 @@ export interface AlbumCoverInfo {
 	fallback: string;
 }
 
+export interface AuthenticationJWT {
+	aud: string;
+	exp: number;
+	iat: number;
+	sub: string;
+	email: string;
+	phone: string;
+	app_metadata: {
+		rewards_claimed: boolean;
+	};
+	user_metadata: {
+		email_verified: boolean;
+		phone_verified: boolean;
+		sub: string;
+	};
+	role: string;
+	aal: string;
+	amr: [{ method: string; timestamp: number }];
+	session_id: string;
+	is_anonymous: boolean;
+}
+
 export interface CustomError {
 	code: number;
 	message: string;
