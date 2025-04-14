@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({
 	contributors: Promise<ContributorsByTier | null>;
 }> => {
 	try {
-		const { data, error } = await supabase.from("contributors").select("name, amount");
+		const { data, error } = await supabase.from("contributor_names").select();
 		return { contributors: new Promise((resolve) => resolve(error ? null : List.getByTier(data))) };
 	} catch (error) {
 		console.error(error);

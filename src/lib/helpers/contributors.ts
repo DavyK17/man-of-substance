@@ -85,15 +85,14 @@ export const Tiers = {
 export const List = {
 	/**
 	 * Returns a formatted object containing lists of the album's crowdfunding contributors by tier.
-	 * @param {Object} data - An array of objects, each containing the contributor's `name` and `amount`
-	 * @param {boolean} [forPage=true] - A boolean indicating whether the data is for the Contributors intro page
-	 * @returns {ContributorsByTier} A formatted string with the names of the current track's writers
+	 * @param {Object} data - An array of objects, each containing the contributor's `name` and `tier`
+	 * @returns {ContributorsByTier} A formatted object with the names of each contributor in each tier
 	 */
-	getByTier: (data: { name: string; amount: number }[], forPage: boolean = true): ContributorsByTier => {
+	getByTier: (data: Database["public"]["Views"]["contributor_names"]["Row"][]): ContributorsByTier => {
 		const contributors: ContributorsByTier = {};
-		Tiers.list.forEach(({ name: tier, min, max }) => {
-			if (forPage && tier === "supporter") return;
-			const list = data.filter(({ amount }) => amount >= min && amount <= max);
+		Tiers.list.forEach(({ name: tier }) => {
+			if (tier === "supporter") return;
+			const list = data.filter(({ tier: t }) => tier === t);
 			if (list.length > 0) contributors[tier] = list;
 		});
 
