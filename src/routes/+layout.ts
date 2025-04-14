@@ -9,7 +9,7 @@ import placeholder from "$lib/img/placeholder.webp";
 import placeholder_fallback from "$lib/img/placeholder.png";
 
 /* LOAD FUNCTION */
-export const load = async ({ data: { cookies }, depends, fetch }) => {
+export const load = async ({ data: { cookies, tracks }, depends, fetch }) => {
 	/**
 	 * Declare a dependency so the layout can be invalidated, for example, on
 	 * session refresh.
@@ -69,6 +69,7 @@ export const load = async ({ data: { cookies }, depends, fetch }) => {
 		released,
 		session,
 		supabase,
+		tracks,
 		user
 	};
 };

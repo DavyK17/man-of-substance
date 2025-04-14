@@ -1,4 +1,4 @@
-export const load = async ({ cookies, locals: { session, safeGetSession } }) => {
+export const load = async ({ cookies, locals: { session, safeGetSession, tracks } }) => {
 	// Retrieve user
 	const { user } = await safeGetSession();
 
@@ -6,6 +6,7 @@ export const load = async ({ cookies, locals: { session, safeGetSession } }) => 
 	return {
 		cookies: cookies.getAll(),
 		session,
+		tracks,
 		user
 	};
 };

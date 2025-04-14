@@ -1,5 +1,6 @@
 import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
 import type { Database } from "$lib/types/database";
+import type { Track } from "$lib/types/general";
 
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
@@ -10,6 +11,7 @@ declare global {
 			supabase: SupabaseClient<Database>;
 			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>;
 			session: Session | null;
+			tracks: Track[];
 			user: User | null;
 		}
 		// interface PageData {}
