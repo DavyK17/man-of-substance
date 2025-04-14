@@ -1,12 +1,11 @@
-import type { LayoutServerLoad, LayoutServerLoadEvent } from "./$types";
-
 import cover from "$lib/img/cover.webp";
 import cover_fallback from "$lib/img/cover.jpg";
 
 import placeholder from "$lib/img/placeholder.webp";
 import placeholder_fallback from "$lib/img/placeholder.png";
 
-export const load: LayoutServerLoad = ({ cookies }: LayoutServerLoadEvent) => {
+export const load = async ({ cookies, locals: { session, safeGetSession } }) => {
+	// Listening party logic
 	const passcode = Boolean(cookies.get("passcode"));
 
 	const locked = Date.now() < 1666904400000;
@@ -18,12 +17,19 @@ export const load: LayoutServerLoad = ({ cookies }: LayoutServerLoadEvent) => {
 	else if (!passcode && listeningParty) componentType = "listeningParty";
 	else componentType = "home";
 
+	// Retrieve user
+	const { user } = await safeGetSession();
+
+	// Return data
 	return {
-		released,
 		componentType,
+		cookies: cookies.getAll(),
 		cover: {
 			default: passcode || released ? cover : placeholder,
 			fallback: passcode || released ? cover_fallback : placeholder_fallback
-		}
+		},
+		released,
+		session,
+		user
 	};
 };
