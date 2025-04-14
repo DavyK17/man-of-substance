@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-
-	import { credits as fullCredits } from "$lib";
-	import { Page } from "$lib/helpers/credits";
+	import { Utility } from "$lib/helpers/general";
 
 	export let data: PageData;
-	const credits = Object.entries(fullCredits).filter(([key]) => key !== "copyright") as [string, string[]][];
+
+	let credits: { key: string; name: string }[];
+	$: if (data.credits) credits = data.credits.filter(({ key }) => key !== "copyright");
 </script>
 
 <svelte:head>
 	<title>Man of Substance - Credits</title>
+	<meta name="description" content="Get to know the people behind DVK's debut studio album." />
 </svelte:head>
 
 <main>
@@ -18,16 +19,14 @@
 			<h1>Album credits</h1>
 		</header>
 		<div class="album-credits">
-			{#each credits as [key, credit]}
+			{#each credits as { key, name }}
 				<div class="credit">
-					<h2>{Page.renderCreditTitle(key, credit)}</h2>
-					{#each credit as name}
-						<p>{name}</p>
-					{/each}
+					<h2>{Utility.renderCreditTitle(key)}</h2>
+					<p>{name}</p>
 				</div>
 			{/each}
 		</div>
-		<p role="note" class="copyright">&copy; &#8471; {fullCredits.copyright}</p>
+		<p role="note" class="copyright">&copy; &#8471; 2022 Ginton Entertainment</p>
 	{:else}
 		<p class="locked">This content will be available on release day.</p>
 	{/if}
