@@ -1,3 +1,4 @@
+import { expect, it } from "vitest";
 import { Items } from "./nav";
 
 it("has correct list of menu items", () => {

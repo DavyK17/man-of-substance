@@ -1,4 +1,6 @@
 import type { Contributor } from "$lib/types/general";
+
+import { expect, it } from "vitest";
 import { Tiers } from "./contributors";
 
 it("get tier", () => {
