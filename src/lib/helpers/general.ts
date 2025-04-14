@@ -1,5 +1,5 @@
 import type { PostgrestError } from "@supabase/supabase-js";
-import type { CustomError } from "$lib/types/general";
+import type { AlbumCreditKey, AlbumCreditTitles, CustomError } from "$lib/types/general";
 
 import { error as svelteError } from "@sveltejs/kit";
 
@@ -9,8 +9,20 @@ export const Status = {
 	ERROR: "An unknown error occurred. Kindly try again."
 };
 
-/* Utility functions */
+/* Utility helpers */
 export const Utility = {
+	/**
+	 * An object with values for each corresponding key in `AlbumCredits`.
+	 */
+	creditTitles: {
+		execProducers: "Executive producer",
+		photography: "Photography",
+		styling: "Styling",
+		artwork: "Artwork",
+		trailer: "Trailer",
+		visualiser: "Visualiser",
+		website: "Website"
+	} as AlbumCreditTitles,
 	/**
 	 * Returns a custom error object.
 	 * @param {number} code - The error code; defaults to `500` if not provided or invalid
@@ -86,5 +98,11 @@ export const Utility = {
 		// Return generic error
 		error = Utility.customError(500, Status.ERROR);
 		return { error };
-	}
+	},
+	/**
+	 * Renders a credit title in singular or plural as appropriate.
+	 * @param {AlbumCreditKey} key - An `AlbumCreditKey`
+	 * @returns {string} A formatted string with the credit title
+	 */
+	renderCreditTitle: (key: AlbumCreditKey): string => Utility.creditTitles[key]
 };
