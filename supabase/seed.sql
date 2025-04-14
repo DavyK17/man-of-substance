@@ -200,3 +200,22 @@ VALUES
 			'base'::tracklist_version
 		]
 	);
+
+INSERT INTO
+	"public"."contributors" (
+		"id",
+		"name",
+		"email",
+		"amount",
+		"user_id",
+		"rewards_claimed"
+	)
+VALUES
+	(
+		'1',
+		'Joan Wanjiru',
+		'joanbeth5@gmail.com',
+		'10500',
+		null,
+		'false'
+	);
