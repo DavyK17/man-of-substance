@@ -1,5 +1,5 @@
 <script lang="ts">
-	import "$lib/styles/track-lyrics.scss";
+	import "$lib/style/track-lyrics.scss";
 	import { PUBLIC_CHALLENGE_LYRIC } from "$env/static/public";
 
 	import type { ComponentEvents } from "svelte";
