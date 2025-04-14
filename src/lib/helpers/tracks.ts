@@ -1,4 +1,5 @@
-import type { Track, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/types/general";
+import type { Track, TracklistDataItem, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/types/general";
+import { tracks as rawTracks } from "$lib/data.json";
 
 export const List = {
 	/**
@@ -22,6 +23,14 @@ export const List = {
 
 		return filtered.map((item, i) => ({ ...item, id: i + 1 }));
 	},
+	/**
+	 * The album's tracklist data, each item containing the following properties:
+	 * - `id` - The track number
+	 * - `synopsis` - The track's synopsis in HTML
+	 * - `lyrics` - The track's lyrics in HTML
+	 * - `credits` - The track's credits as a `TrackCredits` object
+	 */
+	data: rawTracks as TracklistDataItem[],
 	/**
 	 * Returns an array of `Track` objects representing a given section of the album's tracklist.
 	 * @param {Track[]} tracklist - An array of `Track` objects
