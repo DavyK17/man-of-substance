@@ -67,6 +67,14 @@ export type TracklistVersion = "base" | "mixtape" | "expanded" | "full";
 
 export type TrackInfoVersion = "synopsis" | "lyrics" | "credits";
 
+export interface TracklistDataItem {
+	[key: string]: any;
+	id: number;
+	synopsis: string;
+	lyrics: string;
+	credits: TrackCredits;
+}
+
 export interface Track {
 	[key: string]: any;
 	id: number;
