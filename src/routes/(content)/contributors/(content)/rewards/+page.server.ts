@@ -1,57 +1,56 @@
-import type { PageServerLoad, Actions } from "./$types";
 import type { Contributor, ContributorTier, ContributorRewardDownload } from "$lib/types/general";
 
-import { error, fail, redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 import { Status as Generic, Utility } from "$lib/helpers/general";
 
-export const load: PageServerLoad = async ({ cookies, locals: { supabase } }) => {
-	const email = cookies.get("mos-contributor");
-	if (!email) throw redirect(307, "/contributors/login");
+/* Load function */
+export const load = async ({ locals: { supabase, user }, parent }) => {
+	// Redirect to login if not authenticated
+	if (!user) throw redirect(307, "/contributors/login");
 
-	const { data, error: err } = await supabase.from("contributors").select("*").eq("email", email);
-	if (data?.length === 0) throw redirect(307, "/contributors/login");
-
-	if (err) {
-		console.error(err.message);
-		throw error(500, "An unexpected error occurred while loading the page. Kindly refresh and try again.");
+	// Get contributor data
+	const { data, error } = await supabase.from("contributors").select("*").eq("email", user.email!).single();
+	if (error) {
+		const { error: loadError } = Utility.parsePostgrestError(error);
+		throw Utility.parseLoadError(loadError!);
 	}
 
-	const { id, name, amount, rewards_claimed } = data[0];
-	const contributor: Contributor = { id, name, email, amount, rewardsClaimed: rewards_claimed };
+	// Format contributor data
+	const { id, name, amount, rewards_claimed: rewardsClaimed } = data;
+	const contributor: Contributor = { id, name, email: user.email!, amount, rewardsClaimed };
 
+	// Get personalised "thank you" video if eligible
 	let videoUrl: string | undefined;
 	if (contributor.amount && contributor.amount >= 2000)
 		videoUrl = await Rewards.getFileUrl(supabase, `mp4/${contributor.id}.mp4`);
 
-	return { contributor, videoUrl };
+	// Get tracks from parent
+	const { tracks } = await parent();
+
+	// Return data
+	return { contributor, supabase, tracks, videoUrl };
 };
 
-export const actions: Actions = {
-	logout: async ({ cookies }) => {
+/* Form actions */
+export const actions = {
+	logout: async ({ locals: { supabase } }) => {
 		try {
-			// Delete cookie
-			const cookie = cookies.get("mos-contributor");
-			if (cookie) cookies.delete("mos-contributor", { path: "/contributors" });
+			// Log out
+			const { error } = await supabase.auth.signOut();
+			if (error) return fail(error.status ?? 500, { message: error.message });
 
 			// Redirect to login
-			return { logout: true };
+			throw redirect(307, "/contributors/login");
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: Generic.ERROR });
 		}
 	},
-	download: async ({ request, locals: { supabase } }) => {
+	download: async ({ request, locals: { tracks } }) => {
 		// Download rewards
 		try {
-			// Get tracks from database
-			const { data: tracks, error: tracksError } = await supabase.from("tracks").select();
-			if (tracksError) {
-				const { error } = Utility.parsePostgrestError(tracksError);
-				return fail(error!.code, { message: error!.message });
-			}
-
 			// Get form data
 			const formData = await request.formData();
 			const tier = formData.get("tier") as ContributorTier;

@@ -4,16 +4,14 @@
 	import type { Contributor, ContributorRewardDownload } from "$lib/types/general";
 
 	import { onDestroy } from "svelte";
-
 	import { browser } from "$app/environment";
-	import { goto } from "$app/navigation";
 
 	import { TrackDownload } from "$lib/components";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 	import { Status as Generic } from "$lib/helpers/general";
 
 	export let data: PageData;
-	const { contributor, videoUrl } = data;
+	const { contributor, supabase, tracks, videoUrl } = data;
 
 	$: tier = Tiers.get(contributor as Contributor);
 	$: rewards = Rewards.list.filter(({ tiers }) => tiers.includes(tier));
@@ -37,7 +35,7 @@
 		const { file, files } = form?.download as ContributorRewardDownload;
 		status = files ? Status.DOWNLOAD_GETTING_ZIP : Status.DOWNLOAD_GETTING_FILE;
 
-		await Rewards.download(file, files, (e) => {
+		await Rewards.download(supabase, file, files, (e) => {
 			if (e.lengthComputable) {
 				let downloadedPercentage = Math.floor((e.loaded / e.total) * 100);
 				status = `Downloading: ${downloadedPercentage}%…`;
@@ -47,7 +45,7 @@
 		});
 
 		status = Status.CLAIMING_REWARDS;
-		const { error } = await Rewards.finishClaim(data.contributor?.email as string);
+		const { error } = await Rewards.finishClaim(supabase, data.contributor?.email as string);
 
 		if (error) status = Generic.ERROR;
 		else {
@@ -59,8 +57,6 @@
 	const handleStatusChange = ({ detail }: ComponentEvents<TrackDownload>["statusChange"]) => {
 		status = detail.message;
 	};
-
-	$: if (browser && form?.logout) goto("/contributors/login");
 </script>
 
 <header>
@@ -73,7 +69,6 @@
 {#if data?.videoUrl}
 	<div class="video">
 		<video controls>
-			<source src={`${videoUrl}`} type="video/mp4" />
 			<source src={`${videoUrl}`} type="video/mp4" />
 			<track kind="captions" />
 		</video>
@@ -94,9 +89,10 @@
 </div>
 <div class="track-download">
 	<TrackDownload
+		downloadObject={form?.download}
 		email={contributor?.email}
 		{tier}
-		downloadObject={form?.download}
+		{tracks}
 		on:download={completeDownload}
 		on:statusChange={handleStatusChange}
 	/>
