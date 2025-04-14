@@ -1,4 +1,11 @@
-import type { Track, TracklistDataItem, TracklistVersion, TrackCreditKey, TrackCreditTitles } from "$lib/types/general";
+import type {
+	MockTrack,
+	Track,
+	TracklistDataItem,
+	TracklistVersion,
+	TrackCreditKey,
+	TrackCreditTitles
+} from "$lib/types/general";
 import { tracks as rawTracks } from "$lib/data.json";
 
 export const List = {
@@ -68,7 +75,141 @@ export const List = {
 		}
 
 		return [];
-	}
+	},
+	/**
+	 * A mock of the album's tracklist data to be used for testing, each item containing the following properties:
+	 * - `id` - The track number
+	 * - `runtime` - The track's runtime in seconds
+	 * - `credits` - The track's credits, only containing the track's `writers`
+	 */
+	mockData: [
+		{
+			id: 1,
+			runtime: 64,
+			credits: {
+				writers: ["Davy Kamanzi", "Ariane Uwizera", "Sidney Kamanzi"]
+			}
+		},
+		{
+			id: 2,
+			runtime: 291,
+			credits: {
+				writers: ["Davy Kamanzi", "Daryl Kimani", "Stephen Otieno Mak", "Emmanuel Kisiangani"]
+			}
+		},
+		{
+			id: 3,
+			runtime: 241,
+			credits: {
+				writers: ["Davy Kamanzi", "Dagi Philip Noel"]
+			},
+			missingFrom: ["mixtape", "base"]
+		},
+		{
+			id: 4,
+			runtime: 180,
+			credits: {
+				writers: ["Davy Kamanzi", "Kevin Midonzi", "Alex Niragira"]
+			}
+		},
+		{
+			id: 5,
+			runtime: 150,
+			credits: {
+				writers: ["Davy Kamanzi", "Andrew Haines", "Kevin Midonzi", "Alex Niragira"]
+			},
+			missingFrom: ["mixtape", "base"]
+		},
+		{
+			id: 6,
+			runtime: 196,
+			credits: {
+				writers: ["Davy Kamanzi", "Luca Urbaniak"]
+			}
+		},
+		{
+			id: 7,
+			runtime: 212,
+			credits: {
+				writers: ["Davy Kamanzi", "Luca Urbaniak"]
+			}
+		},
+		{
+			id: 8,
+			runtime: 189,
+			credits: {
+				writers: ["Davy Kamanzi", "Luca Urbaniak", "Amandeep Jagde"]
+			}
+		},
+		{
+			id: 9,
+			runtime: 215,
+			credits: {
+				writers: ["Davy Kamanzi", "Malik Atterbury", "Fidel Nigel Owuor", "Kenneth Mbova Jr."]
+			},
+			missingFrom: ["mixtape", "base"]
+		},
+		{
+			id: 10,
+			runtime: 168,
+			credits: {
+				writers: ["Davy Kamanzi", "Andrew Haines", "Brian Haines"]
+			}
+		},
+		{
+			id: 11,
+			runtime: 207,
+			credits: {
+				writers: ["Davy Kamanzi", "Michael Chepkwony", "Andrew Haines", "Jeremy Maina"]
+			}
+		},
+		{
+			id: 12,
+			runtime: 216,
+			credits: {
+				writers: ["Davy Kamanzi", "Suksan Salarak", "Andrew Haines"]
+			}
+		},
+		{
+			id: 13,
+			runtime: 209,
+			credits: {
+				writers: ["Davy Kamanzi", "James Mutunga", "Joan Nyabaro"]
+			},
+			missingFrom: ["mixtape", "base"]
+		},
+		{
+			id: 14,
+			runtime: 174,
+			credits: {
+				writers: ["Davy Kamanzi", "Daryl Kimani", "Benson Theuri", "Andrew Haines"]
+			}
+		},
+		{
+			id: 15,
+			runtime: 140,
+			credits: {
+				writers: ["Davy Kamanzi", "Jhonny Leandro Sandoval Cardona", "Stephen Otieno Mak"]
+			},
+			missingFrom: ["expanded", "base"]
+		},
+		{
+			id: 16,
+			runtime: 165,
+			credits: {
+				writers: ["Davy Kamanzi", "Onuche Samuel Ogboji"]
+			},
+			missingFrom: ["expanded", "base"]
+		},
+		{
+			id: 17,
+			runtime: 204,
+			credits: {
+				writers: ["Davy Kamanzi", "Kevin Midonzi", "Alex Niragira", "Don Dulo", "Daryl Kimani"]
+			},
+			missingFrom: ["expanded", "mixtape", "base"]
+		}
+	] as MockTrack[]
 };
 
 export const Page = {
