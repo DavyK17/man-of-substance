@@ -35,9 +35,6 @@ create table public.tracks (
 	filename text not null,
 	runtime bigint not null,
 	style text[] not null,
-	synopsis jsonb not null,
-	lyrics jsonb not null,
-	credits jsonb not null,
 	missing_from tracklist_version[] null,
 	constraint tracks_pkey primary key (id)
 );
