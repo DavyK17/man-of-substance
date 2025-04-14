@@ -23,7 +23,8 @@ export const load: PageServerLoad = async ({ cookies, locals: { supabase } }) =>
 	const contributor: Contributor = { id, name, email, amount, rewardsClaimed: rewards_claimed };
 
 	let videoUrl: string | undefined;
-	if (contributor.amount && contributor.amount >= 2000) videoUrl = await Rewards.getFileUrl(supabase, `mp4/${contributor.id}.mp4`);
+	if (contributor.amount && contributor.amount >= 2000)
+		videoUrl = await Rewards.getFileUrl(supabase, `mp4/${contributor.id}.mp4`);
 
 	return { contributor, videoUrl };
 };

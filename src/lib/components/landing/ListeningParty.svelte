@@ -11,13 +11,7 @@
 		<h1>Listening party</h1>
 		<p>Enter the passcode to unlock all content:</p>
 		<div class="input">
-			<input
-				type="text"
-				id="passcode"
-				name="passcode"
-				pattern="^(\d|\s)+$"
-				placeholder="Numbers only"
-			/>
+			<input type="text" id="passcode" name="passcode" pattern="^(\d|\s)+$" placeholder="Numbers only" />
 			<input type="submit" value="Enter" />
 		</div>
 	</form>

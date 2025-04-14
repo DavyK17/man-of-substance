@@ -5,10 +5,7 @@
 	import { Page } from "$lib/helpers/credits";
 
 	export let data: PageData;
-	const credits = Object.entries(fullCredits).filter(([key]) => key !== "copyright") as [
-		string,
-		string[]
-	][];
+	const credits = Object.entries(fullCredits).filter(([key]) => key !== "copyright") as [string, string[]][];
 </script>
 
 <svelte:head>

@@ -37,9 +37,7 @@
 		<div class="menu" transition:fly={{ x: "-100%" }}>
 			<ul>
 				<li>
-					<a href="/" on:click={() => menuToggle(false)}>
-						Home
-					</a>
+					<a href="/" on:click={() => menuToggle(false)}> Home </a>
 				</li>
 				{#each menuItems as { title, slug }}
 					<li>
@@ -56,9 +54,7 @@
 				{/each}
 				{#if data.released}
 					<li>
-						<a href="https://ditto.fm/man-of-substance-dvk" target="_blank" rel="noreferrer">
-							Stream
-						</a>
+						<a href="https://ditto.fm/man-of-substance-dvk" target="_blank" rel="noreferrer"> Stream </a>
 					</li>
 				{/if}
 			</ul>

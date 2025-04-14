@@ -1,35 +1,35 @@
 /* Track lyrics */
 .track-lyrics {
-    section {
-        margin: 1rem 0;
+	section {
+		margin: 1rem 0;
 
-        h2,
-        p {
-            width: fit-content;
-            margin: auto;
-        }
+		h2,
+		p {
+			width: fit-content;
+			margin: auto;
+		}
 
-        h2 {
-            color: $red;
-            opacity: 0.75;
+		h2 {
+			color: $red;
+			opacity: 0.75;
 
-            &.skit {
-                margin: 1rem auto;
-            }
-        }
+			&.skit {
+				margin: 1rem auto;
+			}
+		}
 
-        .section-break {
-            margin-bottom: 0.75rem;
-        }
+		.section-break {
+			margin-bottom: 0.75rem;
+		}
 
-        .ad-lib,
-        .effect {
-            opacity: 0.5;
-        }
+		.ad-lib,
+		.effect {
+			opacity: 0.5;
+		}
 
-        .effect {
-            font-size: 0.8rem;
-            font-style: italic;
-        }
-    }
+		.effect {
+			font-size: 0.8rem;
+			font-style: italic;
+		}
+	}
 }

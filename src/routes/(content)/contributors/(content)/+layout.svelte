@@ -1,6 +1,6 @@
 <slot />
 <footer>
-    <a href="/contributors" data-sveltekit-preload-code>Back to Intro</a>
+	<a href="/contributors" data-sveltekit-preload-code>Back to Intro</a>
 </footer>
 
 <style lang="scss">

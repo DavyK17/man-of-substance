@@ -22,14 +22,7 @@
 	<div class="input">
 		<input type="hidden" name="answer" value={data?.answer} required />
 		<label class="sr-only" for="challenger-name">Name</label>
-		<input
-			type="text"
-			id="challenger-name"
-			name="name"
-			placeholder="Name"
-			value={data?.name ?? null}
-			required
-		/>
+		<input type="text" id="challenger-name" name="name" placeholder="Name" value={data?.name ?? null} required />
 		<label class="sr-only" for="challenger-phone">M-Pesa number</label>
 		<input
 			type="tel"

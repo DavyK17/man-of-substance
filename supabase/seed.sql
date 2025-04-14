@@ -12,7 +12,13 @@ VALUES
 		'rewards',
 		FALSE,
 		104857600,
-		ARRAY['audio/mpeg','audio/wav','audio/x-wav','audio/mp4','audio/x-m4a']
+		ARRAY[
+			'audio/mpeg',
+			'audio/wav',
+			'audio/x-wav',
+			'audio/mp4',
+			'audio/x-m4a'
+		]
 	);
 
 INSERT INTO

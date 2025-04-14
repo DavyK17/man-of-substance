@@ -8,18 +8,15 @@
 
 <div class="content">
 	<p>
-		The making of this album included a crowdfunding campaign that yielded a portion of the funds
-		used to create it. All contributors can claim their respective rewards by
+		The making of this album included a crowdfunding campaign that yielded a portion of the funds used to create it. All
+		contributors can claim their respective rewards by
 		<a href="/contributors/rewards">clicking here</a>.
 	</p>
 	{#await data.contributors}
 		<p id="status">{Generic.LOADING}</p>
 	{:then contributors}
 		{#if contributors}
-			<p>
-				A big thank you to everyone at the Supporter tier, as well as the following for their
-				financial support:
-			</p>
+			<p>A big thank you to everyone at the Supporter tier, as well as the following for their financial support:</p>
 			<div class="list">
 				{#each Object.keys(contributors) as tier}
 					<div>

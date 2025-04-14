@@ -9,14 +9,13 @@
 				minimumIntegerDigits: 2
 			});
 
-			const hours = Math.floor(
-				(timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-			).toLocaleString("en-KE", { minimumIntegerDigits: 2 });
+			const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toLocaleString("en-KE", {
+				minimumIntegerDigits: 2
+			});
 
-			const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)).toLocaleString(
-				"en-KE",
-				{ minimumIntegerDigits: 2 }
-			);
+			const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)).toLocaleString("en-KE", {
+				minimumIntegerDigits: 2
+			});
 
 			const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000).toLocaleString("en-KE", {
 				minimumIntegerDigits: 2

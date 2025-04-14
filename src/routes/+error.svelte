@@ -17,8 +17,7 @@
 				</div>
 				<p>You came for this link, nikasema, "No".</p>
 				<p>
-					Ukaamua <a href={"#"} on:click={() => window.history.back()}>ku-click</a> ndio urudi nyuma,
-					yo.
+					Ukaamua <a href={"#"} on:click={() => window.history.back()}>ku-click</a> ndio urudi nyuma, yo.
 				</p>
 			{:else}
 				<div class="head">
