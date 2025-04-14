@@ -1,67 +1,69 @@
-import type { PageServerLoad, Actions } from "./$types";
-import type { Contributor } from "$lib/types/general";
-
 import { fail, redirect } from "@sveltejs/kit";
 import moment from "moment";
 
-import { Status } from "$lib/helpers/general";
+import { env } from "$env/dynamic/private";
+import { Status, Utility } from "$lib/helpers/general";
 
-export const load: PageServerLoad = async ({ cookies }) => {
-	const email = cookies.get("mos-contributor");
-	if (email) throw redirect(307, "/contributors/rewards");
+/* Load function */
+export const load = async ({ locals: { user } }) => {
+	if (user) throw redirect(307, "/contributors/rewards");
 };
 
-export const actions: Actions = {
-	default: async ({ request, cookies, locals: { supabase } }) => {
+/* Form action */
+export const actions = {
+	default: async ({ request, locals: { supabase } }) => {
 		try {
 			// Get form data
 			const formData = await request.formData();
 
-			// Validate existence of email
+			// Validate email
 			const email = formData.get("email") as string;
-			if (!email) return fail(400, { message: "Please enter a valid email address" });
+			if (!email) return fail(400, { message: "Please enter a valid email address." });
 
-			// Get contributor
-			const { data, error } = await supabase.from("contributors").select("*").eq("email", email);
+			// Log in
+			const {
+				data: { user },
+				error: loginError
+			} = await supabase.auth.signInWithPassword({ email, password: env.CONTRIBUTOR_PASSWORD });
+			if (loginError) return fail(loginError.status ?? 500, { message: loginError.message });
 
-			if (error) {
-				const { code, message } = error;
-				console.error(message);
-				return fail(Number(code), { message: "An unknown error occurred. Kindly try again." });
+			// Get contributor data
+			const { data, error: contributorError } = await supabase
+				.from("contributors")
+				.select("amount, rewards_claimed")
+				.eq("email", user!.email!)
+				.single();
+			if (contributorError) {
+				const { error } = Utility.parsePostgrestError(contributorError);
+				return fail(error!.code, { message: error!.message });
+			}
+			const { amount, rewards_claimed: rewardsClaimed } = data;
+
+			// Log out and return error if rewards already claimed
+			if (rewardsClaimed) {
+				const { error } = await supabase.auth.signOut();
+				if (error) return fail(error.status ?? 500, { message: error.message });
+				return fail(403, { message: "Rewards have already been claimed for this user." });
 			}
 
-			// If no data returned, return error
-			if (data.length === 0) return fail(404, { message: "This email does not exist in the database" });
-
-			// If rewards already claimed, return error
-			if (data[0].rewards_claimed) return fail(403, { message: "Rewards have already been claimed for this user" });
-
 			// CONTENT LOCK CHECKS
-			const { amount } = data[0] as Contributor;
-
-			//-/ Supporter and bronze
+			//-/ Supporter and bronze (unlocks on release day)
 			if (amount >= 100 && amount <= 1999 && Date.now() < 1667509200000)
 				return fail(403, {
-					message: `Your rewards will be available ${moment(1667509200000).fromNow()}`
+					message: `Your rewards will be available ${moment(1667509200000).fromNow()}.`
 				});
 
-			//-/ Silver to platinum
+			//-/ Silver to platinum (unlocks 3 days early)
 			if (amount >= 2000 && amount <= 49999 && Date.now() < 1667250000000)
 				return fail(403, {
-					message: `Your rewards will be available ${moment(1667250000000).fromNow()}`
+					message: `Your rewards will be available ${moment(1667250000000).fromNow()}.`
 				});
 
-			//-/ Executive
+			//-/ Executive (unlocks 7 days early)
 			if (amount >= 50000 && Date.now() < 1666904400000)
 				return fail(403, {
-					message: `Your rewards will be available ${moment(1666904400000).fromNow()}`
+					message: `Your rewards will be available ${moment(1666904400000).fromNow()}.`
 				});
-
-			// Set cookie
-			cookies.set("mos-contributor", email, {
-				path: "/contributors",
-				expires: new Date(Date.now() + 86400) // next day
-			});
 
 			// Redirect to rewards
 			return { success: true };
