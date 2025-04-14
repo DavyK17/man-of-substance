@@ -3,37 +3,42 @@
 	import { PUBLIC_CHALLENGE_LYRIC } from "$env/static/public";
 
 	import type { ComponentEvents } from "svelte";
-	import type { ActionData } from "./$types";
+	import type { PageData, ActionData } from "./$types";
 	import type { Track, TrackInfoVersion } from "$lib/types/general";
 
 	import { onDestroy } from "svelte";
+
 	import { browser } from "$app/environment";
-	import { page } from "$app/stores";
 	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 
 	import { Credits, ChallengeStart, ChallengeEnd } from "$lib/components";
-	import { tracklist } from "$lib/stores";
+	import { version } from "$lib/stores";
 
-	import { Page, Status } from "$lib/helpers/tracks";
+	import { List, Page, Status } from "$lib/helpers/tracks";
 	import { Status as Generic } from "$lib/helpers/general";
 
+	export let data: PageData;
 	export let form: ActionData;
 	const { displayWriters, displayRuntime } = Page;
 
 	$: id = Number($page.params.id);
 	$: type = $page.params.type as TrackInfoVersion;
 
-	$: current = $tracklist.find((track) => track.id === id) as Track;
-	$: previous = $tracklist.find((track) => track.id === id - 1);
-	$: next = $tracklist.find((track) => track.id === id + 1);
+	let tracklist: Track[];
+	$: if (data.tracks) tracklist = List.build(data.tracks, $version);
+
+	$: current = tracklist.find((track) => track.id === id) as Track;
+	$: previous = tracklist.find((track) => track.id === id - 1);
+	$: next = tracklist.find((track) => track.id === id + 1);
 	$: content = current[type];
 
 	const handleTrackKeyDown = ({ code, altKey, ctrlKey, metaKey, shiftKey }: KeyboardEvent): Promise<void> | null => {
 		if ($page.url.pathname !== "/tracks" && $page.url.pathname.includes("/tracks")) {
 			if (altKey || ctrlKey || metaKey || shiftKey) return null;
 
-			if (id === $tracklist.length || id - 1 >= 1) if (code === "ArrowLeft") return goto(`/tracks/${id - 1}/${type}`);
-			if (id === 1 || id + 1 <= $tracklist.length) if (code === "ArrowRight") return goto(`/tracks/${id + 1}/${type}`);
+			if (id === tracklist.length || id - 1 >= 1) if (code === "ArrowLeft") return goto(`/tracks/${id - 1}/${type}`);
+			if (id === 1 || id + 1 <= tracklist.length) if (code === "ArrowRight") return goto(`/tracks/${id + 1}/${type}`);
 
 			if (code === "KeyC") return goto(`/tracks/${id}/credits`);
 			if (code === "KeyL") return goto(`/tracks/${id}/lyrics`);
@@ -86,7 +91,7 @@
 					easterEgg[0].style.cursor = "pointer";
 					easterEgg[0].setAttribute("id", "challenge-link");
 					easterEgg[0].onclick = () => (challengeFound = true);
-				}, 4000);
+				}, 3500);
 			};
 
 			easterEgg[0].onmouseout = () => {
@@ -105,6 +110,7 @@
 
 <svelte:head>
 	<title>Man of Substance - Tracks: "{current.title}"</title>
+	<meta name="description" content={`Get to know more about the track "${current.title}" from DVK's debut studio album.`} />
 </svelte:head>
 
 <svelte:document on:keydown={handleTrackKeyDown} />
@@ -156,7 +162,7 @@
 		<div class="top-link">
 			<form class="track-spinnerbox" on:submit|preventDefault={handleTrackNumberSubmit}>
 				<label class="sr-only" for="track-number">Track number</label>
-				<input type="number" id="track-number" min="1" max={$tracklist.length} value={id} />
+				<input type="number" id="track-number" min="1" max={tracklist.length} value={id} />
 			</form>
 			<a href="#top">Back to Top</a>
 		</div>

@@ -1,5 +1,6 @@
 <svelte:head>
 	<title>Man of Substance - Contributors</title>
+	<meta name="description" content="Check out the list of crowdfunding contributors for DVK's debut studio album." />
 </svelte:head>
 
 <main>

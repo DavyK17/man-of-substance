@@ -6,26 +6,12 @@
 	import { version } from "$lib/stores";
 
 	export let data: PageData;
-	const fullTracklist: Track[] = data.tracks.map((track) => {
-		const { synopsis, lyrics, credits } = List.data.find(({ id }) => id === track.id)!;
-		return {
-			id: track.id,
-			title: track.title,
-			filename: track.filename,
-			runtime: track.runtime,
-			style: track.style,
-			synopsis,
-			lyrics,
-			credits,
-			missingFrom: track.missingFrom ?? undefined
-		};
-	});
 
 	let selectedVer = $version;
 	$: version.set(selectedVer);
 
 	let tracklist: Track[];
-	$: if (data.tracks) tracklist = List.build(fullTracklist, $version);
+	$: if (data.tracks) tracklist = List.build(data.tracks, $version);
 
 	const { getPart } = List;
 	$: partOne = getPart(tracklist, selectedVer, 1);

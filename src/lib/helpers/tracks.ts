@@ -91,7 +91,7 @@ export const Page = {
 
 		const arr = writers.slice();
 		const last = arr.pop();
-		return arr.join(", ") + " and " + last;
+		return arr.join(", ") + ", and " + last;
 	},
 	/**
 	 * Formats the current track's runtime in minutes and seconds as a string.
