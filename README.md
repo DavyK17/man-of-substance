@@ -5,7 +5,7 @@ _Man of Substance_ is my debut studio album as DVK. To accompany the album, I cr
 ## Links
 
 -   Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
--   Live link: [man-of-substance.pages.dev](https://mos.davykamanzi.com)
+-   Live link: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
 
 ## How it was built
 
