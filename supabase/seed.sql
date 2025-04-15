@@ -1,27 +1,4 @@
 INSERT INTO
-	"storage"."buckets" (
-		id,
-		name,
-		public,
-		file_size_limit,
-		allowed_mime_types
-	)
-VALUES
-	(
-		'rewards',
-		'rewards',
-		FALSE,
-		104857600,
-		ARRAY[
-			'audio/mpeg',
-			'audio/wav',
-			'audio/x-wav',
-			'audio/mp4',
-			'audio/x-m4a'
-		]
-	);
-
-INSERT INTO
 	"public"."credits" ("key", "name")
 VALUES
 	('artwork', 'Brian Bett'),
@@ -212,7 +189,7 @@ INSERT INTO
 	)
 VALUES
 	(
-		'1',
+		'25',
 		'Joan Wanjiru',
 		'joanbeth5@gmail.com',
 		'10500',

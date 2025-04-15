@@ -67,6 +67,22 @@ select
 		) = user_id
 	);
 
+create policy "Enable update access based on user ID" on public.contributors as permissive
+for update
+	to authenticated using (
+		(
+			select
+				auth.uid ()
+		) = user_id
+	)
+with
+	check (
+		(
+			select
+				auth.uid ()
+		) = user_id
+	);
+
 create policy "Enable read access for all users" on public.credits as permissive for
 select
 	to public using (true);
@@ -82,3 +98,27 @@ alter table public.contributors enable row level security;
 alter table public.credits enable row level security;
 
 alter table public.tracks enable row level security;
+
+create policy "Allow authenticated users to access rewards" on storage.objects for
+select
+	to authenticated using (
+		bucket_id = 'rewards'
+		and (
+			(
+				name like 'm4a/%'
+				or name like 'mp3/%'
+				or name like 'wav/%'
+			)
+			or (
+				name like 'mp4/%.mp4'
+				and replace(name, 'mp4/', '') = (
+					select
+						id::text || '.mp4'
+					from
+						public.contributors
+					where
+						user_id = auth.uid ()
+				)
+			)
+		)
+	);

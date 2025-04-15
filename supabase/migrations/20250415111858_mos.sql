@@ -205,6 +205,26 @@ CREATE POLICY "Enable read access for all users" ON "public"."tracks" FOR
 SELECT
 	USING (true);
 
+CREATE POLICY "Enable update access based on user ID" ON "public"."contributors"
+FOR UPDATE
+	TO "authenticated" USING (
+		(
+			(
+				SELECT
+					"auth"."uid" () AS "uid"
+			) = "user_id"
+		)
+	)
+WITH
+	CHECK (
+		(
+			(
+				SELECT
+					"auth"."uid" () AS "uid"
+			) = "user_id"
+		)
+	);
+
 ALTER TABLE "public"."challenge_attempts" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."contributors" ENABLE ROW LEVEL SECURITY;
@@ -312,3 +332,28 @@ RESET ALL;
 --
 -- Dumped schema changes for auth and storage
 --
+CREATE POLICY "Allow authenticated users to access rewards" ON "storage"."objects" FOR
+SELECT
+	TO "authenticated" USING (
+		(
+			("bucket_id" = 'rewards'::"text")
+			AND (
+				("name" ~~ 'm4a/%'::"text")
+				OR ("name" ~~ 'mp3/%'::"text")
+				OR ("name" ~~ 'wav/%'::"text")
+				OR (
+					("name" ~~ 'mp4/%.mp4'::"text")
+					AND (
+						"replace" ("name", 'mp4/'::"text", ''::"text") = (
+							SELECT
+								(("contributors"."id")::"text" || '.mp4'::"text")
+							FROM
+								"public"."contributors"
+							WHERE
+								("contributors"."user_id" = "auth"."uid" ())
+						)
+					)
+				)
+			)
+		)
+	);
