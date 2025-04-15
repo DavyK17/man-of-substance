@@ -106,6 +106,11 @@ The app loads basic tracklist information from the database, with data on synops
 
 ![Credits page (mobile version)](./readme/screenshot-mobile-credits.png)
 
+## Future work
+
+-   Write end-to-end tests with Playwright
+-   The last hidden challenge had vulnerabilities which were successfully exploited by an experienced engineer, so one more for the culture?
+
 ## Author
 
 -   GitHub: [@DavyK17](https://github.com/DavyK17)
