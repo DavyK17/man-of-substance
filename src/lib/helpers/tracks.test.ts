@@ -31,7 +31,7 @@ it("formats runtime unit correctly", () => {
 
 it("displays writers correctly", () => {
 	const writers = Page.displayWriters(List.mockData[0] as Track);
-	expect(writers).toBe("Davy Kamanzi, Ariane Uwizera and Sidney Kamanzi");
+	expect(writers).toBe("Davy Kamanzi, Ariane Uwizera, and Sidney Kamanzi");
 });
 
 it("displays runtime correctly", () => {
