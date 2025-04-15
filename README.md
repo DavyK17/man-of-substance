@@ -28,7 +28,7 @@ _Man of Substance_ is my debut studio album as DVK. To accompany the album, I cr
 
 ## Features
 
-The _Man of Substance_ website is a full-stack app with a simple design that is accessible from desktop, tablet and mobile devices with all modern browsers, with Lighthouse scores of 74 for performance, 100 for accessibility, 92 for best practices, and 100 for SEO (full report can be viewed by [clicking here](./readme/lighthouse.pdf)).
+The _Man of Substance_ website is a full-stack app with a simple design that is accessible from desktop, tablet and mobile devices with all modern browsers, with Lighthouse scores of 94 for performance, 100 for accessibility, 100 for best practices, and 92 for SEO (full report can be viewed by [clicking here](./readme/lighthouse.pdf)).
 
 Prior to the album's release, each page on the site displayed messages indicating locked content, depending on what was requested (these can be revisited in detail by looking through the app's tests).
 
