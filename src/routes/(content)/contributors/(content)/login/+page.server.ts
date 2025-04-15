@@ -47,7 +47,7 @@ export const actions = {
 			if (rewardsClaimed) {
 				const { error } = await supabase.auth.signOut();
 				if (error) return fail(error.status ?? 500, { message: error.message });
-				return fail(403, { message: "Rewards have already been claimed for this user." });
+				return fail(403, { message: "Your rewards have already been claimed." });
 			}
 
 			// CONTENT LOCK CHECKS
