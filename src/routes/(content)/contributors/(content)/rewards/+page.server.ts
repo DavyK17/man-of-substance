@@ -6,12 +6,17 @@ import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
 import { Status as Generic, Utility } from "$lib/helpers/general";
 
 /* Load function */
-export const load = async ({ locals: { supabase, user }, parent }) => {
+export const load = async ({ locals: { supabase }, parent }) => {
 	// Redirect to login if not authenticated
+	const { user } = await parent();
 	if (!user) throw redirect(307, "/contributors/login");
 
 	// Get contributor data
-	const { data, error } = await supabase.from("contributors").select("*").eq("email", user.email!).single();
+	const { data, error } = await supabase
+		.from("contributors")
+		.select("id, name, amount, rewards_claimed")
+		.eq("email", user.email!)
+		.single();
 	if (error) {
 		const { error: loadError } = Utility.parsePostgrestError(error);
 		throw Utility.parseLoadError(loadError!);
@@ -24,35 +29,19 @@ export const load = async ({ locals: { supabase, user }, parent }) => {
 	// Get personalised "thank you" video if eligible
 	let videoUrl: string | undefined;
 	if (contributor.amount && contributor.amount >= 2000)
-		videoUrl = await Rewards.getFileUrl(supabase, `mp4/${contributor.id}.mp4`);
-
-	// Get tracks from parent
-	const { tracks } = await parent();
+		videoUrl = await Rewards.getFileUrl(`mp4/${contributor.id}.mp4`, supabase);
 
 	// Return data
-	return { contributor, supabase, tracks, videoUrl };
+	return { contributor, videoUrl };
 };
 
 /* Form actions */
 export const actions = {
-	logout: async ({ locals: { supabase } }) => {
-		try {
-			// Log out
-			const { error } = await supabase.auth.signOut();
-			if (error) return fail(error.status ?? 500, { message: error.message });
-
-			// Redirect to login
-			throw redirect(307, "/contributors/login");
-		} catch (err) {
-			console.error(err);
-			return fail(500, { message: Generic.ERROR });
-		}
-	},
-	download: async ({ request, locals: { tracks } }) => {
-		// Download rewards
+	download: async ({ request, locals: { supabase, tracks } }) => {
 		try {
 			// Get form data
 			const formData = await request.formData();
+			const email = formData.get("email") as string;
 			const tier = formData.get("tier") as ContributorTier;
 
 			// Download flows (by tier)
@@ -119,11 +108,34 @@ export const actions = {
 				}
 			}
 
+			// Mark rewards as claimed
+			const { error: claimedError } = await supabase
+				.from("contributors")
+				.update({ rewards_claimed: true })
+				.eq("email", email);
+			if (claimedError) {
+				const { error } = Utility.parsePostgrestError(claimedError);
+				return fail(error!.code, { message: error!.message });
+			}
+
 			// Return data
 			return {
 				download: downloadObject,
 				message: Status.DOWNLOAD_STARTING
 			};
+		} catch (err) {
+			console.error(err);
+			return fail(500, { message: Generic.ERROR });
+		}
+	},
+	logout: async ({ locals: { supabase } }) => {
+		try {
+			// Log out
+			const { error } = await supabase.auth.signOut();
+			if (error) return fail(error.status ?? 500, { message: error.message });
+
+			// Redirect to login
+			return { logout: true };
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: Generic.ERROR });

@@ -5,13 +5,13 @@
 
 	import { onDestroy } from "svelte";
 	import { browser } from "$app/environment";
+	import { goto } from "$app/navigation";
 
 	import { TrackDownload } from "$lib/components";
 	import { Tiers, Rewards, Status } from "$lib/helpers/contributors";
-	import { Status as Generic } from "$lib/helpers/general";
 
 	export let data: PageData;
-	const { contributor, supabase, tracks, videoUrl } = data;
+	const { contributor, tracks, videoUrl } = data;
 
 	$: tier = Tiers.get(contributor as Contributor);
 	$: rewards = Rewards.list.filter(({ tiers }) => tiers.includes(tier));
@@ -35,7 +35,7 @@
 		const { file, files } = form?.download as ContributorRewardDownload;
 		status = files ? Status.DOWNLOAD_GETTING_ZIP : Status.DOWNLOAD_GETTING_FILE;
 
-		await Rewards.download(supabase, file, files, (e) => {
+		await Rewards.download(file, files, (e) => {
 			if (e.lengthComputable) {
 				let downloadedPercentage = Math.floor((e.loaded / e.total) * 100);
 				status = `Downloading: ${downloadedPercentage}%…`;
@@ -44,19 +44,15 @@
 			return undefined;
 		});
 
-		status = Status.CLAIMING_REWARDS;
-		const { error } = await Rewards.finishClaim(supabase, data.contributor?.email as string);
-
-		if (error) status = Generic.ERROR;
-		else {
-			const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
-			status = responses[Math.floor(Math.random() * responses.length)];
-		}
+		const responses = ["Wazi champ", "Fiti mkuu", "Safi kiongos"];
+		status = responses[Math.floor(Math.random() * responses.length)];
 	};
 
 	const handleStatusChange = ({ detail }: ComponentEvents<TrackDownload>["statusChange"]) => {
 		status = detail.message;
 	};
+
+	$: if (browser && form?.logout) goto("/contributors/login");
 </script>
 
 <header>
