@@ -5,20 +5,21 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "vite preview",
-		"test": "npm run test:integration && npm run test:unit",
+		"preview": "npm run build && wrangler pages dev",
+		"test": "npm run test:unit && npm run test:e2e",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"test:integration": "playwright test",
+		"test:e2e": "playwright test",
 		"test:unit": "vitest",
-		"pages:dev": "wrangler pages dev --compatibility-date=2024-01-17 --proxy 5173 -- npm run dev",
-		"pages:deploy": "npm run build && wrangler pages deploy .svelte-kit/cloudflare"
+		"deploy": "npm run build && wrangler pages deploy",
+		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20250410.0",
 		"@playwright/test": "^1.41.2",
-		"@sveltejs/adapter-cloudflare": "^4.1.0",
+		"@sveltejs/adapter-cloudflare": "^5.1.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tsconfig/svelte": "^5.0.2",
@@ -40,7 +41,7 @@
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
 		"vitest": "^1.0.0",
-		"wrangler": "^3.23.0"
+		"wrangler": "^4.10.0"
 	},
 	"dependencies": {
 		"@supabase/ssr": "^0.4.0",
