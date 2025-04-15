@@ -35,6 +35,7 @@
 
 <svelte:head>
 	<title>Man of Substance - Coming soon</title>
+	<meta name="description" content="The debut studio album by Kenyan-Rwandese artist DVK." />
 </svelte:head>
 
 <main class="countdown">

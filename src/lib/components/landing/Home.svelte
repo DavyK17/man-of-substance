@@ -7,6 +7,7 @@
 
 <svelte:head>
 	<title>Man of Substance - Welcome</title>
+	<meta name="description" content="The debut studio album by Kenyan-Rwandese artist DVK." />
 </svelte:head>
 
 <main class="home">
