@@ -5,7 +5,11 @@ import { env } from "$env/dynamic/private";
 import { Status, Utility } from "$lib/helpers/general";
 
 /* Load function */
-export const load = async ({ locals: { user } }) => {
+export const load = async ({ parent }) => {
+	// Get user from parent
+	const { user } = await parent();
+
+	// Redirect to rewards if user is authenticated
 	if (user) throw redirect(307, "/contributors/rewards");
 };
 
