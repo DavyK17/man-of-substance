@@ -37,3 +37,6 @@ vite.config.ts.timestamp-*
 **/supabase/.branches
 **/supabase/.temp
 **/supabase/rewards
+
+#Wrangler
+wrangler.jsonc
