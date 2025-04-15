@@ -4,27 +4,27 @@ _Man of Substance_ is my debut studio album as DVK. To accompany the album, I cr
 
 ## Links
 
--   Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
--   Live link: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
+- Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
+- Live link: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
 
 ## How it was built
 
 ### Base libraries/techonolgies
 
--   [SvelteKit](https://kit.svelte.dev/) - Full-stack web application framework
--   [Supabase](https://supabase.com/) - Open source backend-as-a-service (BaaS)
--   [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript programming language
+- [SvelteKit](https://kit.svelte.dev/) - Full-stack web application framework
+- [Supabase](https://supabase.com/) - Open source backend-as-a-service (BaaS)
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript programming language
 
 #### Testing and monitoring
 
--   [Playwright](https://playwright.dev/) - End-to-end testing framework
--   [Vitest](https://vitest.dev/) - Unit testing framework
+- [Playwright](https://playwright.dev/) - End-to-end testing framework
+- [Vitest](https://vitest.dev/) - Unit testing framework
 
 ### Supporting libraries/technologies
 
--   [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader) - JavaScript library for downloading files on the browser
--   [JSZip](https://stuk.github.io/jszip/) - JavaScript library for creating, reading, and editing .zip files
--   [Moment.js](https://momentjs.com/) - JavaScript time manipulation library
+- [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader) - JavaScript library for downloading files on the browser
+- [JSZip](https://stuk.github.io/jszip/) - JavaScript library for creating, reading, and editing .zip files
+- [Moment.js](https://momentjs.com/) - JavaScript time manipulation library
 
 ## Features
 
@@ -108,10 +108,10 @@ The app loads basic tracklist information from the database, with data on synops
 
 ## Future work
 
--   Write end-to-end tests with Playwright
--   The last hidden challenge had vulnerabilities which were successfully exploited by an experienced engineer, so one more for the culture?
+- Write end-to-end tests with Playwright
+- The last hidden challenge had vulnerabilities which were successfully exploited by an experienced engineer, so one more for the culture?
 
 ## Author
 
--   GitHub: [@DavyK17](https://github.com/DavyK17)
--   Website: [davyk17.pages.dev](https://davyk17.pages.dev)
+- GitHub: [@DavyK17](https://github.com/DavyK17)
+- Website: [davyk17.pages.dev](https://davyk17.pages.dev)

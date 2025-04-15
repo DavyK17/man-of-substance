@@ -55,7 +55,7 @@
 	};
 
 	$: challengeFound = false;
-	$: status = form?.message ?? (challengeFound && !form?.started) ? Status.CHALLENGE_NOTICE : "";
+	$: status = (form?.message ?? (challengeFound && !form?.started)) ? Status.CHALLENGE_NOTICE : "";
 	$: if (browser && challengeFound) {
 		let timeout = setTimeout(() => {
 			if (!form?.started && status !== Status.CHALLENGE_NOTICE) status = Status.CHALLENGE_NOTICE;
