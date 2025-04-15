@@ -8,6 +8,7 @@ import type {
 } from "$lib/types/general";
 import { tracks as rawTracks } from "$lib/data.json";
 
+/* MODULES */
 export const List = {
 	/**
 	 * Returns an array of `Track` objects representing a given version of the album's tracklist.
@@ -214,39 +215,6 @@ export const List = {
 
 export const Page = {
 	/**
-	 * Formats a duration of time in its given unit as a string.
-	 * @param {string} unit - A unit of time, i.e. `"min"` | `"sec"`
-	 * @param {number} duration - A duration of time as an integer
-	 * @returns {string} A formatted string with the given duration of time and its unit, e.g. `"3 seconds"`
-	 */
-	formatRuntimeUnit: (unit: "min" | "sec", duration: number): string =>
-		duration === 0 ? "" : `${duration} ${unit === "min" ? "minute" : "second"}${duration > 1 ? "s" : ""}`,
-	/**
-	 * Formats a list of the current track's writers as a string.
-	 * @param {Track} current - A `Track` object
-	 * @returns {string} A formatted string with the names of the current track's writers
-	 */
-	displayWriters: ({ credits: { writers } }: Track): string => {
-		if (writers.length === 1) return writers.join("");
-		if (writers.length === 2) return writers.join(" and ");
-
-		const arr = writers.slice();
-		const last = arr.pop();
-		return arr.join(", ") + ", and " + last;
-	},
-	/**
-	 * Formats the current track's runtime in minutes and seconds as a string.
-	 * @param {Track} current - A `Track` object
-	 * @returns {string} A formatted string with the names of the current track's writers
-	 */
-	displayRuntime: ({ runtime }: Track): string => {
-		const min = Math.floor(runtime / 60);
-		const sec = runtime % 60;
-		const and = min === 0 || sec === 0 ? "" : " and ";
-
-		return Page.formatRuntimeUnit("min", min) + and + Page.formatRuntimeUnit("sec", sec);
-	},
-	/**
 	 * An object with credit titles as values for each corresponding key in `TrackCredits`.
 	 */
 	creditTitles: {
@@ -261,6 +229,39 @@ export const Page = {
 		interpolates: "Interpolates",
 		samples: "Samples"
 	} as TrackCreditTitles,
+	/**
+	 * Formats the current track's runtime in minutes and seconds as a string.
+	 * @param {Track} current - A `Track` object
+	 * @returns {string} A formatted string with the names of the current track's writers
+	 */
+	displayRuntime: ({ runtime }: Track): string => {
+		const min = Math.floor(runtime / 60);
+		const sec = runtime % 60;
+		const and = min === 0 || sec === 0 ? "" : " and ";
+
+		return Page.formatRuntimeUnit("min", min) + and + Page.formatRuntimeUnit("sec", sec);
+	},
+	/**
+	 * Formats a list of the current track's writers as a string.
+	 * @param {Track} current - A `Track` object
+	 * @returns {string} A formatted string with the names of the current track's writers
+	 */
+	displayWriters: ({ credits: { writers } }: Track): string => {
+		if (writers.length === 1) return writers.join("");
+		if (writers.length === 2) return writers.join(" and ");
+
+		const arr = writers.slice();
+		const last = arr.pop();
+		return arr.join(", ") + ", and " + last;
+	},
+	/**
+	 * Formats a duration of time in its given unit as a string.
+	 * @param {string} unit - A unit of time, i.e. `"min"` | `"sec"`
+	 * @param {number} duration - A duration of time as an integer
+	 * @returns {string} A formatted string with the given duration of time and its unit, e.g. `"3 seconds"`
+	 */
+	formatRuntimeUnit: (unit: "min" | "sec", duration: number): string =>
+		duration === 0 ? "" : `${duration} ${unit === "min" ? "minute" : "second"}${duration > 1 ? "s" : ""}`,
 	/**
 	 * Renders a credit title in singular or plural as appropriate.
 	 * @param {TrackCreditKey} key - A `TrackCreditKey` string
