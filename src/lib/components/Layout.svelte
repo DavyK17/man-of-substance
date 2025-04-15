@@ -54,7 +54,7 @@
 				{/each}
 				{#if data.released}
 					<li>
-						<a href="https://ditto.fm/man-of-substance-dvk" target="_blank" rel="noreferrer"> Stream </a>
+						<a href="http://unitedmasters.com/m/man-of-substance" target="_blank" rel="noreferrer"> Stream </a>
 					</li>
 				{/if}
 			</ul>

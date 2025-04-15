@@ -61,7 +61,7 @@
 		</picture>
 		<div class="link-buttons">
 			{#if released}
-				<a role="button" target="_blank" href="https://ditto.fm/man-of-substance-dvk" rel="noreferrer">
+				<a role="button" target="_blank" href="http://unitedmasters.com/m/man-of-substance" rel="noreferrer">
 					Stream the album
 				</a>
 			{/if}
