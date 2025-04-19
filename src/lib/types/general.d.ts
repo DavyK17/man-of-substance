@@ -119,21 +119,20 @@ export interface MockTrack {
 }
 
 /* CREDITS */
-export interface AlbumCredits {
-	[key: string]: string[] | string;
-	execProducers: string[];
-	photography: string[];
-	styling: string[];
-	artwork: string[];
-	trailer: string[];
-	visualiser: string[];
-	website: string[];
-	copyright: string;
-}
-
-export type AlbumCreditKey = keyof AlbumCredits;
-
 export interface AlbumCreditTitles {
 	[key: string]: string;
-	[key in AlbumCreditKey]: string;
+	execProducers: string;
+	photography: string;
+	styling: string;
+	artwork: string;
+	trailer: string;
+	visualiser: string;
+	website: string;
+}
+
+export type AlbumCreditKey = keyof AlbumCreditTitles;
+
+export interface AlbumCredit {
+	key: AlbumCreditKey;
+	name: string;
 }
