@@ -1,13 +1,7 @@
 /* Variables */
 $bg-color: #fefbea;
-$font-head: (
-	"Lexend Deca",
-	sans-serif
-);
-$font-body: (
-	"Joan",
-	serif
-);
+$font-head: ("Lexend Deca", sans-serif);
+$font-body: ("Joan", serif);
 $red: #dc143c;
 $silver: #c0c0c0;
 $green: #6e8343;
@@ -44,7 +38,7 @@ $skeleton-pseudo-element-display: block;
 	text-align: center;
 	flex-wrap: wrap;
 
-	&>div {
+	& > div {
 		flex: 1 1;
 	}
 
