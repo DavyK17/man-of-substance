@@ -12,7 +12,7 @@ export const Status = {
 /* Utility helpers */
 export const Utility = {
 	/**
-	 * An object with values for each corresponding key in `AlbumCredits`.
+	 * An object with values for each album credit.
 	 */
 	creditTitles: {
 		execProducers: "Executive producer",
@@ -100,7 +100,7 @@ export const Utility = {
 		return { error };
 	},
 	/**
-	 * Renders a credit title in singular or plural as appropriate.
+	 * Renders an album credit title in singular or plural as appropriate.
 	 * @param {AlbumCreditKey} key - An `AlbumCreditKey`
 	 * @returns {string} A formatted string with the credit title
 	 */
