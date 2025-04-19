@@ -3,9 +3,6 @@
 	import { Utility } from "$lib/helpers/general";
 
 	export let data: PageData;
-
-	let credits: { key: string; name: string }[];
-	$: if (data.credits) credits = data.credits.filter(({ key }) => key !== "copyright");
 </script>
 
 <svelte:head>
@@ -19,7 +16,7 @@
 			<h1>Album credits</h1>
 		</header>
 		<div class="album-credits">
-			{#each credits as { key, name }}
+			{#each data.credits as { key, name }}
 				<div class="credit">
 					<h2>{Utility.renderCreditTitle(key)}</h2>
 					<p>{name}</p>
