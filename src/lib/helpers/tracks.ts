@@ -95,7 +95,7 @@ export const List = {
 			id: 2,
 			runtime: 291,
 			credits: {
-				writers: ["Davy Kamanzi", "Daryl Kimani", "Stephen Otieno Mak", "Emmanuel Kisiangani"]
+				writers: ["Davy Kamanzi", "Daryl Kimani", "Stephen Otieno Mark", "Emmanuel Kisiangani"]
 			}
 		},
 		{
@@ -190,7 +190,7 @@ export const List = {
 			id: 15,
 			runtime: 140,
 			credits: {
-				writers: ["Davy Kamanzi", "Jhonny Leandro Sandoval Cardona", "Stephen Otieno Mak"]
+				writers: ["Davy Kamanzi", "Jhonny Leandro Sandoval Cardona", "Stephen Otieno Mark"]
 			},
 			missingFrom: ["expanded", "base"]
 		},
