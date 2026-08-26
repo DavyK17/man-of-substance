@@ -8,7 +8,8 @@ The catalogue is a completed project (v2.0.2, Svelte 4). It is also a readable p
 
 - Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
 - Live site: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
-- Author: [davyk17.pages.dev](https://davyk17.pages.dev)
+- Author: [davyk17.pages.dev](https://davyk17.pages.dev) · [github.com/DavyK17](https://github.com/DavyK17)
+- Koloseum engineering showcase: [github.com/koloseum-technologies/engineering-showcase](https://github.com/koloseum-technologies/engineering-showcase)
 
 ## How it was built
 
@@ -127,5 +128,6 @@ One track page hides a puzzle behind a lyric that ships to the browser as `PUBLI
 
 ## Author
 
-- GitHub: [@DavyK17](https://github.com/DavyK17)
+- GitHub: [@DavyK17](https://github.com/DavyK17) · [profile index](https://github.com/DavyK17/profile)
 - Website: [davyk17.pages.dev](https://davyk17.pages.dev)
+- Koloseum: [engineering showcase](https://github.com/koloseum-technologies/engineering-showcase)
