@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+
+	export let message: string | undefined = undefined;
 </script>
 
 <svelte:head>
@@ -21,7 +23,7 @@
 		<form method="POST" action="?/skip" use:enhance>
 			<button type="submit">Skip</button>
 		</form>
-		<p id="status"></p>
+		<p id="status">{message ?? ""}</p>
 	</div>
 </main>
 

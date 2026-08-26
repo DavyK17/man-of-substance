@@ -1,4 +1,5 @@
 import type { Actions } from "./$types";
+import { fail } from "@sveltejs/kit";
 import { UNLOCK_CODE } from "$env/static/private";
 
 export const actions: Actions = {
@@ -7,8 +8,7 @@ export const actions: Actions = {
 		const passcode = data.get("passcode") as string;
 
 		if (passcode !== UNLOCK_CODE) {
-			(document.getElementById("status") as HTMLElement).innerHTML = "Incorrect status!";
-			return { success: false };
+			return fail(400, { message: "Incorrect passcode." });
 		}
 
 		cookies.set("passcode", "confirmed", { path: "/" });

@@ -91,6 +91,10 @@ create policy "Enable read access for all users" on public.tracks as permissive 
 select
 	to public using (true);
 
+create policy "Enable insert for challenge attempts" on public.challenge_attempts as permissive for insert to public
+with
+	check (true);
+
 alter table public.challenge_attempts enable row level security;
 
 alter table public.contributors enable row level security;

@@ -12,7 +12,7 @@
 	{#if form?.success}
 		<Home cover={data.cover} released={data.released} />
 	{:else}
-		<ListeningParty />
+		<ListeningParty message={form?.message} />
 	{/if}
 {:else}
 	<Home cover={data.cover} released={data.released} />

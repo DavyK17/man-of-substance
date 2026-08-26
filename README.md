@@ -1,44 +1,58 @@
 # Man of Substance
 
-_Man of Substance_ is my debut studio album as DVK. To accompany the album, I created this app allowing the user to view the synopsis, lyrics, and credits for each track, as well as the album's credits and other content added periodically. Prior to the production of the album, I ran a crowdfunding campaign that yielded part of the funds used; as such, contributors are also able to claim their rewards on the app.
+A SvelteKit and Supabase application that delivers a crowdfunded album's public catalogue and contributor rewards. The public site serves synopses, lyrics and credits; authenticated contributors claim tiered downloads, including personalised videos, under PostgreSQL row-level security and signed-URL file delivery.
+
+The catalogue is a completed project (v2.0.2, Svelte 4). It is also a readable public sample of the same stack used on Koloseum: SvelteKit, Supabase, PostgreSQL, generated database types and database-enforced authorisation.
 
 ## Links
 
 - Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
-- Live link: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
+- Live site: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
+- Author: [davyk17.pages.dev](https://davyk17.pages.dev)
 
 ## How it was built
 
-### Base libraries/techonolgies
+### Base
 
-- [SvelteKit](https://kit.svelte.dev/) - Full-stack web application framework
-- [Supabase](https://supabase.com/) - Open source backend-as-a-service (BaaS)
-- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript programming language
+- [SvelteKit](https://kit.svelte.dev/) — full-stack web application framework (Svelte 4)
+- [Supabase](https://supabase.com/) — Auth, Postgres and Storage
+- [TypeScript](https://www.typescriptlang.org/)
 
-#### Testing and monitoring
+### Data and authorisation
 
-- [Playwright](https://playwright.dev/) - End-to-end testing framework
-- [Vitest](https://vitest.dev/) - Unit testing framework
+- Declarative schema in `supabase/schemas/album.sql`, with a generated migration
+- Row-level security on all four tables; object-level Storage policy so personalised `mp4/<id>.mp4` files are readable only by the matching contributor
+- A SQL view (`contributor_names`) that derives five contributor tiers from contribution amounts
+- `parsePostgrestError` maps PostgreSQL SQLSTATE codes — including `P0001` from PL/pgSQL `RAISE` — onto HTTP statuses
 
-### Supporting libraries/technologies
+### Testing
 
-- [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader) - JavaScript library for downloading files on the browser
-- [JSZip](https://stuk.github.io/jszip/) - JavaScript library for creating, reading, and editing .zip files
-- [Moment.js](https://momentjs.com/) - JavaScript time manipulation library
+- [Vitest](https://vitest.dev/) — 15 unit tests across helper modules (tier thresholds, track limits, credits, navigation, path matching, tracklist assembly, runtime formatting)
+- [Playwright](https://playwright.dev/) is configured; end-to-end specs for the locked and unlocked content states are not written yet
+
+### Supporting libraries
+
+- [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader)
+- [JSZip](https://stuk.github.io/jszip/)
+- [Moment.js](https://momentjs.com/)
 
 ## Features
 
-The _Man of Substance_ website is a full-stack app with a simple design that is accessible from desktop, tablet, and mobile devices with all modern browsers, with Lighthouse scores of 95 for performance, 100 for accessibility, 100 for best practices, and 100 for SEO (full report can be viewed by [clicking here](./readme/lighthouse.pdf)).
-
-Prior to the album's release, each page on the site displayed messages indicating locked content, depending on what was requested (these can be revisited in detail by looking through the app's tests).
+The site is a full-stack app with a simple design that is accessible from desktop, tablet and mobile. A Lighthouse report in this repository records 95 performance, 100 accessibility, 100 best practices and 100 SEO ([report](./readme/lighthouse.pdf)).
 
 ### Contributors
 
-The Contributors page displays a list of all contributors present in the app's database. Contributors are able to log in using their email address, giving them access to a simple dashboard that allows them to view and claim their rewards, depending on the tier they belong to. Rewards include track downloads, personalised "thank you" videos, and more.
+The Contributors page lists backers from the database. A contributor signs in with the email used during the campaign and reaches a dashboard to view and claim rewards for their tier — track downloads, a personalised thank-you video where eligible, and related files.
+
+Authentication is a campaign-era trade-off: the server supplies a single shared password for every contributor, so knowing a backer's email is sufficient to reach their rewards. That was acceptable for a 2022 album-rewards gate whose blast radius was music downloads. It is **not** the authentication model used on Koloseum's `public-auth` service, which uses per-user credentials, age gating and third-party identity verification.
 
 ### Tracks and credits
 
-The app loads basic tracklist information from the database, with data on synopses, lyrics, and credits (including HTML) stored in a local JSON file as a separation of concerns between the frontend and backend.
+Tracklist rows come from Postgres. Synopses, lyrics and credits (including markup) live in a local JSON file, a deliberate split between catalogue content and the database.
+
+## Hidden challenge
+
+One track page hides a puzzle behind a lyric that ships to the browser as `PUBLIC_CHALLENGE_LYRIC`. That public hint was the intended attack surface: an experienced engineer used it to solve the puzzle, which is what the challenge asked them to do. The application-side lesson is that anything in `PUBLIC_*` is visible to the client; secrets and answers do not belong there. The challenge remains as documented release-window colour, not as a security boundary.
 
 ## Wireframes
 
@@ -73,7 +87,7 @@ The app loads basic tracklist information from the database, with data on synops
 
 #### Tracklist page
 
-![Contributors page](./readme/screenshot-tracklist.png)
+![Tracklist page](./readme/screenshot-tracklist.png)
 
 #### Track page
 
@@ -81,7 +95,7 @@ The app loads basic tracklist information from the database, with data on synops
 
 #### Credits page
 
-![Credits page (mobile version)](./readme/screenshot-credits.png)
+![Credits page](./readme/screenshot-credits.png)
 
 ### Mobile version
 
@@ -96,7 +110,7 @@ The app loads basic tracklist information from the database, with data on synops
 
 #### Tracklist page
 
-![Contributors page (mobile version)](./readme/screenshot-mobile-tracklist.png)
+![Tracklist page (mobile version)](./readme/screenshot-mobile-tracklist.png)
 
 #### Track page
 
@@ -108,8 +122,8 @@ The app loads basic tracklist information from the database, with data on synops
 
 ## Future work
 
-- Write end-to-end tests with Playwright
-- The last hidden challenge had vulnerabilities which were successfully exploited by an experienced engineer, so one more for the culture?
+- Playwright specs for the locked and unlocked content states (`e2e/locked`, `e2e/unlocked`)
+- Optional Svelte 5 migration; the Koloseum estate has already moved, this completed album site has not
 
 ## Author
 

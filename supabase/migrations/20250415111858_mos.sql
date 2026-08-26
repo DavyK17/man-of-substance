@@ -225,6 +225,10 @@ WITH
 		)
 	);
 
+CREATE POLICY "Enable insert for challenge attempts" ON "public"."challenge_attempts" FOR INSERT TO "public"
+WITH
+	CHECK (true);
+
 ALTER TABLE "public"."challenge_attempts" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."contributors" ENABLE ROW LEVEL SECURITY;
