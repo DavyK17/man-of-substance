@@ -75,7 +75,7 @@ openai_api_key = "env(OPENAI_API_KEY)"
 
 # Email testing server. Emails sent with the local dev setup are not actually sent - rather, they
 # are monitored, and you can view the emails that would have been sent from the web interface.
-[inbucket]
+[local_smtp]
 enabled = true
 # Port to use for the email testing server web interface.
 port = 54324
@@ -88,13 +88,12 @@ port = 54324
 [storage]
 enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
-file_size_limit = "100MiB"
+file_size_limit = "50MiB"
 
 # Image transformation API is available to Supabase Pro plan.
 # [storage.image_transformation]
 # enabled = true
 
-# Uncomment to configure local storage buckets
 [storage.buckets.rewards]
 public = true
 file_size_limit = "100MiB"
