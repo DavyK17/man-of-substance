@@ -23,7 +23,9 @@
 		<form method="POST" action="?/skip" use:enhance>
 			<button type="submit">Skip</button>
 		</form>
-		<p id="status">{message ?? ""}</p>
+		{#if message}
+			<p id="status">{message}</p>
+		{/if}
 	</div>
 </main>
 

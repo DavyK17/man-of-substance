@@ -146,7 +146,6 @@
 	{#if type === "credits"}
 		<Credits {current} />
 	{:else}
-		<!-- Track synopses, lyrics and credits are author-controlled static copy from data.json, not user input. -->
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		<div class={`track-${type}`}>{@html content}</div>
 	{/if}
