@@ -3,7 +3,7 @@
 	"singleQuote": false,
 	"trailingComma": "none",
 	"tabWidth": 4,
-	"printWidth": 130,
+	"printWidth": 125,
 	"plugins": ["prettier-plugin-sql", "prettier-plugin-svelte"],
 	"overrides": [
 		{
