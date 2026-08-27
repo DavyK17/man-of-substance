@@ -1,59 +1,44 @@
 # Man of Substance
 
-A SvelteKit and Supabase application that delivers a crowdfunded album's public catalogue and contributor rewards. The public site serves synopses, lyrics and credits; authenticated contributors claim tiered downloads, including personalised videos, under PostgreSQL row-level security and signed-URL file delivery.
-
-The catalogue is a completed project (v2.0.2, Svelte 4). It is also a readable public sample of the same stack used on Koloseum: SvelteKit, Supabase, PostgreSQL, generated database types and database-enforced authorisation.
+The official website for _Man of Substance_, my debut studio album as DVK, is a full-stack app built with SvelteKit and Supabase. Users can view a synopsis, lyrics, and credits for each track, while authenticated contributors can claim tiered rewards including track downloads.
 
 ## Links
 
 - Repository: [github.com/DavyK17/man-of-substance](https://github.com/DavyK17/man-of-substance)
 - Live site: [manofsubstance.pages.dev](https://manofsubstance.pages.dev)
-- Author: [davyk17.pages.dev](https://davyk17.pages.dev) · [github.com/DavyK17](https://github.com/DavyK17)
-- Koloseum engineering showcase: [github.com/koloseum-technologies/engineering-showcase](https://github.com/koloseum-technologies/engineering-showcase)
 
 ## How it was built
 
 ### Base
 
-- [SvelteKit](https://kit.svelte.dev/) — full-stack web application framework (Svelte 4)
-- [Supabase](https://supabase.com/) — Auth, Postgres and Storage
-- [TypeScript](https://www.typescriptlang.org/)
+- [SvelteKit](https://kit.svelte.dev/) - Full-stack web application framework
+- [Supabase](https://supabase.com/) - Open source backend-as-a-service (BaaS)
+- [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript programming language
 
-### Data and authorisation
+#### Testing and monitoring
 
-- Declarative schema in `supabase/schemas/album.sql`, with a generated migration
-- Row-level security on all four tables; object-level Storage policy so personalised `mp4/<id>.mp4` files are readable only by the matching contributor
-- A SQL view (`contributor_names`) that derives five contributor tiers from contribution amounts
-- `parsePostgrestError` maps PostgreSQL SQLSTATE codes — including `P0001` from PL/pgSQL `RAISE` — onto HTTP statuses
-
-### Testing
-
-- [Vitest](https://vitest.dev/) — 15 unit tests across helper modules (tier thresholds, track limits, credits, navigation, path matching, tracklist assembly, runtime formatting)
-- [Playwright](https://playwright.dev/) is configured; end-to-end specs for the locked and unlocked content states are not written yet
+- [Playwright](https://playwright.dev/) - End-to-end testing framework
+- [Vitest](https://vitest.dev/) - Unit testing framework
 
 ### Supporting libraries
 
-- [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader)
-- [JSZip](https://stuk.github.io/jszip/)
-- [Moment.js](https://momentjs.com/)
+- [JS File Downloader](https://github.com/AleeeKoi/js-file-downloader) - JavaScript library for downloading files on the browser
+- [JSZip](https://stuk.github.io/jszip/) - JavaScript library for creating, reading, and editing .zip files
+- [Moment.js](https://momentjs.com/) - JavaScript time manipulation library
 
 ## Features
 
-The site is a full-stack app with a simple design that is accessible from desktop, tablet and mobile. A Lighthouse report in this repository records 95 performance, 100 accessibility, 100 best practices and 100 SEO ([report](./readme/lighthouse.pdf)).
+The site is a full-stack app with a simple design that is accessible from desktop, tablet, and mobile. Its [Lighthouse report](./readme/lighthouse.pdf) records scores of 95 in performance, 100 in accessibility, 100 in best practices, and 100 in SEO.
 
 ### Contributors
 
-The Contributors page lists backers from the database. A contributor signs in with the email used during the campaign and reaches a dashboard to view and claim rewards for their tier — track downloads, a personalised thank-you video where eligible, and related files.
+The Contributors page lists backers for the album's crowdfunding campaign. A contributor signs in with the email used during the campaign and reaches a dashboard to view and claim rewards for their tier (determined by their contribution amount), including track downloads, a personalised thank-you video where eligible, and related files.
 
-Authentication is a campaign-era trade-off: the server supplies a single shared password for every contributor, so knowing a backer's email is sufficient to reach their rewards. That was acceptable for a 2022 album-rewards gate whose blast radius was music downloads. It is **not** the authentication model used on Koloseum's `public-auth` service, which uses per-user credentials, age gating and third-party identity verification.
+Authentication makes an acceptable campaign-era trade-off: the server supplies a single shared password for each contributor, so knowing a backer's email is sufficient to reach their rewards. The only other data at risk includes their supplied names, email addresses, and contribution amounts, so the potential loss from a breach is limited even if the barrier for attack is low.
 
 ### Tracks and credits
 
-Tracklist rows come from Postgres. Synopses, lyrics and credits (including markup) live in a local JSON file, a deliberate split between catalogue content and the database.
-
-## Hidden challenge
-
-One track page hides a puzzle behind a lyric that ships to the browser as `PUBLIC_CHALLENGE_LYRIC`. That public hint was the intended attack surface: an experienced engineer used it to solve the puzzle, which is what the challenge asked them to do. The application-side lesson is that anything in `PUBLIC_*` is visible to the client; secrets and answers do not belong there. The challenge remains as documented release-window colour, not as a security boundary.
+The tracklist is loaded from the database, while synopses, lyrics and credits (including HTML markup) for each track all live in a single local JSON file. This decoupling establishes the database as the single source of truth, with catalogue content supplementing it exclusively to satisfy application concerns (e.g. keeping HTML markup in the frontend).
 
 ## Wireframes
 
@@ -123,11 +108,10 @@ One track page hides a puzzle behind a lyric that ships to the browser as `PUBLI
 
 ## Future work
 
-- Playwright specs for the locked and unlocked content states (`e2e/locked`, `e2e/unlocked`)
-- Optional Svelte 5 migration; the Koloseum estate has already moved, this completed album site has not
+- Playwright tests for the locked and unlocked content states (`e2e/locked`, `e2e/unlocked`)
+- Optional Svelte 5 migration
 
 ## Author
 
 - GitHub: [@DavyK17](https://github.com/DavyK17) · [profile index](https://github.com/DavyK17/profile)
 - Website: [davyk17.pages.dev](https://davyk17.pages.dev)
-- Koloseum: [engineering showcase](https://github.com/koloseum-technologies/engineering-showcase)
