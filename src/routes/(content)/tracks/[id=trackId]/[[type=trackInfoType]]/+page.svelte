@@ -78,7 +78,9 @@
 		if (!browser || challengeFound) return null;
 
 		let easterEgg: HTMLParagraphElement[] = [];
-		Array.from(document.querySelectorAll<HTMLParagraphElement>(".track-lyrics p")).forEach((line) => easterEgg.push(line));
+		Array.from(document.querySelectorAll<HTMLParagraphElement>(".track-lyrics p")).forEach((line) =>
+			easterEgg.push(line)
+		);
 		easterEgg = easterEgg.filter((line) => line.innerHTML.includes(PUBLIC_CHALLENGE_LYRIC));
 
 		if (easterEgg.length === 1) {
@@ -108,7 +110,10 @@
 
 <svelte:head>
 	<title>Man of Substance - Tracks: "{current.title}"</title>
-	<meta name="description" content={`Get to know more about the track "${current.title}" from DVK's debut studio album.`} />
+	<meta
+		name="description"
+		content={`Get to know more about the track "${current.title}" from DVK's debut studio album.`}
+	/>
 </svelte:head>
 
 <svelte:document on:keydown={handleTrackKeyDown} />
@@ -136,7 +141,9 @@
 				<a role="button" class:active={$page.url.pathname.includes("synopsis")} href={`/tracks/${id}/synopsis`}>
 					Synopsis
 				</a>
-				<a role="button" class:active={$page.url.pathname.includes("lyrics")} href={`/tracks/${id}/lyrics`}> Lyrics </a>
+				<a role="button" class:active={$page.url.pathname.includes("lyrics")} href={`/tracks/${id}/lyrics`}>
+					Lyrics
+				</a>
 				<a role="button" class:active={$page.url.pathname.includes("credits")} href={`/tracks/${id}/credits`}>
 					Credits
 				</a>

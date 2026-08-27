@@ -151,7 +151,10 @@ export const Rewards = {
 	 * @param {SupabaseClient<Database>} supabaseClient - The Supabase client; defaults to client in the function's source file
 	 * @returns {Promise<string | undefined>} A Promise that resolves to the file's signed URL or `undefined` if the file does not exist
 	 */
-	getFileUrl: async (filePath: string, supabaseClient: SupabaseClient<Database> = supabase): Promise<string | undefined> => {
+	getFileUrl: async (
+		filePath: string,
+		supabaseClient: SupabaseClient<Database> = supabase
+	): Promise<string | undefined> => {
 		const { data } = await supabaseClient.storage.from("rewards").createSignedUrl(filePath, 3600);
 		return data?.signedUrl;
 	},

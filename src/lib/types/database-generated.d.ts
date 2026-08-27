@@ -157,7 +157,9 @@ export type Database = {
 type DefaultSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
-	DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"]) | { schema: keyof Database },
+	DefaultSchemaTableNameOrOptions extends
+		| keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+		| { schema: keyof Database },
 	TableName extends DefaultSchemaTableNameOrOptions extends {
 		schema: keyof Database;
 	}
