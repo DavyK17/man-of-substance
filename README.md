@@ -109,7 +109,6 @@ The tracklist is loaded from the database, while synopses, lyrics and credits (i
 ## Future work
 
 - Playwright tests for the locked and unlocked content states (`e2e/locked`, `e2e/unlocked`)
-- Optional Svelte 5 migration
 
 ## Author
 
